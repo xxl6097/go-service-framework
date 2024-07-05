@@ -18,7 +18,6 @@ goversioninfo -manifest versioninfo.json
 1、 main.go 文件中添加标签，如下
 
 ```
-// /// //go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
 //go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
 func main() {
 }

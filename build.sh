@@ -3,7 +3,7 @@
 appname=AAFrameworkService
 DisplayName=AAFrameworkService
 Description=基于Go语言的服务程序框架
-version=0.0.0
+version=0.0.1
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
 function getversion() {
@@ -34,7 +34,7 @@ function getversion() {
 
 function GetLDFLAGS() {
   os_name=$(uname -s)
-  echo "os type $os_name"
+  #echo "os type $os_name"
   APP_NAME=${appname}
   APP_VERSION=${appversion}
   BUILD_VERSION=$(if [ "$(git describe --tags --abbrev=0 2>/dev/null)" != "" ]; then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
@@ -52,25 +52,32 @@ function GetLDFLAGS() {
  -X '${versionDir}.GitRevision=${GIT_REVISION}'\
  -X '${versionDir}.GitBranch=${GIT_BRANCH}'\
  -X '${versionDir}.GoVersion=${GO_VERSION}'"
-  echo "$ldflags"
+  #echo "$ldflags"
 }
 
 function build_windows_amd64() {
-  #goversioninfo -manifest versioninfo.json
-  rm -rf ${appname}_${version}_windows_amd64.exe
+  rm -rf bin
   GetLDFLAGS
-  go generate
-  #CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-linkmode internal" -o ${appname}_${version}_windows_amd64.exe
+  go generate ./cmd/app
   CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_amd64.exe ./cmd/app
+}
+
+function build_windows_amd64_upload_windows() {
+  rm -rf /Volumes/Desktop/service/${appname}_${version}_windows_amd64.exe
+  GetLDFLAGS
+  go generate ./cmd/app
+  CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o /Volumes/Desktop/service/${appname}_${version}_windows_amd64.exe ./cmd/app
 }
 
 
 function menu() {
-  echo -e "\r\n0. 编译 Windows amd64"
+  echo "1. 编译 Windows amd64"
+  echo "2. 编译 Windows amd64（上传windows)"
   echo "请输入编号:"
   read index
   case "$index" in
-  [0]) (build_windows_amd64) ;;
+  [1]) (build_windows_amd64) ;;
+  [2]) (build_windows_amd64_upload_windows) ;;
   *) echo "exit" ;;
   esac
 

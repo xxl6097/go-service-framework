@@ -17,16 +17,16 @@
     "FileSubType": "00"
   },
   "StringFileInfo": {
-    "Comments": "AAServiceTest",
+    "Comments": "AAFrameworkService",
     "CompanyName": "uuxia tech Co., Ltd",
-    "FileDescription": "this is golang service test",
+    "FileDescription": "基于Go语言的服务程序框架",
     "FileVersion": "v0.58.1",
-    "InternalName": "AAServiceTest.exe",
+    "InternalName": "AAFrameworkService.exe",
     "LegalCopyright": "© uuxia.cn 2024.06.20",
     "LegalTrademarks": "",
-    "OriginalFilename": "AAServiceTest.exe",
+    "OriginalFilename": "AAFrameworkService.exe",
     "PrivateBuild": "",
-    "ProductName": "高性能反向代理",
+    "ProductName": "GoFrameworkService",
     "ProductVersion": "v0.0.1",
     "SpecialBuild": "v0.0.1"
   },
