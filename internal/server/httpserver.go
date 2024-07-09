@@ -21,5 +21,5 @@ func Listen(framework iface.IFramework) {
 		return false, map[string]interface{}{"msg": "msg err"}
 	})
 	//route.RouterUtil.SetApiPath("/v1/api")
-	server.NewServer().Start(":9080")
+	server.NewServer().Start(":8888")
 }
