@@ -5,7 +5,6 @@ import (
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/internal/server"
-	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"os"
 )
@@ -61,7 +60,8 @@ func (f *Framework) Stop(s service.Service) error {
 }
 
 func (f *Framework) Config() *service.Config {
-	if os2.IsMacOs() {
+	//if os2.IsMacOs()
+	{
 		version.AppName = "AAFrameWork"
 		version.DisplayName = "AAFrameWork"
 		version.Description = "A Test AAFrameWork"

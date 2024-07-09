@@ -135,6 +135,7 @@ func (this *Framework) startProcess(bindir, binPath, logDir string, proc *model.
 			glog.Printf("start worker error:%s", err2)
 			return
 		}
+		defer f.Close()
 		err1 := os.Chmod(binPath, 0755)
 		if err1 == nil {
 			glog.Debug(binPath, "赋予0755权限成功")
@@ -149,7 +150,7 @@ func (this *Framework) startProcess(bindir, binPath, logDir string, proc *model.
 		glog.Println("启动worker进程", binPath, args)
 		execSpec := &os.ProcAttr{
 			Env:   append(os.Environ(), "GOTRACEBACK=crash"),
-			Files: []*os.File{os.Stdin, os.Stdout, os.Stderr, f},
+			Files: []*os.File{os.Stdin, os.Stdout, f},
 			//Sys: &syscall.SysProcAttr{
 			//	Chroot: bindir,
 			//},
@@ -168,8 +169,6 @@ func (this *Framework) startProcess(bindir, binPath, logDir string, proc *model.
 		} else {
 			glog.Error("失败", status.String(), err4)
 		}
-		err5 := f.Close()
-		glog.Debug("Close", err5)
 		proc.Status = "stopped"
 		time.Sleep(time.Second)
 		err := os.Rename(tmpDump, dumpFile)
