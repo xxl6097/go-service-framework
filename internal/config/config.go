@@ -7,7 +7,11 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"os"
 	"path/filepath"
+	"sync"
 )
+
+// 互斥锁
+var mu sync.Mutex
 
 func getConfigPath() (string, error) {
 	fullexecpath, err := os.Executable()
@@ -75,6 +79,8 @@ func saveConfig(fileName string, data interface{}) error {
 }
 
 func Save(data model.ProcModel) error {
+	mu.Lock()         // 进入临界区前获取锁
+	defer mu.Unlock() // 使用 defer 确保在函数退出前释放锁
 	binpath, err := getConfigPath()
 	if err != nil {
 		glog.Error(err)
@@ -83,6 +89,12 @@ func Save(data model.ProcModel) error {
 	arr, _ := getConfig(binpath)
 	if arr == nil {
 		arr = make([]model.ProcModel, 0)
+	}
+	for i := 0; i < len(arr); i++ {
+		if arr[i].Name == data.Name {
+			arr = append(arr[0:i], arr[i+1:]...)
+			break
+		}
 	}
 	arr = append(arr, data)
 	return saveConfig(binpath, arr)

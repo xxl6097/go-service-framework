@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="Shortcut Icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>后台服务管理</title>
+</head>
+<!--http://layui.xhcen.com/doc/dataTable.html-->
+<!--<body onload="getFiles()">-->
+<body>
+<div class="container">
+    <div class="auth" id="auth" style="display: none;">
+        <h1>Authorization Required</h1>
+        <input type="password" id="passwordInput" autofocus class="layui-input" placeholder="Enter your password">
+    </div>
+    <div id="content">
+        <!-- 显示loading状态的元素 -->
+        <h2 id="title_h2">后台服务管理</h2>
+
+        <!--按钮模块-->
+        <div style="margin-top: 8px;">
+            <div style="align-content: center;">
+                <input type="search" autofocus class="layui-input" id="search_input"
+                       placeholder="请输入搜索内容后回车↩︎" onkeypress="handleKeyPress(event)">
+                <button id="del_all_id" onclick="deleteSelectedRows()" style="height: 70%; display: none"
+                        class="layui-btn layui-btn-sm layui-btn-danger">删除选择行
+                </button><!--class="delete-btn"-->
+            </div>
+        </div>
+
+
+        <!-- 上传文件清单弹出对话框Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 style="color: #000000">文件上传</h2>
+                <ul id="file_list" style="padding-left: 10px;color: red;">
+                </ul>
+                <input type="text" id="up_file_path_id" autofocus class="layui-input"
+                       style="margin-bottom: 5px; margin-top: 5px" placeholder="请输入路径">
+                <button id="confirmButton">上传</button>
+                <button id="cancelButton">取消</button>
+            </div>
+        </div>
+
+        <!-- 上传文件清单弹出对话框Modal -->
+        <div id="newModel" class="modal">
+            <div class="modal-content">
+                <h2 style="color: #000000">创建应用</h2>
+                <div>
+                    <input type="text" id="name" class="layui-input" style="margin-bottom: 5px; margin-top: 5px" placeholder="请输入应用名称">
+                    <input type="text" id="binurl" class="layui-input" style="margin-bottom: 5px; margin-top: 5px" placeholder="应用下载链接">
+                    <input type="text" id="confurl" class="layui-input" style="margin-bottom: 5px; margin-top: 5px" placeholder="配置文件下载链接">
+                    <input type="text" id="args" class="layui-input" style="margin-bottom: 5px; margin-top: 5px"  placeholder="运行参数">
+                </div>
+                <button class="confirm_btn" onclick="onNewAppclick()">确定</button>
+                <button class="cancel_btn" onclick="onCancelClick()">取消</button>
+            </div>
+        </div>
+
+
+        <button id="testbtn" onclick="testBtn()">测试</button>
+
+        <button id="newAppHandle" onclick="openNewAppDialog()">新建应用</button>
+
+        <div class="main">
+            <!-- 表格-->
+            <div class="box right">
+                <table id="myTable">
+                    <thead>
+                    <tr>
+                        <th>程序名称</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--        <iframe src="http://uuxia.cn:5055/home/" width="800" height="600" title="描述性标题"></iframe>-->
+        <!--        <iframe src="http://uuxia.cn:5055/home/login" id="myIframe"></iframe>-->
+        <!-- Toast容器 -->
+        <div id="toast" class="toast"></div>
+
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+
+</html>

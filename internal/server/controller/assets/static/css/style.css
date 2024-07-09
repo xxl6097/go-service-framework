@@ -1,0 +1,474 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.auth {
+    text-align: center;
+    display: none;
+}
+
+/* Light Mode */
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: white;
+        color: black;
+    }
+
+
+    #up_bg_txt {
+        font-size: 25px;
+        align-content: center;
+        text-align: center;
+        color: black;
+    }
+
+    .list-item-file{
+        color: black;
+    }
+
+    .list-item-dir{
+        font-size: 18px;
+        color: blue;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+
+    a {
+        color: blue; /* 设置超链接在浅色主题下的颜色 */
+    }
+
+    .delete-btn {
+        background-color: #ff0000;
+        color: #000000;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    button {
+        padding: 1px 6px;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: black;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+
+
+
+    table, th, td, tr {
+        border: 1px solid blue;
+    }
+
+
+    #title_h2 {
+        color: black;
+    }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #0f0f0f;
+        color: white;
+    }
+    th {
+        /*background-color: #908d8d;*/
+    }
+    a {
+        color: lightblue; /* 设置超链接在深色主题下的颜色 */
+    }
+
+    #up_bg_txt {
+        font-size: 25px;
+        align-content: center;
+        text-align: center;
+        color: white;
+    }
+    .list-item-file{
+        color: white;
+    }
+
+    .list-item-dir{
+        font-size: 18px;
+        color: yellow;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .delete-btn {
+        background-color: #626e36;
+        color: #ffffff;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    button {
+        padding: 1px 6px;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        border-radius: 3px;
+        background-color: #204975;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #19406a;
+    }
+
+
+    #title_h2 {
+        color: white;
+    }
+}
+
+/*body {*/
+/*    background-color: lightblue; !* 使用预定义的颜色名称 *!*/
+/*}*/
+/* Toast样式 */
+.toast {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#progressBar {
+    width: 100%;
+    height: 20px;
+    background-color: #eee;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+#progressBar div {
+    height: 100%;
+    background-color: green;
+}
+
+/* 表格样式（可选） */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid white;
+    text-align: left;
+    padding: 8px;
+}
+
+/* 添加阴影层的样式 */
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 使阴影层在最上层 */
+}
+
+/* 添加加载状态的样式 */
+#loading {
+    color: white;
+    font-size: 20px;
+}
+
+code {
+    display: inline-block;
+    font-size: 13px;
+}
+
+pre {
+    display: inline-block;
+    background-color: #f4f4f4;
+    padding: 1px;
+    margin: 2px 0;
+    white-space: pre-wrap; /* 保留空白字符和换行符 */
+    font-family: 'sans-serif', monospace;
+}
+
+#drop_zone {
+    border: 2px dashed #ccc;
+    width: 170px;
+    height: 20px;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+#fileInput {
+    display: none;
+}
+
+#search_input{
+    width: 20%;
+    display: none;
+}
+#auth{
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+#passwordInput{
+    width: 20%;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 将子元素的中心移动到父元素的中心 */
+}
+
+#confirmButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.confirm_btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.cancel_btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#cancelButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+/*#del_all_id {*/
+/*    padding: 10px 20px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    background-color: red;*/
+/*    color: white;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 5px 0;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between; /* Space items out on large screens */
+}
+
+.top_view {
+    display: flex;
+    justify-content: space-between; /* Space items out on large screens */
+}
+
+
+.box {
+    /*flex: 1;*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /*display: inline-block; !* 使 div 根据内容自动扩展宽度 *!*/
+    /*white-space: nowrap; !* 防止内容换行 *!*/
+}
+
+.left {
+    width: 20%;
+    margin-top: 1px;
+    margin-right: 5px;
+    border: 1px solid white;
+}
+
+.right {
+    margin-top: 1px;
+    width: 99%;
+}
+
+#code_div {
+    border: 2px dashed #ccc;
+    width: 99%;
+    height: auto;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.usage{
+    font-size: 13px;
+}
+
+.upload_text {
+    font-size: 25px;
+}
+@media screen and (max-width: 600px) {
+    .main {
+        flex-direction: column; /* Stack boxes vertically on smaller screens */
+    }
+    .top_view {
+        flex-direction: column;
+    }
+    .upload_text {
+        font-size: 18px;
+    }
+    .usage{
+        font-size: 11px;
+    }
+    #sample {
+        display: none;
+    }
+    .box {
+        min-width: 99%; /* Full width on smaller screens */
+        margin: 5px 0; /* Adjust margin for vertical layout */
+    }
+
+    #code_div {
+        flex-direction: column; /* Stack boxes vertically on smaller screens */
+        border: 2px dashed #ccc;
+        width: 95%;
+        height: auto;
+        padding: 5px;
+        font-size: 14px;
+    }
+    table {
+        width: 100%;
+    }
+
+    /* Stack the table headers and data cells vertically */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    /* Hide table header on smaller screens */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* Style table rows */
+    tr {
+        border: 1px solid white;
+        margin-bottom: 12px;
+    }
+
+    /* Style table data cells */
+    td {
+        border: none;
+        border-bottom: 1px solid white;
+        /*position: relative;*/
+        /*padding-left: 50%;*/
+    }
+
+    /* Style table data cells with content */
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-label);
+    }
+    #search_input{
+        width: 100%;
+        display: block;
+    }
+
+    #passwordInput{
+        width: 80%;
+        position: absolute;
+        top: 13%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* 将子元素的中心移动到父元素的中心 */
+    }
+
+}

@@ -9,7 +9,10 @@ type ProcModel struct {
 	Name    string      `json:"name"`
 	BinUrl  string      `json:"binUrl"`
 	ConfUrl string      `json:"confUrl"`
+	Upgrade bool        `json:"upgrade"`
 	Args    []string    `json:"args"`
+	Status  string      `json:"status"`
+	Exit    bool        `json:"exit"`
 	Proc    *os.Process `json:"-"`
 }
 

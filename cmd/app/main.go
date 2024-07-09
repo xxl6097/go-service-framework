@@ -7,5 +7,9 @@ import (
 
 //go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
 func main() {
+	test()
 	svr.Run(&framework.Framework{})
+}
+
+func test() {
 }

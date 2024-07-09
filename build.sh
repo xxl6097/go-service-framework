@@ -60,6 +60,7 @@ function build_windows_amd64() {
   GetLDFLAGS
   go generate ./cmd/app
   CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_amd64.exe ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_amd64.exe
 }
 
 function build_windows_amd64_upload_windows() {
@@ -69,15 +70,35 @@ function build_windows_amd64_upload_windows() {
   CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o /Volumes/Desktop/service/${appname}_${version}_windows_amd64.exe ./cmd/app
 }
 
+function build_linux_amd64() {
+  rm -rf bin
+  GetLDFLAGS
+  go generate ./cmd/app
+  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_amd64 ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_amd64
+}
+
+function build_darwin_arm64() {
+  rm -rf bin
+  GetLDFLAGS
+  go generate ./cmd/app
+  go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_darwin_arm64 ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_arm64
+}
+
 
 function menu() {
   echo "1. 编译 Windows amd64"
   echo "2. 编译 Windows amd64（上传windows)"
+  echo "3. 编译 Linux amd64"
+  echo "4. 编译 Darwin arm64"
   echo "请输入编号:"
   read index
   case "$index" in
   [1]) (build_windows_amd64) ;;
   [2]) (build_windows_amd64_upload_windows) ;;
+  [3]) (build_linux_amd64) ;;
+  [4]) (build_darwin_arm64) ;;
   *) echo "exit" ;;
   esac
 
