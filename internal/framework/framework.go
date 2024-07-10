@@ -26,7 +26,6 @@ func (f *Framework) inputArgs() []string {
 		var port int
 		fmt.Print("设置服务端口,请输入:")
 		fmt.Scan(&port)
-		fmt.Println(port)
 		if port < 0 {
 			fmt.Println("端口输入错误，请重新输入！")
 		} else {
