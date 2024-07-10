@@ -22,7 +22,7 @@ func Error(code int, msg string) map[string]interface{} {
 }
 
 func Errors(msg error) map[string]interface{} {
-	return map[string]interface{}{"code": -1, "msg": msg}
+	return map[string]interface{}{"code": -1, "msg": msg.Error()}
 }
 
 func Sucess(data interface{}) map[string]interface{} {

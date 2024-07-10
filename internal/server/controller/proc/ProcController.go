@@ -6,11 +6,9 @@ import (
 	"github.com/xxl6097/go-http/server/util"
 	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/model"
+	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	"net/http"
-	"strings"
 )
-
-const TOKEN = "xiaxiaoli"
 
 type ProcController struct {
 	iframework iface.IFramework
@@ -22,7 +20,9 @@ func NewController(iframework iface.IFramework) *ProcController {
 func (this *ProcController) restart(w http.ResponseWriter, r *http.Request) {
 	name := util.GetRequestParam(r, "name")
 	err := this.iframework.RestartProcess(name)
-	glog.Error("3---restart process err: ", err)
+	if err != nil {
+		glog.Errorf("restart process %s error: %s", name, err.Error())
+	}
 	if err == nil {
 		Respond(w, Sucessfully())
 	} else {
@@ -73,11 +73,24 @@ func (this *ProcController) new(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
-	_token := r.Header.Get("accessToken")
-	if strings.ToLower(TOKEN) == strings.ToLower(_token) {
-		w.WriteHeader(200)
+func (this *ProcController) login(w http.ResponseWriter, r *http.Request) {
+	password := r.Header.Get("accessToken")
+	glog.Debug(password)
+	if sucess, token := crypt.IsPasswordOk([]byte(password)); sucess {
+		res := Sucess(string(token))
+		glog.Debug(res)
+		Respond(w, res)
 	} else {
-		w.WriteHeader(502)
+		Respond(w, Errors(errors.New("密码错误")))
+	}
+}
+
+func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
+	password := r.Header.Get("accessToken")
+	glog.Debug(password)
+	if crypt.IsHashOk([]byte(password)) {
+		Respond(w, Sucessfully())
+	} else {
+		Respond(w, Errors(errors.New("密码错误")))
 	}
 }

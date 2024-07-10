@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/model"
+	"time"
 )
 
 func (f *Framework) GetAll() []model.ProcModel {
@@ -44,7 +45,7 @@ func (f *Framework) StartProcess(name string) error {
 		if v.Proc != nil && v.Status == "running" {
 			return nil
 		}
-		v.Exit = false
+		v.Exit = model.STOP_NO
 		go f.createProcess(v)
 		return nil
 	}
@@ -57,12 +58,18 @@ func (f *Framework) RestartProcess(name string) error {
 	}
 	v, exist := f.procs[name]
 	if exist {
+		v.Exit = model.STOP_EXIT
 		if v.Proc != nil {
 			err := v.Proc.Kill()
-			glog.Error(err)
+			if err != nil {
+				glog.Errorf("%s proc kill error: %s", name, err.Error())
+			}
 		}
-		v.Exit = false
-		go f.createProcess(v)
+
+		time.AfterFunc(time.Second*3, func() {
+			v.Exit = model.STOP_NO
+			go f.createProcess(v)
+		})
 		return nil
 	}
 	return errors.New(fmt.Sprintf("%s proc is not exist", name))
@@ -74,7 +81,7 @@ func (f *Framework) Delete(name string) error {
 	}
 	v, exist := f.procs[name]
 	if exist {
-		v.Exit = true
+		v.Exit = model.STOP_DELETE
 		if v.Proc != nil {
 			err := v.Proc.Kill()
 			if err == nil {

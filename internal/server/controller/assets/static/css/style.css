@@ -12,11 +12,15 @@ body {
 /* Light Mode */
 @media (prefers-color-scheme: light) {
     body {
-        background-color: white;
+        /*background-color: white;*/
         color: black;
     }
 
 
+    h1 {
+        color: black;
+        font-size: 35px;
+    }
     #up_bg_txt {
         font-size: 25px;
         align-content: center;
@@ -68,11 +72,13 @@ body {
 
     table, th, td, tr {
         border: 1px solid blue;
+        color: black;
     }
 
 
     #title_h2 {
         color: black;
+        margin-bottom: 10px;
     }
 }
 
@@ -80,13 +86,17 @@ body {
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #0f0f0f;
-        color: white;
+        /*color: white;*/
     }
     th {
         /*background-color: #908d8d;*/
     }
     a {
         color: lightblue; /* 设置超链接在深色主题下的颜色 */
+    }
+    h1 {
+        color: white;
+        font-size: 35px;
     }
 
     #up_bg_txt {
@@ -131,6 +141,10 @@ body {
 
 
     #title_h2 {
+        color: white;
+        margin-bottom: 10px;
+    }
+    table, th, td, tr {
         color: white;
     }
 }

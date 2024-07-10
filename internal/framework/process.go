@@ -124,9 +124,13 @@ func (this *Framework) createProcess(proc *model.ProcModel) {
 	this.startProcess(binDir, binPath, logDir, proc)
 }
 
-func (this *Framework) startProcess(bindir, binPath, logDir string, proc *model.ProcModel) {
-	err := os.Chdir(bindir)
-	glog.Debug("chdir", bindir, err)
+func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.ProcModel) {
+	err := os.Chdir(binDir)
+	if err != nil {
+		glog.Error("chdir", binDir, err)
+		return
+	}
+	defer os.Chdir("../")
 	for {
 		tmpDump := filepath.Join(logDir, "dump.log.tmp")
 		dumpFile := filepath.Join(logDir, "dump.log")
@@ -156,28 +160,39 @@ func (this *Framework) startProcess(bindir, binPath, logDir string, proc *model.
 			//},
 		}
 		p, err3 := os.StartProcess(binPath, args, execSpec)
+		proc.Proc = p
 		if err3 != nil {
 			glog.Printf("启动worker进程失败，错误信息：%s", err3)
 			return
+		} else {
+			proc.Status = "running"
+			config.Save(*proc)
 		}
-		proc.Status = "running"
-		proc.Proc = p
-		config.Save(*proc)
 		status, err4 := p.Wait()
 		if err4 == nil {
-			glog.Debug("成功", status.String(), err4)
+			//glog.Debug("成功", status.String(), err4)
+			glog.Debugf("%s停止", binPath)
 		} else {
-			glog.Error("失败", status.String(), err4)
+			glog.Errorf("%s停止失败 %s %v", binPath, status.String(), err4)
 		}
 		proc.Status = "stopped"
 		time.Sleep(time.Second)
-		err := os.Rename(tmpDump, dumpFile)
-		glog.Debugf("rename dump %v", err)
-		glog.Debugf("this.running:%v,proc.Exit:%v", this.running, proc.Exit)
+		os.Rename(tmpDump, dumpFile)
 		if !this.running {
+			glog.Error("进程结束", this.running)
 			return
 		}
-		if proc.Exit {
+		if proc.Exit == model.STOP_EXIT {
+			glog.Error("进程结束", proc.Name)
+			return
+		} else if proc.Exit == model.STOP_DELETE {
+			err5 := os.RemoveAll(binDir)
+			if err5 != nil {
+				glog.Error("进程结束，删除程序失败", binDir)
+			} else {
+				config.Delete(proc.Name)
+				glog.Debug("进程结束，程序删除成功", binDir)
+			}
 			return
 		}
 		glog.Info("worker进程停止,10秒后重新启动")

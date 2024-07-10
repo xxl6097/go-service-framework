@@ -22,7 +22,6 @@ func getConfigPath() (string, error) {
 	dir, execname := filepath.Split(fullexecpath)
 	ext := filepath.Ext(execname)
 	name := execname[:len(execname)-len(ext)]
-
 	return filepath.Join(dir, name+".json"), nil
 }
 
@@ -97,5 +96,26 @@ func Save(data model.ProcModel) error {
 		}
 	}
 	arr = append(arr, data)
+	return saveConfig(binpath, arr)
+}
+
+func Delete(name string) error {
+	mu.Lock()         // 进入临界区前获取锁
+	defer mu.Unlock() // 使用 defer 确保在函数退出前释放锁
+	binpath, err := getConfigPath()
+	if err != nil {
+		glog.Error(err)
+		return err
+	}
+	arr, _ := getConfig(binpath)
+	if arr == nil {
+		arr = make([]model.ProcModel, 0)
+	}
+	for i := 0; i < len(arr); i++ {
+		if arr[i].Name == name {
+			arr = append(arr[0:i], arr[i+1:]...)
+			break
+		}
+	}
 	return saveConfig(binpath, arr)
 }

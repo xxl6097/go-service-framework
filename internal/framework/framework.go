@@ -1,10 +1,13 @@
 package framework
 
 import (
+	"fmt"
 	"github.com/kardianos/service"
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/internal/server"
+	"github.com/xxl6097/go-service-framework/pkg/crypt"
+	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"os"
 )
@@ -13,6 +16,21 @@ type Framework struct {
 	queue   chan *model.ProcModel
 	procs   map[string]*model.ProcModel
 	running bool
+}
+
+func (f *Framework) OnInstall(installPath string) {
+	for {
+		var password string
+		fmt.Print("设置授权码,请输入:")
+		fmt.Scan(&password)
+		err := crypt.SavePassword(installPath, []byte(password))
+		if err != nil {
+			fmt.Println("授权码设置失败，请重新设置！")
+		} else {
+			fmt.Println("授权码设置成功", installPath)
+			return
+		}
+	}
 }
 
 // Shutdown 服务结束回调
@@ -60,8 +78,7 @@ func (f *Framework) Stop(s service.Service) error {
 }
 
 func (f *Framework) Config() *service.Config {
-	//if os2.IsMacOs()
-	{
+	if os2.IsMacOs() {
 		version.AppName = "AAFrameWork"
 		version.DisplayName = "AAFrameWork"
 		version.Description = "A Test AAFrameWork"
@@ -82,7 +99,7 @@ func (f *Framework) AddElement(v *model.ProcModel) {
 	p, exists := f.procs[v.Name]
 	if exists {
 		if v.Upgrade {
-			p.Exit = true
+			p.Exit = model.STOP_EXIT
 			if p.Proc != nil {
 				glog.Debugf("%s 停止worker进程", p.Name)
 				err := p.Proc.Kill()

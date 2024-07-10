@@ -5,6 +5,12 @@ import (
 	"os"
 )
 
+const (
+	STOP_NO     = 0
+	STOP_EXIT   = 1
+	STOP_DELETE = 2
+)
+
 type ProcModel struct {
 	Name    string      `json:"name"`
 	BinUrl  string      `json:"binUrl"`
@@ -12,7 +18,7 @@ type ProcModel struct {
 	Upgrade bool        `json:"upgrade"`
 	Args    []string    `json:"args"`
 	Status  string      `json:"status"`
-	Exit    bool        `json:"exit"`
+	Exit    int         `json:"exit"`
 	Proc    *os.Process `json:"-"`
 }
 
