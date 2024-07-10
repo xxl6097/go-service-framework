@@ -57,48 +57,80 @@ function GetLDFLAGS() {
 
 function build_windows_amd64() {
   rm -rf bin
+  rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   go generate ./cmd/app
   CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_amd64.exe ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_amd64.exe
 }
 
-function build_windows_amd64_upload_windows() {
-  rm -rf /Volumes/Desktop/service/${appname}_${version}_windows_amd64.exe
+function build_windows_arm64() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o /Volumes/Desktop/service/${appname}_${version}_windows_amd64.exe ./cmd/app
+  CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
 }
 
 function build_linux_amd64() {
   rm -rf bin
+  rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
-  go generate ./cmd/app
   CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_amd64 ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_amd64
 }
 
+function build_linux_arm64() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  GetLDFLAGS
+  CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_arm64 ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_arm64
+}
+
+function build_linux_mips_opwnert_REDMI_AC2100() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  GetLDFLAGS
+  CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_mipsle ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_mipsle
+}
+
 function build_darwin_arm64() {
   rm -rf bin
+  rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
-  go generate ./cmd/app
   go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_darwin_arm64 ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_arm64
 }
 
+function build_darwin_amd64() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  GetLDFLAGS
+  CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_darwin_amd64 ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_amd64
+}
 
 function menu() {
   echo "1. 编译 Windows amd64"
-  echo "2. 编译 Windows amd64（上传windows)"
+  echo "2. 编译 Windows arm64"
   echo "3. 编译 Linux amd64"
-  echo "4. 编译 Darwin arm64"
+  echo "4. 编译 Linux arm64"
+  echo "5. 编译 Linux mips"
+  echo "6. 编译 Darwin arm64"
+  echo "7. 编译 Darwin amd64"
   echo "请输入编号:"
   read index
   case "$index" in
   [1]) (build_windows_amd64) ;;
-  [2]) (build_windows_amd64_upload_windows) ;;
+  [2]) (build_windows_arm64) ;;
   [3]) (build_linux_amd64) ;;
-  [4]) (build_darwin_arm64) ;;
+  [4]) (build_linux_arm64) ;;
+  [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
+  [6]) (build_darwin_arm64) ;;
+  [7]) (build_darwin_amd64) ;;
   *) echo "exit" ;;
   esac
 
@@ -107,11 +139,9 @@ function menu() {
     exit_status=$?
     # 检查退出状态码
     if [ $exit_status -eq 0 ]; then
-      echo "成功推送Docker"
       echo $appversion >version.txt
     else
       echo "失败"
-      echo "【$docker_push_result】"
     fi
   fi
 }
