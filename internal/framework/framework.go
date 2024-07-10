@@ -18,9 +18,10 @@ type Framework struct {
 	queue   chan *model.ProcModel
 	procs   map[string]*model.ProcModel
 	running bool
+	args    []string
 }
 
-func inputArgs() []string {
+func (f *Framework) inputArgs() []string {
 	for {
 		var port int
 		fmt.Print("设置服务端口,请输入:")
@@ -35,6 +36,7 @@ func inputArgs() []string {
 }
 
 func (f *Framework) OnInstall(installPath string) {
+	f.args = f.inputArgs()
 	for {
 		var password string
 		fmt.Print("设置授权码,请输入:")
@@ -104,6 +106,7 @@ func (f *Framework) Config() *service.Config {
 		Name:        version.AppName,
 		DisplayName: version.DisplayName,
 		Description: version.Description,
+		Arguments:   f.args,
 	}
 }
 
