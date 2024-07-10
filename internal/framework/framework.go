@@ -10,6 +10,8 @@ import (
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type Framework struct {
@@ -18,11 +20,26 @@ type Framework struct {
 	running bool
 }
 
+func inputArgs() []string {
+	for {
+		var port int
+		fmt.Print("设置服务端口,请输入:")
+		fmt.Scan(&port)
+		fmt.Println(port)
+		if port < 0 {
+			fmt.Println("端口输入错误，请重新输入！")
+		} else {
+			return []string{strconv.Itoa(port)}
+		}
+	}
+}
+
 func (f *Framework) OnInstall(installPath string) {
 	for {
 		var password string
 		fmt.Print("设置授权码,请输入:")
 		fmt.Scan(&password)
+		password = strings.TrimSpace(password)
 		err := crypt.SavePassword(installPath, []byte(password))
 		if err != nil {
 			fmt.Println("授权码设置失败，请重新设置！")
@@ -128,7 +145,18 @@ func (f *Framework) run() {
 	f.queue = make(chan *model.ProcModel)
 	f.procs = make(map[string]*model.ProcModel)
 	f.loadConfig()
-	go server.Listen(f)
+	port := 8888
+	if len(os.Args) > 2 {
+		pstr := os.Args[2]
+		if pstr != "" {
+			_port, err := strconv.Atoi(pstr)
+			if err == nil && _port > 0 {
+				port = _port
+			}
+		}
+	}
+
+	go server.Listen(port, f)
 	for {
 		glog.Println("run.for....")
 		v, ok := <-f.queue
