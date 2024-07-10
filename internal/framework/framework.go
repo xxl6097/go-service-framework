@@ -18,7 +18,6 @@ type Framework struct {
 	queue   chan *model.ProcModel
 	procs   map[string]*model.ProcModel
 	running bool
-	args    []string
 }
 
 func (f *Framework) inputArgs() []string {
@@ -34,8 +33,7 @@ func (f *Framework) inputArgs() []string {
 	}
 }
 
-func (f *Framework) OnInstall(installPath string) {
-	f.args = f.inputArgs()
+func (f *Framework) inputAuthCode(installPath string) {
 	for {
 		var password string
 		fmt.Print("设置授权码,请输入:")
@@ -49,6 +47,11 @@ func (f *Framework) OnInstall(installPath string) {
 			return
 		}
 	}
+}
+
+func (f *Framework) OnInstall(installPath string) []string {
+	f.inputAuthCode(installPath)
+	return f.inputArgs()
 }
 
 // Shutdown 服务结束回调
@@ -105,7 +108,6 @@ func (f *Framework) Config() *service.Config {
 		Name:        version.AppName,
 		DisplayName: version.DisplayName,
 		Description: version.Description,
-		Arguments:   f.args,
 	}
 }
 
