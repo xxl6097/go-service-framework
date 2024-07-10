@@ -50,8 +50,9 @@ func (f *Framework) inputAuthCode(installPath string) {
 }
 
 func (f *Framework) OnInstall(installPath string) []string {
+	args := f.inputArgs()
 	f.inputAuthCode(installPath)
-	return f.inputArgs()
+	return args
 }
 
 // Shutdown 服务结束回调
