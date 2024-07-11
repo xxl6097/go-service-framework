@@ -123,6 +123,28 @@ function build_darwin_amd64() {
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_amd64
 }
 
+function build() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  os=$1
+  arch=$2
+  GetLDFLAGS
+  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch} ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}
+}
+
+function build_win() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  os=$1
+  arch=$2
+  echo "==>${os}-->${arch}"
+  GetLDFLAGS
+  go generate ./cmd/app
+  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch} ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}
+}
+
 function menu() {
   echo "1. 编译 Windows amd64"
   echo "2. 编译 Windows arm64"
@@ -135,7 +157,7 @@ function menu() {
   read index
   tag
   case "$index" in
-  [1]) (build_windows_amd64) ;;
+  [1]) (build_win windows amd64) ;;
   [2]) (build_windows_arm64) ;;
   [3]) (build_linux_amd64) ;;
   [4]) (build_linux_arm64) ;;
