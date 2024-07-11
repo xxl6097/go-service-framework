@@ -3,7 +3,6 @@ package crypt
 import (
 	"errors"
 	"fmt"
-	"github.com/xxl6097/go-glog/glog"
 	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"os"
@@ -47,7 +46,7 @@ func SavePassword(fullexecpath string, password []byte) error {
 	if err != nil {
 		return errors.New(fmt.Sprintf("password hash create failed %v", err))
 	}
-	glog.Debug(string(password), string(hash))
+	//glog.Debug(string(password), string(hash))
 	return save(fullexecpath, hash)
 }
 func GetPassword() []byte {
