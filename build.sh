@@ -3,18 +3,18 @@
 appname=AAGoService
 DisplayName=AAGoService
 Description=基于Go语言的服务程序框架
-version=0.0.2
+version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
 function getversion() {
-  appversion=$(cat version.txt)
-  if [ "$appversion" = "" ]; then
-    appversion="0.0.0"
-    echo $appversion
+  version=$(cat version.txt)
+  if [ "$version" = "" ]; then
+    version="0.0.0"
+    echo $version
   else
-    v3=$(echo $appversion | awk -F'.' '{print($3);}')
-    v2=$(echo $appversion | awk -F'.' '{print($2);}')
-    v1=$(echo $appversion | awk -F'.' '{print($1);}')
+    v3=$(echo $version | awk -F'.' '{print($3);}')
+    v2=$(echo $version | awk -F'.' '{print($2);}')
+    v1=$(echo $version | awk -F'.' '{print($1);}')
     if [[ $(expr $v3 \>= 99) == 1 ]]; then
       v3=0
       if [[ $(expr $v2 \>= 99) == 1 ]]; then
@@ -29,6 +29,16 @@ function getversion() {
     ver="$v1.$v2.$v3"
     echo $ver
   fi
+}
+
+function tag() {
+    version=$(getversion)
+    echo "current version:${version}"
+    git add .
+    git commit -m "release v${version}"
+    git tag -a v$version -m "release v${version}"
+    git push origin v$version
+    echo $version >version.txt
 }
 
 
@@ -123,6 +133,7 @@ function menu() {
   echo "7. 编译 Darwin amd64"
   echo "请输入编号:"
   read index
+  tag
   case "$index" in
   [1]) (build_windows_amd64) ;;
   [2]) (build_windows_arm64) ;;
@@ -133,17 +144,6 @@ function menu() {
   [7]) (build_darwin_amd64) ;;
   *) echo "exit" ;;
   esac
-
-  if ((index >= 4 && index <= 6)); then
-    # 获取命令的退出状态码
-    exit_status=$?
-    # 检查退出状态码
-    if [ $exit_status -eq 0 ]; then
-      echo $appversion >version.txt
-    else
-      echo "失败"
-    fi
-  fi
 }
 menu
 
