@@ -90,7 +90,7 @@ function build_win() {
   arch=$2
   GetLDFLAGS
   go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
+  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}.exe
 }
 
@@ -99,7 +99,7 @@ function build_windows_arm64() {
   rm -rf bin
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
-  CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
+  CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
 }
 
