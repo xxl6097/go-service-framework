@@ -2,7 +2,7 @@
 #修改为自己的应用名称
 appname=AAGoService
 DisplayName=AAGoService
-Description=基于Go语言的服务程序框架
+Description=基于Go语言的服务框架,可应用于windows、linux、macos、openwrt等各类操作系统。
 version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
