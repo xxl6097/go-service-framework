@@ -28,7 +28,7 @@ func (f *Framework) inputArgs() []string {
 		if port < 0 {
 			fmt.Println("端口输入错误，请重新输入！")
 		} else {
-			return []string{strconv.Itoa(port)}
+			return []string{strconv.Itoa(port), "by uuxia"}
 		}
 	}
 }
