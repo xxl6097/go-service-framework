@@ -1,8 +1,8 @@
 #!/bin/bash
 #修改为自己的应用名称
-appname=AAGoService
-DisplayName=AAGoService
-Description=基于Go语言的服务框架,可应用于windows、linux、macos、openwrt等各类操作系统。
+appname=AuGoService
+DisplayName=AuGoService
+Description=基于Go语言的服务程序，可安装和管理第三方应用程序,可运行于Windows、Linux、Macos、Openwrt等各类操作系统. by uuxia.
 version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
@@ -90,7 +90,7 @@ function build_win() {
   arch=$2
   GetLDFLAGS
   go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
+  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}.exe
 }
 
