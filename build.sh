@@ -88,11 +88,10 @@ function build_win() {
   rm -rf ./cmd/app/resource.syso
   os=$1
   arch=$2
-  echo "==>${os}-->${arch}"
   GetLDFLAGS
   go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch} ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}
+  CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}.exe
 }
 
 function menu() {
