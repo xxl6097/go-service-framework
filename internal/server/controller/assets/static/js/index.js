@@ -233,6 +233,10 @@ function onAppStoreHandle(json) {
 
 function testBtn() {
     //clear()
+
+    Object.entries(marketJson).forEach(([key2, value2]) => {//arm64
+        console.log(key2,value2)
+    });
 }
 
 
@@ -706,5 +710,122 @@ testjson = [
         }
     }
 ]
+
+marketJson = {
+    "windows": {
+        "arm64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "wechat",
+                "args": [
+                    "-d",
+                    "conf.toml"
+                ],
+                "description": "微信应用程序，用于测试"
+            }
+        ],
+        "amd64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "QQ",
+                "args": [
+                    "-d",
+                    "qq.toml"
+                ],
+                "description": "QQ应用程序，用于测试"
+            }
+        ]
+    },
+    "linux": {
+        "arm64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "dingtalk",
+                "args": [
+                    "-d",
+                    "dingtalk.toml"
+                ],
+                "description": "dingtalk应用程序，用于测试"
+            }
+        ],
+        "amd64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "surge",
+                "args": [
+                    "-d",
+                    "config.toml"
+                ],
+                "description": "surge应用程序，用于测试"
+            }
+        ]
+    },
+    "darwin": {
+        "arm64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "dingtalk",
+                "args": [
+                    "-d",
+                    "dingtalk.toml"
+                ],
+                "description": "dingtalk应用程序，用于测试"
+            }
+        ],
+        "amd64": [
+            {
+                "name": "frpc",
+                "args": [
+                    "-c",
+                    "frpc.toml"
+                ],
+                "description": "frp测试描述信息"
+            },
+            {
+                "name": "surge",
+                "args": [
+                    "-d",
+                    "config.toml"
+                ],
+                "description": "surge应用程序，用于测试"
+            }
+        ]
+    }
+}
 
 init()
