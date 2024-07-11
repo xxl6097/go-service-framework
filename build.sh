@@ -1,9 +1,9 @@
 #!/bin/bash
 #修改为自己的应用名称
-appname=AAFrameworkService
-DisplayName=AAFrameworkService
+appname=AAGoService
+DisplayName=AAGoService
 Description=基于Go语言的服务程序框架
-version=0.0.1
+version=0.0.2
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
 function getversion() {
