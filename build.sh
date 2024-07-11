@@ -99,7 +99,6 @@ function build_windows_arm64() {
   rm -rf bin
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
-  go generate ./cmd/app
   CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
 }
