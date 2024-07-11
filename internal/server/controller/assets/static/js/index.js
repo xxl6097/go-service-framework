@@ -2,6 +2,13 @@ var newModel = document.getElementById('newModel');
 
 
 function init() {
+    Object.entries(testjson).forEach(([key, value]) => {
+        console.log('key:',key,'value:',value); // 打印键和对应的值
+        Object.entries(value).forEach(([key1, value1]) => {
+            console.log('key1:',key1,'value1:',value1); // 打印键和对应的值
+        });
+    });
+
     let password = localStorage.getItem('password');
     if (password) {
         checkAuth(password, () => {
@@ -24,10 +31,210 @@ function init() {
     });
 }
 
+function showModelDialog(title,content,closeFunc) {
+    var dialog = document.getElementById('dialog_id')
+    var dialog_title = document.getElementById('dialog_title_id')
+    dialog_title.innerText = title
+    var dialog_main = document.getElementById('dialog_main_id')
+    dialog_main.appendChild(content)
+    dialog.style.display = "block";
+    var close = document.getElementById('dialog_close')
+    close.addEventListener('click', function (event) {
+        event.stopPropagation();
+        dialog.style.display = "none";
+        closeFunc()
+    });
+    return dialog
+}
+
+function createCollapse(name,callback) {
+    var i = document.createElement('i');
+    i.className = 'layui-icon layui-icon-add-1'
+    var addBtn = document.createElement('button');
+    addBtn.appendChild(i)
+    addBtn.className = 'layui-btn layui-btn-primary layui-btn-sm'
+    addBtn.style = 'float: right;margin-top: 5px;'
+    addBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        layer.msg('感谢放过在下～' + name);
+    });
+
+    var i1 = document.createElement('i');
+    i1.className = 'layui-icon layui-icon-delete'
+    var delBtn = document.createElement('button');
+    delBtn.appendChild(i1)
+    delBtn.className = 'layui-btn layui-btn-primary layui-btn-sm'
+    delBtn.style = 'float: right;margin-top: 5px;'
+    delBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        layer.msg('感谢放过在下～' + name);
+    });
+
+
+
+    var title = document.createElement('div');
+    title.className = 'layui-colla-title'
+    title.textContent = name
+    title.appendChild(delBtn)
+    title.appendChild(addBtn)
+
+
+
+    var collapse = document.createElement('div');
+    collapse.className = 'layui-collapse'
+    var item = document.createElement('div');
+    item.className = 'layui-colla-item'
+    var content = document.createElement('div');
+    content.className = 'layui-colla-content'
+    var p = document.createElement('p');
+    p.textContent = 'arms'
+    callback(content)
+    item.appendChild(title)
+    item.appendChild(content)
+    collapse.appendChild(item)
+    return collapse
+}
+
+function creteTable(callback) {
+    var table = document.createElement('table');
+    var thead = document.createElement('thead');
+    var tbody = document.createElement('tbody');
+    var tr = document.createElement('tr');
+    var th_name = document.createElement('th');
+    th_name.textContent = '程序名称'
+    var th_ags = document.createElement('th');
+    th_ags.textContent = '运行参数'
+    var th_des = document.createElement('th');
+    th_des.textContent = '描述信息'
+    var th_install = document.createElement('th');
+    th_install.textContent = '操作'
+
+    callback(tbody)
+
+
+    tr.appendChild(th_name)
+    tr.appendChild(th_ags)
+    tr.appendChild(th_des)
+    tr.appendChild(th_install)
+    //
+    // tr_body.appendChild(td_1)
+    // tr_body.appendChild(td_2)
+    // tr_body.appendChild(td_3)
+
+    table.appendChild(thead)
+    table.appendChild(tr)
+    //tbody.appendChild(tr_body)
+    table.appendChild(tbody)
+    return table
+}
+
+function createNode(name,list) {
+    console.log('createNode',name,list)
+    node = createCollapse(name,callback=>{
+        callback.appendChild(creteTable(tbody=>{
+            Object.entries(list).forEach(([key, value]) => {//arm64
+
+                var newRow = tbody.insertRow();
+                var cell0 = newRow.insertCell(0);
+                var cell1 = newRow.insertCell(1);
+                var cell2 = newRow.insertCell(2);
+                var cell3 = newRow.insertCell(3);
+
+                var installBtn = document.createElement('button');
+                installBtn.className = 'layui-btn layui-btn-xs'
+                installBtn.textContent = '安装';
+                installBtn.style = 'margin-right: 5px; margin-left: 5px;'
+                installBtn.addEventListener('click', function () {
+                    layer.msg('感谢放过在下～' + value.name);
+                });
+
+                cell0.innerText = value.name
+                cell1.innerText = value.args
+                cell2.innerText = value.description
+                cell3.appendChild(installBtn)
+
+            });
+
+
+        }))
+    })
+    return node
+}
+
+function createMarket(jsonObj) {
+    var div = document.createElement('div');
+    Object.entries(jsonObj).forEach(([key, value]) => {
+        Object.entries(value).forEach(([key1, value1]) => {
+            //market.appendChild(createCollapse('windows',node))
+            div.appendChild(createCollapse(key1,(callback=>{//windowns
+                Object.entries(value1).forEach(([key2, value2]) => {//arm64
+                   callback.appendChild(createNode(key2,value2))
+                });
+
+            })))
+        });
+    });
+    return div
+}
+
+function onMarketHandle() {
+    // var market = document.getElementById('market')
+    // createMarket(market,testjson)
+    // layui.element.render('collapse');
+    // market.style.display = "block";
+
+    let market = createMarket(testjson);
+    var close = showModelDialog('应用市场',market,()=>{
+        while (market.firstChild) {
+            market.removeChild(market.firstChild);
+        }
+    })
+    layui.element.render('collapse');
+}
+
+function onAppStoreClick() {
+    getAppList(response=>{
+        onAppStoreHandle(response.data)
+    },error=>{})
+}
+
+function onAppStoreHandle(json) {
+    var table = creteTable(tbody=>{
+        Object.entries(json).forEach(([key, value]) => {//arm64
+
+            var newRow = tbody.insertRow();
+            var cell0 = newRow.insertCell(0);
+            var cell1 = newRow.insertCell(1);
+            var cell2 = newRow.insertCell(2);
+            var cell3 = newRow.insertCell(3);
+
+            var installBtn = document.createElement('button');
+            installBtn.className = 'layui-btn layui-btn-xs'
+            installBtn.textContent = '安装';
+            installBtn.style = 'margin-right: 5px; margin-left: 5px;'
+            installBtn.addEventListener('click', function () {
+                layer.msg('感谢放过在下～' + value.name);
+            });
+
+            cell0.innerText = value.name
+            cell1.innerText = value.args
+            cell2.innerText = value.description
+            cell3.appendChild(installBtn)
+
+        });
+
+
+    })
+    showModelDialog('AppStore',table,()=>{
+        clearTable(table)
+    })
+}
+
 
 function testBtn() {
-    clear()
+    //clear()
 }
+
 
 function openNewAppDialog() {
     newModel.style.display = 'block';
@@ -196,6 +403,18 @@ function insertRow(tbody, newRow, newItem) {
     cell3.innerHTML = newItem.description;
 }
 
+function clearTable(table) {
+    var tbody = table.getElementsByTagName("tbody")[0];
+    var tr = table.getElementsByTagName("tr")[0];
+    // 移除表格主体中的所有行
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+    while (tr.firstChild) {
+        tr.removeChild(tr.firstChild);
+    }
+}
+
 function addItemByUpload(newItem) {
     var table = document.getElementById("myTable");
     var tbody = table.getElementsByTagName("tbody")[0];
@@ -253,11 +472,11 @@ function getAll(callback) {
     xhr.send();
 }
 
-function showDialogInfo(content) {
+function showDialogInfo(width,height,content) {
     // 页面层
     layer.open({
         type: 1,
-        area: ['420px', '430px'], // 宽高
+        area: [width, height], // 宽高 '420px', '430px'
         content: `<div class="layeropen">${content}</div>`
     });
 }
@@ -276,7 +495,7 @@ function getDeviceInfo() {
                 jsonObj = JSON.parse(xhr.response)
                 if (jsonObj) {
                     //layer.msg(`${JSON.stringify(jsonObj.data)}`, {icon: 0});
-                    showDialogInfo(JSON.stringify(jsonObj.data))
+                    showDialogInfo('420px', '430px',JSON.stringify(jsonObj.data))
                 }
             }
         } else {
@@ -308,6 +527,30 @@ function post(path, name, sucess, failed) {
     xhr.send();
 }
 
+function getAppList(sucess,failed) {
+    console.log('call getall')
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/proc/app/list', true);
+    //xhr.open('POST', '/proc/getall', true);
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('getAppList====', xhr.readyState, xhr.status,xhr.response)
+            if (xhr.status === 200) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj && jsonObj.code === 0) {
+                    sucess(jsonObj)
+                } else {
+                    failed(jsonObj.msg)
+                }
+            } else {
+                failed(xhr.status)
+            }
+        }
+    };
+    xhr.send();
+}
 function Login(password, sucess, failed) {
     const url = `/login`;
     console.log(url)
@@ -380,5 +623,88 @@ function newApp(jsonObject, sucess, failed) {
     var jsonString = JSON.stringify(jsonObject);
     xhr.send(jsonString);
 }
+
+testjson = [
+    {
+        "windows": {
+            "arm64": [
+                {
+                    "name": "frpc",
+                    "args": [
+                        "-c",
+                        "frpc.toml"
+                    ],
+                    "description": "frp测试描述信息"
+                },
+                {
+                    "name": "wechat",
+                    "args": [
+                        "-d",
+                        "conf.toml"
+                    ],
+                    "description": "微信应用程序，用于测试"
+                }
+            ],
+            "amd64": [
+                {
+                    "name": "frpc",
+                    "args": [
+                        "-c",
+                        "frpc.toml"
+                    ],
+                    "description": "frp测试描述信息"
+                },
+                {
+                    "name": "QQ",
+                    "args": [
+                        "-d",
+                        "qq.toml"
+                    ],
+                    "description": "QQ应用程序，用于测试"
+                }
+            ]
+        }
+    },
+    {
+        "linux": {
+            "arm64": [
+                {
+                    "name": "frpc",
+                    "args": [
+                        "-c",
+                        "frpc.toml"
+                    ],
+                    "description": "frp测试描述信息"
+                },
+                {
+                    "name": "dingtalk",
+                    "args": [
+                        "-d",
+                        "dingtalk.toml"
+                    ],
+                    "description": "dingtalk应用程序，用于测试"
+                }
+            ],
+            "amd64": [
+                {
+                    "name": "frpc",
+                    "args": [
+                        "-c",
+                        "frpc.toml"
+                    ],
+                    "description": "frp测试描述信息"
+                },
+                {
+                    "name": "surge",
+                    "args": [
+                        "-d",
+                        "config.toml"
+                    ],
+                    "description": "surge应用程序，用于测试"
+                }
+            ]
+        }
+    }
+]
 
 init()

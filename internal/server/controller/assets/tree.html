@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layui Dynamic Accordion</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui-v2.5.7/dist/css/layui.css">
+</head>
+<body>
+<div class="layui-container" style="margin-top: 20px;">
+    <div class="layui-collapse" lay-accordion id="accordion-container">
+        <!-- 初始折叠面板 -->
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">初始面板</h2>
+            <div class="layui-colla-content">
+                <p>这是初始的折叠面板内容。</p>
+            </div>
+        </div>
+    </div>
+    <button class="layui-btn" id="add-panel-btn">添加面板</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/layui-v2.5.7/dist/layui.js"></script>
+<script>
+    layui.use(['element'], function(){
+        var element = layui.element;
+
+        // 添加新的面板
+        document.getElementById('add-panel-btn').addEventListener('click', function() {
+            var accordion = document.getElementById('accordion-container');
+
+            var newPanelIndex = accordion.children.length + 1;
+            var newPanel = document.createElement('div');
+            newPanel.className = 'layui-colla-item';
+            newPanel.innerHTML = `
+                    <h2 class="layui-colla-title">动态面板 ${newPanelIndex}</h2>
+                    <div class="layui-colla-content">
+                        <p>这是动态添加的折叠面板内容 ${newPanelIndex}。</p>
+                    </div>
+                `;
+
+            accordion.appendChild(newPanel);
+
+            // 重新渲染折叠面板
+            element.render('collapse');
+        });
+    });
+</script>
+</body>
+</html>

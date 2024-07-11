@@ -47,6 +47,7 @@ func (this *assets) Setup(_router *mux.Router) {
 	router := _router.NewRoute().Subrouter()
 	//route.RouterUtil.AddNoAuthPrefix("/")
 	route.RouterUtil.AddNoAuthPrefix("static")
+	route.RouterUtil.AddNoAuthPrefix("favicon.ico")
 	router.Handle("/favicon.ico", http.FileServer(fsys)).Methods("GET")
 	router.PathPrefix("/").Handler(http2.MakeHTTPGzipHandler(http.StripPrefix("/", http.FileServer(fsys)))).Methods("GET")
 }

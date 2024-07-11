@@ -14,10 +14,22 @@ type ProcRoute struct {
 
 func (this *ProcRoute) Setup(router *mux.Router) {
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodPost,
+		Path:   "/proc/app/market",
+		Fun:    this.controller.appMarket,
+		NoAuth: true,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodGet,
+		Path:   "/proc/app/list",
+		Fun:    this.controller.getAppList,
+		NoAuth: true,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodGet,
 		Path:   "/proc/info",
 		Fun:    this.controller.info,
-		NoAuth: false,
+		NoAuth: true,
 	})
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodGet,
