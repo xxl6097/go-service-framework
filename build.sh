@@ -94,6 +94,16 @@ function build_win() {
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}.exe
 }
 
+
+function build_windows_arm64() {
+  rm -rf bin
+  rm -rf ./cmd/app/resource.syso
+  GetLDFLAGS
+  go generate ./cmd/app
+  CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
+}
+
 function menu() {
   echo "1. 编译 Windows amd64"
   echo "2. 编译 Windows arm64"
@@ -107,7 +117,7 @@ function menu() {
   tag
   case "$index" in
   [1]) (build_win windows amd64) ;;
-  [2]) (build_win windows arm64) ;;
+  [2]) (build_windows_arm64) ;;
   [3]) (build linux amd64) ;;
   [4]) (build linux arm64) ;;
   [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
