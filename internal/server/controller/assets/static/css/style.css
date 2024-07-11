@@ -20,6 +20,10 @@ body {
         color: black;
     }
 
+    .layeropen{
+        padding: 11px;
+        background-color: black;
+    }
 
     h1 {
         color: black;
@@ -101,6 +105,10 @@ body {
     h1 {
         color: white;
         font-size: 35px;
+    }
+    .layeropen{
+        padding: 11px;
+        background-color: black;
     }
 
     #up_bg_txt {

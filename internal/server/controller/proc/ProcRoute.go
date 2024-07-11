@@ -15,6 +15,12 @@ type ProcRoute struct {
 func (this *ProcRoute) Setup(router *mux.Router) {
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodGet,
+		Path:   "/proc/info",
+		Fun:    this.controller.info,
+		NoAuth: false,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodGet,
 		Path:   "/proc/getall",
 		Fun:    this.controller.getall,
 		NoAuth: true,

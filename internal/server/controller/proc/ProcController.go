@@ -7,6 +7,7 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
+	"github.com/xxl6097/go-service-framework/pkg/os"
 	"net/http"
 )
 
@@ -59,6 +60,10 @@ func (this *ProcController) del(w http.ResponseWriter, r *http.Request) {
 func (this *ProcController) getall(w http.ResponseWriter, r *http.Request) {
 	arrays := this.iframework.GetAll()
 	glog.Warn("Test---->", arrays)
+	Respond(w, Sucess(arrays))
+}
+func (this *ProcController) info(w http.ResponseWriter, r *http.Request) {
+	arrays := os.GetOsInfo()
 	Respond(w, Sucess(arrays))
 }
 

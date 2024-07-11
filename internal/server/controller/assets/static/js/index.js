@@ -253,6 +253,38 @@ function getAll(callback) {
     xhr.send();
 }
 
+function showDialogInfo(content) {
+    // 页面层
+    layer.open({
+        type: 1,
+        area: ['420px', '430px'], // 宽高
+        content: `<div class="layeropen">${content}</div>`
+    });
+}
+
+function getDeviceInfo() {
+    const url = `/proc/info`;
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                console.log('====',xhr.readyState,xhr.status,xhr.response)
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj) {
+                    //layer.msg(`${JSON.stringify(jsonObj.data)}`, {icon: 0});
+                    showDialogInfo(JSON.stringify(jsonObj.data))
+                }
+            }
+        } else {
+        }
+    };
+    xhr.send();
+}
+
 function post(path, name, sucess, failed) {
     const url = `/proc/${path}?name=${name}`;
     console.log(url)
@@ -275,7 +307,6 @@ function post(path, name, sucess, failed) {
     };
     xhr.send();
 }
-
 
 function Login(password, sucess, failed) {
     const url = `/login`;

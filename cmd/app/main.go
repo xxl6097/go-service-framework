@@ -14,5 +14,4 @@ func main() {
 }
 
 func test() {
-	//glog.Debug("倒计时开始...")
 }
