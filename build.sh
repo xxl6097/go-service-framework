@@ -65,62 +65,12 @@ function GetLDFLAGS() {
   #echo "$ldflags"
 }
 
-function build_windows_amd64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_amd64.exe ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_amd64.exe
-}
-
-function build_windows_arm64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  go generate ./cmd/app
-  CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -trimpath -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
-}
-
-function build_linux_amd64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_amd64 ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_amd64
-}
-
-function build_linux_arm64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_arm64 ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_arm64
-}
-
 function build_linux_mips_opwnert_REDMI_AC2100() {
   rm -rf bin
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_mipsle ./cmd/app
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_mipsle
-}
-
-function build_darwin_arm64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_darwin_arm64 ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_arm64
-}
-
-function build_darwin_amd64() {
-  rm -rf bin
-  rm -rf ./cmd/app/resource.syso
-  GetLDFLAGS
-  CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_darwin_amd64 ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_darwin_amd64
 }
 
 function build() {
@@ -158,12 +108,12 @@ function menu() {
   tag
   case "$index" in
   [1]) (build_win windows amd64) ;;
-  [2]) (build_windows_arm64) ;;
-  [3]) (build_linux_amd64) ;;
-  [4]) (build_linux_arm64) ;;
+  [2]) (build_win windows arm64) ;;
+  [3]) (build linux amd64) ;;
+  [4]) (build linux arm64) ;;
   [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
-  [6]) (build_darwin_arm64) ;;
-  [7]) (build_darwin_amd64) ;;
+  [6]) (build darwin arm64) ;;
+  [7]) (build darwin amd64) ;;
   *) echo "exit" ;;
   esac
 }
