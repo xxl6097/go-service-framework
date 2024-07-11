@@ -63,6 +63,12 @@
                                 <input type="text" id="args" autocomplete="on" placeholder="请输入运行参数"  class="layui-input">
                             </div>
                         </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">描述信息</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="description" autocomplete="on" placeholder="请输入描述信息"  class="layui-input">
+                            </div>
+                        </div>
 
                         <div class="layui-form-item">
                             <button class="layui-btn" onclick="onNewAppclick()">确定</button>
@@ -90,6 +96,7 @@
                         <th>程序名称</th>
                         <th>状态</th>
                         <th>操作</th>
+                        <th class="fixed-width">描述</th>
                     </tr>
                     </thead>
                     <tbody>

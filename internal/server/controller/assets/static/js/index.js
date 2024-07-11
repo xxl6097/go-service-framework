@@ -42,6 +42,7 @@ function onNewAppclick() {
     let binurl = document.getElementById('binurl').value;
     let confurl = document.getElementById('confurl').value;
     let args = document.getElementById('args').value;
+    let description = document.getElementById('description').value;
     let argsArray = args.match(/\S+/g); // 匹配所有非空白字符的序列
     if (name === '' || binurl === '' || confurl === '' || args === '') {
         layer.msg('请正确输入', {icon: 0});
@@ -51,7 +52,8 @@ function onNewAppclick() {
         name: name,
         binUrl: binurl,
         confurl: confurl,
-        args: argsArray
+        args: argsArray,
+        description:description
     }
     console.log(jsonObj);
     newApp(jsonObj, response => {
@@ -128,6 +130,7 @@ function insertRow(tbody, newRow, newItem) {
     var cell0 = newRow.insertCell(0);
     var cell1 = newRow.insertCell(1);
     var cell2 = newRow.insertCell(2);
+    var cell3 = newRow.insertCell(3);
 
     var stopBtn = document.createElement('button');
     stopBtn.className = 'layui-btn layui-btn-xs'
@@ -170,7 +173,7 @@ function insertRow(tbody, newRow, newItem) {
 
     var deleteBtn = document.createElement('button');
     deleteBtn.className = 'layui-btn layui-btn-xs'
-    deleteBtn.textContent = '删除';
+    deleteBtn.textContent = '卸载';
     deleteBtn.style = 'margin-right: 5px; margin-left: 5px;'
     deleteBtn.addEventListener('click', function () {
         var title = `确定删除${newItem.name}程序吗，请慎重考虑！`
@@ -190,6 +193,7 @@ function insertRow(tbody, newRow, newItem) {
     cell2.appendChild(stopBtn);
     cell2.appendChild(restartBtn);
     cell2.appendChild(deleteBtn);
+    cell3.innerHTML = newItem.description;
 }
 
 function addItemByUpload(newItem) {

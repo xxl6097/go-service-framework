@@ -23,7 +23,7 @@ type Framework struct {
 func (f *Framework) inputArgs() []string {
 	for {
 		var port int
-		fmt.Print("设置服务端口,请输入:")
+		fmt.Print("设置服务端口，请输入：")
 		fmt.Scan(&port)
 		if port < 0 {
 			fmt.Println("端口输入错误，请重新输入！")
@@ -36,7 +36,7 @@ func (f *Framework) inputArgs() []string {
 func (f *Framework) inputAuthCode(installPath string) {
 	for {
 		var password string
-		fmt.Print("设置授权码,请输入:")
+		fmt.Print("设置授权密码，请输入：")
 		fmt.Scan(&password)
 		password = strings.TrimSpace(password)
 		err := crypt.SavePassword(installPath, []byte(password))

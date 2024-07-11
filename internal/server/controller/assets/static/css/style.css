@@ -9,6 +9,10 @@ body {
     display: none;
 }
 
+.fixed-width {
+    width: 60%; /* 设置固定宽度为百分比 */
+}
+
 /* Light Mode */
 @media (prefers-color-scheme: light) {
     body {

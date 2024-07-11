@@ -12,14 +12,15 @@ const (
 )
 
 type ProcModel struct {
-	Name    string      `json:"name"`
-	BinUrl  string      `json:"binUrl"`
-	ConfUrl string      `json:"confUrl"`
-	Upgrade bool        `json:"upgrade"`
-	Args    []string    `json:"args"`
-	Status  string      `json:"status"`
-	Exit    int         `json:"exit"`
-	Proc    *os.Process `json:"-"`
+	Name        string      `json:"name"`
+	BinUrl      string      `json:"binUrl"`
+	ConfUrl     string      `json:"confUrl"`
+	Description string      `json:"description"`
+	Upgrade     bool        `json:"upgrade"`
+	Args        []string    `json:"args"`
+	Status      string      `json:"status"`
+	Exit        int         `json:"exit"`
+	Proc        *os.Process `json:"-"`
 }
 
 func (u *ProcModel) MarshalBinary() ([]byte, error) {
