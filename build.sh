@@ -2,7 +2,7 @@
 #修改为自己的应用名称
 appname=AuGoService
 DisplayName=AuGoService
-Description=基于Go语言的服务程序,可安装和管理第三方应用程序,可运行于Windows、Linux、Macos、Openwrt等各类操作系统. by uuxia.
+Description="基于Go语言的服务程序，可安装和管理第三方应用程序，可运行于Windows、Linux、Macos、Openwrt等各类操作系统.by uuxia."
 version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
 
