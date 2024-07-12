@@ -234,22 +234,28 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 	} else {
 		glog.Error(binPath, "赋予0755权限失败")
 	}
-
+	outFile := filepath.Join(logDir, "out.log")
+	out, err2 := os.Create(filepath.Join(outFile))
+	if err2 != nil {
+		glog.Errorf("【%s】程序运行失败 %v", proc.Name, err2)
+		return
+	}
+	defer out.Close()
 	for {
 		tmpDump := filepath.Join(logDir, "dump.tmp.log")
 		dumpFile := filepath.Join(logDir, "dump.log")
-		f, err2 := os.Create(filepath.Join(tmpDump))
-		if err2 != nil {
-			glog.Errorf("【%s】程序运行失败 %v", proc.Name, err2)
+		stderr, err21 := os.Create(filepath.Join(tmpDump))
+		if err21 != nil {
+			glog.Errorf("【%s】程序运行失败 %v", proc.Name, err21)
 			return
 		}
-		defer f.Close()
+		defer stderr.Close()
 		glog.Println("启动worker进程", binPath, args)
 		execSpec := &os.ProcAttr{
 			Dir: binDir,
 			Env: append(os.Environ(), "GOTRACEBACK=crash"),
 			//Files: []*os.File{os.Stdin, os.Stdout, f},
-			Files: []*os.File{f, f, f},
+			Files: []*os.File{os.Stdin, out, stderr},
 			//Sys: &syscall.SysProcAttr{
 			//	Chroot: binDir,
 			//},
@@ -266,11 +272,13 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		glog.Debugf("【%s】程序启动成功", proc.Name)
 		status, err4 := p.Wait()
 		if err4 == nil {
-			glog.Debugf("Wait正常停止 %s", binPath)
+			glog.Debugf("Wait正常停止 %s", binPath, status.String())
 		} else {
 			glog.Errorf("Wait异常停止 %v %s %v", err4, binPath, status.String())
 		}
 		proc.Status = "已停止"
+		err5 := p.Release()
+		glog.Debugf("【%s】释放资源 %v", proc.Name, err5)
 		//time.Sleep(time.Second)
 		os.Rename(tmpDump, dumpFile)
 		if !this.running {
