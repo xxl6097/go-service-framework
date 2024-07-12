@@ -87,7 +87,7 @@ func (f *Framework) Stop(s service.Service) error {
 	f.running = false
 	for k, v := range f.procs {
 		if v.Proc != nil {
-			glog.Debugf("%s 停止worker进程", k)
+			glog.Debug("停止worker进程", k)
 			err := v.Proc.Kill()
 			glog.Debugf("kill %s %v", k, err)
 		}

@@ -24,6 +24,8 @@ github.com/xxl6097/go-service v0.0.30 h1:Do+Wsu9/wJ9ND76GoJieX2+deMEIPZ7SODbYHb1
 github.com/xxl6097/go-service v0.0.30/go.mod h1:FRfKS4m27s3ZpzjVyRGFuJJDd+I6P7Ze80j9GsO1cZw=
 github.com/xxl6097/go-service v0.0.33 h1:7i7oaxYxQSFqy7cNcvPzt1Pevru0ks4o2HNfGnLly6s=
 github.com/xxl6097/go-service v0.0.33/go.mod h1:FRfKS4m27s3ZpzjVyRGFuJJDd+I6P7Ze80j9GsO1cZw=
+github.com/xxl6097/go-service v0.0.34 h1:/sacnv+O4oz7zKAIz54h7bgf54dFIUMT6A7rPSAWDt8=
+github.com/xxl6097/go-service v0.0.34/go.mod h1:FRfKS4m27s3ZpzjVyRGFuJJDd+I6P7Ze80j9GsO1cZw=
 golang.org/x/crypto v0.25.0 h1:ypSNr+bnYL2YhwoMt2zPxHFmbAN1KZs/njMG3hxUp30=
 golang.org/x/crypto v0.25.0/go.mod h1:T+wALwcMOSE0kXgUAnPAHqTLW+XHgcELELW8VaDgm/M=
 golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
