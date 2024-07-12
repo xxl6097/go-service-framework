@@ -35,8 +35,6 @@ func save(fullexecpath string, password []byte) error {
 	if err != nil {
 		fmt.Printf("Error writing to file: %s\n", err)
 		return err
-	} else {
-		fmt.Printf("Wrote password to file: %s\n", fileName)
 	}
 	return nil
 }
