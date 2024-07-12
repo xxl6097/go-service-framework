@@ -57,7 +57,7 @@ func (this *Framework) checkConfigFile(binDir string, proc *model.ProcModel) (st
 	if configNeedDownload {
 		err := http.Download(configUrl, confPath)
 		if err != nil {
-			proc.Status = "配置文件下载失败！"
+			proc.Status = "配置文件下载失败"
 			errMsg := fmt.Sprintf("%s%s", proc.Status, confPath)
 			glog.Error(errMsg)
 			return "", errors.New(errMsg)
@@ -81,7 +81,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	}
 
 	binNotExist := false
-	proc.Status = "创建中..."
+	proc.Status = "创建中"
 	//_, binName := filepath.Split(binUrl)
 	binName := proc.Name
 
@@ -107,7 +107,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	}
 
 	if binNotExist {
-		proc.Status = "下载中..."
+		proc.Status = "下载中"
 		err := http.Download(binUrl, binPath)
 		if err != nil {
 			proc.Status = "可执行文件下载失败"
@@ -260,7 +260,7 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			glog.Printf("启动worker进程失败，错误信息：%s", err3)
 			return
 		} else {
-			proc.Status = "运行中..."
+			proc.Status = "运行中"
 			config.Save(*proc)
 		}
 		glog.Debugf("【%s】程序启动成功", proc.Name)
@@ -270,7 +270,7 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		} else {
 			glog.Errorf("Wait异常停止 %v %s %v", err4, binPath, status.String())
 		}
-		proc.Status = "已停止."
+		proc.Status = "已停止"
 		time.Sleep(time.Second)
 		os.Rename(tmpDump, dumpFile)
 		if !this.running {

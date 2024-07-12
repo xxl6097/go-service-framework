@@ -42,7 +42,7 @@ func (f *Framework) StartProcess(name string) error {
 	}
 	v, exist := f.procs[name]
 	if exist {
-		if v.Proc != nil && v.Status == "running" {
+		if v.Proc != nil {
 			return nil
 		}
 		v.Exit = model.STOP_NO
