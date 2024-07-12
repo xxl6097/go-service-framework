@@ -73,7 +73,7 @@ func saveConfig(fileName string, data interface{}) error {
 		return err
 	}
 
-	fmt.Printf("JSON data written to %s\n", fileName)
+	//fmt.Printf("JSON data written to %s\n", fileName)
 	return nil
 }
 
