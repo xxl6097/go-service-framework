@@ -271,7 +271,7 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			glog.Errorf("Wait异常停止 %v %s %v", err4, binPath, status.String())
 		}
 		proc.Status = "已停止"
-		time.Sleep(time.Second)
+		//time.Sleep(time.Second)
 		os.Rename(tmpDump, dumpFile)
 		if !this.running {
 			glog.Error("进程结束", this.running)

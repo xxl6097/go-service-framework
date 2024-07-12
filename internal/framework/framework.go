@@ -12,6 +12,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Framework struct {
@@ -92,6 +93,7 @@ func (f *Framework) Stop(s service.Service) error {
 			glog.Debugf("kill %s %v", k, err)
 		}
 	}
+	time.Sleep(3 * time.Second)
 	if service.Interactive() {
 		glog.Println("停止deamon")
 		os.Exit(0)
