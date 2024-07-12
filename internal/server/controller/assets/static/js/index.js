@@ -2,19 +2,19 @@ var newModel = document.getElementById('newModel');
 
 
 function init() {
-    Object.entries(testjson).forEach(([key, value]) => {
-        console.log('key:',key,'value:',value); // 打印键和对应的值
-        Object.entries(value).forEach(([key1, value1]) => {
-            console.log('key1:',key1,'value1:',value1); // 打印键和对应的值
-        });
-    });
+    // Object.entries(testjson).forEach(([key, value]) => {
+    //     console.log('key:',key,'value:',value); // 打印键和对应的值
+    //     Object.entries(value).forEach(([key1, value1]) => {
+    //         console.log('key1:',key1,'value1:',value1); // 打印键和对应的值
+    //     });
+    // });
 
     let password = localStorage.getItem('password');
     if (password) {
         checkAuth(password, () => {
             showMain()
         }, (error) => {
-            layer.msg(`认证失败 ${error}`, {icon: 0});
+            //layer.msg(`认证失败 ${error}`, {icon: 0});
             showAuth()
         })
     } else {
