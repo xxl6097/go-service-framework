@@ -9,6 +9,7 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/file"
 	"github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/java"
+	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"os"
 	"path/filepath"
 	"time"
@@ -85,9 +86,8 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	//_, binName := filepath.Split(binUrl)
 	binName := proc.Name
 
-	ext := filepath.Ext(binUrl)
-	if ext != "" {
-		binName = proc.Name + ext
+	if os2.IsWindows() {
+		binName = proc.Name + ".exe"
 	}
 	binPath := filepath.Join(binDir, binName)
 	//判断bin文件是否存在
