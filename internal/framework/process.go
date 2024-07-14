@@ -85,11 +85,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	//_, binName := filepath.Split(binUrl)
 	//binName := proc.Name
 
-	//if os2.IsWindows() {
-	//	binName = proc.Name + ".exe"
-	//}
 	_, binName := filepath.Split(proc.BinUrl)
-
 	binPath := filepath.Join(binDir, binName)
 	//判断bin文件是否存在
 	if _, err := os.Stat(binPath); os.IsNotExist(err) {
