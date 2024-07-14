@@ -83,12 +83,9 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	binNotExist := false
 	proc.Status = "创建中"
 	//_, binName := filepath.Split(binUrl)
-	binName := proc.Name
+	//binName := proc.Name
 
-	ext := filepath.Ext(binUrl)
-	if ext != "" {
-		binName = proc.Name + ext
-	}
+	_, binName := filepath.Split(proc.BinUrl)
 	binPath := filepath.Join(binDir, binName)
 	//判断bin文件是否存在
 	if _, err := os.Stat(binPath); os.IsNotExist(err) {

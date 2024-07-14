@@ -96,7 +96,7 @@ func (this *ProcController) login(w http.ResponseWriter, r *http.Request) {
 
 func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
 	password := r.Header.Get("accessToken")
-	glog.Debug(password)
+	//glog.Debug(password)
 	if crypt.IsHashOk([]byte(password)) {
 		Respond(w, Sucessfully())
 	} else {
