@@ -272,7 +272,7 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		glog.Debugf("【%s】程序启动成功", proc.Name)
 		status, err4 := p.Wait()
 		if err4 == nil {
-			glog.Debugf("Wait正常停止 %s", binPath, status.String())
+			glog.Debugf("Wait正常停止 %s %v", binPath, status.String())
 		} else {
 			glog.Errorf("Wait异常停止 %v %s %v", err4, binPath, status.String())
 		}

@@ -63,7 +63,7 @@ func (this *ProcController) del(w http.ResponseWriter, r *http.Request) {
 }
 func (this *ProcController) getall(w http.ResponseWriter, r *http.Request) {
 	arrays := this.iframework.GetAll()
-	glog.Warn("Test---->", arrays)
+	//glog.Warn("Test---->", arrays)
 	Respond(w, Sucess(arrays))
 }
 func (this *ProcController) info(w http.ResponseWriter, r *http.Request) {
