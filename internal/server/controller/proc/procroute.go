@@ -82,7 +82,7 @@ func (this *ProcRoute) Setup(router *mux.Router) {
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodPost,
 		Path:   "/uninstall",
-		Fun:    this.controller.auth,
+		Fun:    this.controller.uninstall,
 		NoAuth: false,
 	})
 }

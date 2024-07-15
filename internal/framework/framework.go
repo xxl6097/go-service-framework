@@ -89,7 +89,7 @@ func (f *Framework) Stop(s service.Service) error {
 	for k, v := range f.procs {
 		if v.Proc != nil {
 			glog.Debug("停止worker进程", k)
-			err := v.Proc.Kill()
+			err := os2.Kill(v.Proc)
 			glog.Debugf("kill %s %v", k, err)
 		}
 	}
@@ -126,7 +126,7 @@ func (f *Framework) AddElement(v *model.ProcModel) {
 			p.Exit = model.STOP_EXIT
 			if p.Proc != nil {
 				glog.Debugf("%s 停止worker进程", p.Name)
-				err := p.Proc.Kill()
+				err := os2.Kill(p.Proc)
 				glog.Debugf("kill %s %v", p.Name, err)
 			}
 		} else {

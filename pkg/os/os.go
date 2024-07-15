@@ -3,9 +3,11 @@ package os
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 // GetOsInfo
@@ -128,4 +130,40 @@ func IsAndroid() bool {
 		return true
 	}
 	return false
+}
+
+func kill(pid int) error {
+	res := exec.Command("TASKKILL", "/T", "/F", "/PID", strconv.Itoa(pid))
+	res.Stderr = os.Stderr
+	res.Stdout = os.Stdout
+	return res.Run()
+}
+
+func Kill(process *os.Process) error {
+	if IsWindows() {
+		return kill(process.Pid)
+	}
+	return process.Kill()
+}
+
+func SysKill(proc *os.Process) {
+	// 终止 Java 进程及其子进程
+	if err := syscall.Kill(-proc.Pid, syscall.SIGKILL); err != nil {
+		fmt.Println("Error killing Java process:", err)
+		return
+	}
+}
+
+func Killpgid(proc *os.Process) {
+	// 终止 Java 进程及其子进程
+	pgid, err := syscall.Getpgid(proc.Pid)
+	if err != nil {
+		fmt.Println("Error getting process group ID:", err)
+		return
+	}
+
+	if err := syscall.Kill(-pgid, syscall.SIGKILL); err != nil {
+		fmt.Println("Error killing Java process group:", err)
+		return
+	}
 }
