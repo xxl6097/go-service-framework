@@ -486,7 +486,7 @@ function showDialogInfo(width,height,content) {
 }
 
 function onUninstallClick() {
-    var title = `确定卸载${newItem.name}程序吗？`
+    var title = `确定卸载程序吗？`
     layer.confirm(title, {icon: 0}, function () {
         uninstall(()=>{
             layer.msg('程序卸载成功～');
