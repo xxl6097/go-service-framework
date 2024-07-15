@@ -79,6 +79,12 @@ func (this *ProcRoute) Setup(router *mux.Router) {
 		Fun:    this.controller.auth,
 		NoAuth: true,
 	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodPost,
+		Path:   "/uninstall",
+		Fun:    this.controller.auth,
+		NoAuth: false,
+	})
 }
 
 func NewRoute(iframework iface.IFramework) inter.IRoute {

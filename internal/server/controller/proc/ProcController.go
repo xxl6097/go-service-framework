@@ -10,6 +10,7 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	"github.com/xxl6097/go-service-framework/pkg/jsonutil"
 	"github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service/gservice"
 	"net/http"
 	"runtime"
 	"strings"
@@ -92,6 +93,10 @@ func (this *ProcController) login(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Respond(w, Errors(errors.New("密码错误")))
 	}
+}
+
+func (this *ProcController) uninstall(w http.ResponseWriter, r *http.Request) {
+	gservice.Uninstall()
 }
 
 func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
