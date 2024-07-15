@@ -17,11 +17,11 @@ type ProcModel struct {
 	Name        string      `json:"name" gorm:"column:name;unique;not null;comment:'程序名称'"`
 	BinUrl      string      `json:"binUrl" gorm:"column:binUrl;not null;comment:'应用程序下载链接'"`
 	ConfUrl     string      `json:"confUrl" gorm:"column:confUrl;comment:'应用程序运行配置文件'"`
-	Description string      `json:"description" gorm:"column:confUrl;comment:'应用描述信息'"`
-	Upgrade     bool        `json:"upgrade" gorm:"column:confUrl;comment:'应用升级标志'"`
-	Args        string      `json:"args" gorm:"column:confUrl;comment:'应用运行参数'"`
-	Status      string      `json:"status" gorm:"column:confUrl;comment:'应用状态'"`
-	Exit        int         `json:"exit" gorm:"column:confUrl;comment:'应用退出码'"`
+	Description string      `json:"description" gorm:"column:description;comment:'应用描述信息'"`
+	Upgrade     bool        `json:"upgrade" gorm:"column:upgrade;comment:'应用升级标志'"`
+	Args        string      `json:"args" gorm:"column:args;comment:'应用运行参数'"`
+	Status      string      `json:"status" gorm:"column:status;comment:'应用状态'"`
+	Exit        int         `json:"exit" gorm:"column:exit;comment:'应用退出码'"`
 	Proc        *os.Process `json:"-" gorm:"-"`
 }
 

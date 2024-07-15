@@ -61,6 +61,7 @@ func (f *Framework) inputAuthCode(installPath string) ([]byte, string) {
 			fmt.Println("授权码设置失败，请重新设置！")
 		} else {
 			fmt.Println("授权码设置成功", installPath)
+			f.passcode = string(passcode)
 			return passcode, password
 		}
 	}

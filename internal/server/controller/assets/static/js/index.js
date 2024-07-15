@@ -9,6 +9,10 @@ function init() {
     //     });
     // });
 
+    let wordsArray = ["你好", "世界", "JavaScript"];
+    let sentence = wordsArray.join(","); // 不使用分隔符
+    console.log(sentence);
+
     let password = localStorage.getItem('password');
     if (password) {
         checkAuth(password, () => {
@@ -254,16 +258,20 @@ function onNewAppclick() {
     let confurl = document.getElementById('confurl').value;
     let args = document.getElementById('args').value;
     let description = document.getElementById('description').value;
-    // let argsArray = args.match(/\S+/g); // 匹配所有非空白字符的序列
-    // if (name === '' || binurl === '' ) {
-    //     layer.msg('请正确输入', {icon: 0});
-    //     return
-    // }
+    let argsArray = args.match(/\S+/g); // 匹配所有非空白字符的序列
+    if (name === '' || binurl === '' ) {
+        layer.msg('请正确输入', {icon: 0});
+        return
+    }
+    let argstring = args
+    if (args && args !== ""){
+        argstring = argsArray.join(","); // 不使用分隔符
+    }
     let jsonObj = {
         name: name,
         binUrl: binurl,
         confurl: confurl,
-        args: args,
+        args: argstring,
         description:description
     }
     console.log(jsonObj);

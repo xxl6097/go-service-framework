@@ -48,9 +48,10 @@ func FindJavaPath() (string, error) {
 	if IsExist(pathEnv) {
 		return pathEnv, nil
 	}
-	if javaHome := os.Getenv("JAVA_HOME"); javaHome != "" {
+	javaHome := os.Getenv("JAVA_HOME")
+	if javaHome != "" {
 		fmt.Println("Using JAVA_HOME: " + javaHome)
-		javaPath := filepath.Join(javaHome, "java")
+		javaPath := filepath.Join(javaHome, "bin")
 		if IsExist(javaPath) {
 			return pathEnv, nil
 		}
