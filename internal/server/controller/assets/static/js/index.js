@@ -621,6 +621,7 @@ function checkAuth(password, sucess, failed) {
 function uninstall(sucess,failed) {
     const url = `/uninstall`;
     console.log(url)
+    let password = localStorage.getItem('password');
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.setRequestHeader("accessToken", password)
