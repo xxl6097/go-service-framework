@@ -7,7 +7,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"syscall"
 )
 
 // GetOsInfo
@@ -146,24 +145,24 @@ func Kill(process *os.Process) error {
 	return process.Kill()
 }
 
-func SysKill(proc *os.Process) {
-	// 终止 Java 进程及其子进程
-	if err := syscall.Kill(-proc.Pid, syscall.SIGKILL); err != nil {
-		fmt.Println("Error killing Java process:", err)
-		return
-	}
-}
-
-func Killpgid(proc *os.Process) {
-	// 终止 Java 进程及其子进程
-	pgid, err := syscall.Getpgid(proc.Pid)
-	if err != nil {
-		fmt.Println("Error getting process group ID:", err)
-		return
-	}
-
-	if err := syscall.Kill(-pgid, syscall.SIGKILL); err != nil {
-		fmt.Println("Error killing Java process group:", err)
-		return
-	}
-}
+//func SysKill(proc *os.Process) {
+//	// 终止 Java 进程及其子进程
+//	if err := syscall.Kill(-proc.Pid, syscall.SIGKILL); err != nil {
+//		fmt.Println("Error killing Java process:", err)
+//		return
+//	}
+//}
+//
+//func Killpgid(proc *os.Process) {
+//	// 终止 Java 进程及其子进程
+//	pgid, err := syscall.Getpgid(proc.Pid)
+//	if err != nil {
+//		fmt.Println("Error getting process group ID:", err)
+//		return
+//	}
+//
+//	if err := syscall.Kill(-pgid, syscall.SIGKILL); err != nil {
+//		fmt.Println("Error killing Java process group:", err)
+//		return
+//	}
+//}
