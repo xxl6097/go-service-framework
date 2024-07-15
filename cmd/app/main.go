@@ -6,7 +6,7 @@ import (
 	"github.com/xxl6097/go-service/gservice"
 )
 
-//go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
+// //go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
 func main() {
 	test()
 	glog.SetLogFile("./", "install.log")
