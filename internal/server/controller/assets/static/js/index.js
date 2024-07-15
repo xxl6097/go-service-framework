@@ -485,6 +485,21 @@ function showDialogInfo(width,height,content) {
     });
 }
 
+function onUninstallClick() {
+    var title = `确定卸载${newItem.name}程序吗？`
+    layer.confirm(title, {icon: 0}, function () {
+        uninstall(()=>{
+            layer.msg('程序卸载成功～');
+        },()=>{
+            layer.msg('程序卸载成功～');
+        })
+    }, function () {
+        layer.msg('感谢放过在下～', {icon: 1});
+    });
+
+
+}
+
 function getDeviceInfo() {
     const url = `/proc/info`;
     console.log(url)
@@ -581,6 +596,30 @@ function Login(password, sucess, failed) {
 
 function checkAuth(password, sucess, failed) {
     const url = `/auth`;
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('checkAuth====', xhr.readyState, xhr.status,xhr.response)
+            if (xhr.status === 200) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj && jsonObj.code === 0) {
+                    sucess()
+                } else {
+                    failed(jsonObj.msg)
+                }
+            } else {
+                failed(xhr.status)
+            }
+        }
+    };
+    xhr.send();
+}
+
+function uninstall(sucess,failed) {
+    const url = `/uninstall`;
     console.log(url)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
