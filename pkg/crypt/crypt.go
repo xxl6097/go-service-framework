@@ -39,13 +39,13 @@ func save(fullexecpath string, password []byte) error {
 	return nil
 }
 
-func SavePassword(fullexecpath string, password []byte) error {
+func SavePassword(fullexecpath string, password []byte) ([]byte, error) {
 	hash, err := createPassword(password)
 	if err != nil {
-		return errors.New(fmt.Sprintf("password hash create failed %v", err))
+		return hash, errors.New(fmt.Sprintf("password hash create failed %v", err))
 	}
 	//glog.Debug(string(password), string(hash))
-	return save(fullexecpath, hash)
+	return hash, save(fullexecpath, hash)
 }
 func GetPassword() []byte {
 	fullexecpath, err := os.Executable()

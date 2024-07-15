@@ -4,21 +4,30 @@ import (
 	"fmt"
 	"github.com/kardianos/service"
 	"github.com/xxl6097/go-glog/glog"
+	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/model"
+	"github.com/xxl6097/go-service-framework/internal/repository"
 	"github.com/xxl6097/go-service-framework/internal/server"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
+	"github.com/xxl6097/go-sqlite/sqlite"
+	"gorm.io/gorm"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
 )
 
 type Framework struct {
-	queue   chan *model.ProcModel
-	procs   map[string]*model.ProcModel
-	running bool
+	queue    chan *model.ProcModel
+	procs    map[string]*model.ProcModel
+	running  bool
+	db       *gorm.DB
+	confRepo iface.ISqlite[model.ConfigModel]
+	procRepo iface.ISqlite[model.ProcModel]
+	passcode string
 }
 
 func (f *Framework) inputArgs() []string {
@@ -34,25 +43,58 @@ func (f *Framework) inputArgs() []string {
 	}
 }
 
-func (f *Framework) inputAuthCode(installPath string) {
+func (f *Framework) getFirstConfigCache() *model.ConfigModel {
+	data, err := f.confRepo.First()
+	if err != nil || data == nil {
+		return nil
+	}
+	return data
+}
+func (f *Framework) inputAuthCode(installPath string) ([]byte, string) {
 	for {
 		var password string
 		fmt.Print("设置授权密码，请输入：")
 		fmt.Scan(&password)
 		password = strings.TrimSpace(password)
-		err := crypt.SavePassword(installPath, []byte(password))
+		passcode, err := crypt.SavePassword(installPath, []byte(password))
 		if err != nil {
 			fmt.Println("授权码设置失败，请重新设置！")
 		} else {
 			fmt.Println("授权码设置成功", installPath)
-			return
+			return passcode, password
 		}
 	}
 }
 
+func (f *Framework) initData(args []string, pass string) {
+	err := f.confRepo.Add(&model.ConfigModel{
+		Password: pass,
+		Args:     strings.Join(args, ","),
+	})
+	glog.Error(err)
+}
+
+func (f *Framework) hasConfig(installPath string) []string {
+	if f.db == nil {
+		f.db = sqlite.InitMysql(filepath.Join(installPath, "sqlite.db"))
+		f.confRepo = repository.NewConfRepository(f.db)
+		f.procRepo = repository.NewProcRepository(f.db)
+	}
+	data := f.getFirstConfigCache()
+	if data != nil {
+		return strings.Split(data.Args, ",")
+	}
+	return nil
+}
+
 func (f *Framework) OnInstall(installPath string) []string {
+	data := f.hasConfig(installPath)
+	if data != nil {
+		return data
+	}
 	args := f.inputArgs()
-	f.inputAuthCode(installPath)
+	hashcode, _ := f.inputAuthCode(installPath)
+	f.initData(args, string(hashcode))
 	return args
 }
 

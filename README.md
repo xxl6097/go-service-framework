@@ -11,6 +11,8 @@ go get -u github.com/xxl6097/go-glog@v0.0.17
 
 go get -u github.com/xxl6097/go-service@v0.0.39
 
+go get -u github.com/xxl6097/go-sqlite@v0.0.4
+
 go get -u github.com/xxl6097/go-http@v0.0.10
 
 goversioninfo -manifest versioninfo.json

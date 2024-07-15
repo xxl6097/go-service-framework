@@ -9,7 +9,7 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/server/controller/assets"
 	"github.com/xxl6097/go-service-framework/internal/server/controller/proc"
-	"github.com/xxl6097/go-service-framework/pkg/crypt"
+	"strings"
 )
 
 var tokenstring string
@@ -19,15 +19,14 @@ func Listen(port int, framework iface.IFramework) {
 	api.GetApi().Add(assets.NewRoute())
 	token.TokenUtils.Callback(func(s string) (bool, map[string]interface{}) {
 		glog.Println("Callback", s)
-		if tokenstring == "" {
-			bytearr := crypt.GetPassword()
-			if bytearr != nil {
-				tokenstring = string(bytearr)
-			}
-			//glog.Println("bytearr", tokenstring, bytearr)
-		}
-		//glog.Println("tokenstring", tokenstring)
-		if s == tokenstring {
+		//if tokenstring == "" {
+		//	bytearr := crypt.GetPassword()
+		//	if bytearr != nil {
+		//		tokenstring = string(bytearr)
+		//	}
+		//}
+		tokenstring = framework.GetPassCode()
+		if strings.EqualFold(s, tokenstring) {
 			return true, nil
 		}
 		return false, map[string]interface{}{"msg": "msg err"}

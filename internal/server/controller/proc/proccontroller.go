@@ -86,8 +86,9 @@ func (this *ProcController) new(w http.ResponseWriter, r *http.Request) {
 func (this *ProcController) login(w http.ResponseWriter, r *http.Request) {
 	password := r.Header.Get("accessToken")
 	glog.Debug(password)
-	if sucess, token := crypt.IsPasswordOk([]byte(password)); sucess {
-		res := Sucess(string(token))
+	hashcode := this.iframework.GetPassCode()
+	if crypt.ComparePassword([]byte(hashcode), []byte(password)) == nil { //sucess, token := crypt.IsPasswordOk([]byte(password)); sucess
+		res := Sucess(hashcode)
 		glog.Debug(res)
 		Respond(w, res)
 	} else {
@@ -102,7 +103,7 @@ func (this *ProcController) uninstall(w http.ResponseWriter, r *http.Request) {
 func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
 	password := r.Header.Get("accessToken")
 	//glog.Debug(password)
-	if crypt.IsHashOk([]byte(password)) {
+	if strings.EqualFold(this.iframework.GetPassCode(), password) { //crypt.IsHashOk([]byte(password))
 		Respond(w, Sucessfully())
 	} else {
 		Respond(w, Errors(errors.New("密码错误")))

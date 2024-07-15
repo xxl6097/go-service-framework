@@ -10,4 +10,5 @@ type IFramework interface {
 	StartProcess(string) error
 	StopProcess(string) error
 	RestartProcess(string) error
+	GetPassCode() string
 }

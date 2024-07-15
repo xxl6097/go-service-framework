@@ -4,24 +4,49 @@ import (
 	"errors"
 	"fmt"
 	"github.com/xxl6097/go-glog/glog"
-	"github.com/xxl6097/go-service-framework/internal/config"
 	"github.com/xxl6097/go-service-framework/internal/model"
+	"github.com/xxl6097/go-service-framework/internal/repository"
 	"github.com/xxl6097/go-service-framework/pkg/file"
 	"github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/java"
+	os2 "github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-sqlite/sqlite"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
 func (f *Framework) loadConfig() {
-	exes, err := config.Get()
-	if err == nil && exes != nil {
-		glog.Println(exes)
-		for _, v := range exes {
-			go f.createProcess(&v)
+	bindir, _ := os.Getwd()
+	if bindir != "" {
+		if f.db == nil {
+			f.db = sqlite.InitMysql(filepath.Join(bindir, "sqlite.db"))
+			f.confRepo = repository.NewConfRepository(f.db)
+			f.procRepo = repository.NewProcRepository(f.db)
+			conf, e := f.confRepo.First()
+			if e == nil {
+				f.passcode = conf.Password
+				glog.Debug(conf)
+			}
+			if os2.IsMacOs() {
+				f.OnInstall(bindir)
+			}
+			datas, e := f.procRepo.FindAll()
+			if e == nil && datas != nil && len(datas) > 0 {
+				for _, v := range datas {
+					go f.createProcess(&v)
+				}
+			}
 		}
 	}
+	//exes, err := config.Get()
+	//if err == nil && exes != nil {
+	//	glog.Println(exes)
+	//	for _, v := range exes {
+	//		go f.createProcess(&v)
+	//	}
+	//}
 }
 
 // checkConfigFile 检查config配置文件
@@ -221,9 +246,13 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		args = []string{binPath, "-jar", jar}
 	}
 
-	if proc.Args != nil && len(proc.Args) > 0 {
-		args = append(args, proc.Args...)
+	_args := strings.Split(proc.Args, ",")
+	if _args != nil && len(_args) > 0 {
+		args = append(args, _args...)
 	}
+	//if proc.Args != nil && len(proc.Args) > 0 {
+	//	args = append(args, proc.Args...)
+	//}
 	//glog.Debug("===>", binPath, args)
 	err1 := os.Chmod(binPath, 0755)
 	if err1 == nil {
@@ -264,7 +293,8 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			return
 		} else {
 			proc.Status = "运行中"
-			config.Save(*proc)
+			//config.Save(*proc)
+			this.procRepo.Save(proc)
 		}
 		glog.Debugf("【%s】程序启动成功", proc.Name)
 		status, err4 := p.Wait()
@@ -292,7 +322,8 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			} else {
 				glog.Debug("进程结束，程序删除成功", binDir)
 			}
-			config.Delete(proc.Name)
+			//config.Delete(proc.Name)
+			this.procRepo.Delete(proc)
 			return
 		}
 		glog.Warnf("【%s】进程停止,10秒后重新启动", proc.Name)

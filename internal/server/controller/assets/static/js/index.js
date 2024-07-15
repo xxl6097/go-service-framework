@@ -254,16 +254,16 @@ function onNewAppclick() {
     let confurl = document.getElementById('confurl').value;
     let args = document.getElementById('args').value;
     let description = document.getElementById('description').value;
-    let argsArray = args.match(/\S+/g); // 匹配所有非空白字符的序列
-    if (name === '' || binurl === '' ) {
-        layer.msg('请正确输入', {icon: 0});
-        return
-    }
+    // let argsArray = args.match(/\S+/g); // 匹配所有非空白字符的序列
+    // if (name === '' || binurl === '' ) {
+    //     layer.msg('请正确输入', {icon: 0});
+    //     return
+    // }
     let jsonObj = {
         name: name,
         binUrl: binurl,
         confurl: confurl,
-        args: argsArray,
+        args: args,
         description:description
     }
     console.log(jsonObj);

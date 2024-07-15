@@ -97,3 +97,7 @@ func (f *Framework) Delete(name string) error {
 	}
 	return errors.New(fmt.Sprintf("%s proc is not exist", name))
 }
+
+func (f *Framework) GetPassCode() string {
+	return f.passcode
+}
