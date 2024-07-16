@@ -20,12 +20,16 @@ github.com/xxl6097/go-service v0.0.38 h1:+cSyMZi8D82N+UCqVXVjSxGdbUK5BJW/7wC/cRm
 github.com/xxl6097/go-service v0.0.38/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-service v0.0.39 h1:14i+awBMiX5VNLJDvn15kLqRTqmuKY0oLoi/q7o7H6c=
 github.com/xxl6097/go-service v0.0.39/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
+github.com/xxl6097/go-service v0.0.40 h1:0pHdbYeTNJNv2zjimWDvNp4gewTEtGExeqOXIFebniI=
+github.com/xxl6097/go-service v0.0.40/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-sqlite v0.0.2 h1:KTKbvH1ynUqC3i2JBBKTUpXdB+L0GSijPU4+2xnEbfw=
 github.com/xxl6097/go-sqlite v0.0.2/go.mod h1:ubLhCZQu/Cxl5gifAv3pjqtxu7dumt7mFhS0waiVtWA=
 github.com/xxl6097/go-sqlite v0.0.3 h1:+u+2jQw5rP6aCi3Oq6JhehXZg5CIaoeYMoRio3bbkEA=
 github.com/xxl6097/go-sqlite v0.0.3/go.mod h1:ubLhCZQu/Cxl5gifAv3pjqtxu7dumt7mFhS0waiVtWA=
 github.com/xxl6097/go-sqlite v0.0.4 h1:iLJ/GPb9APMJGf20x+X7PbwC7Bsr+8nJ1thQCSDteH4=
 github.com/xxl6097/go-sqlite v0.0.4/go.mod h1:ubLhCZQu/Cxl5gifAv3pjqtxu7dumt7mFhS0waiVtWA=
+github.com/xxl6097/go-sqlite v0.0.5 h1:EICaGPeMlIoi7WAHLKNkYRsF1wx2sEU7icaYi3TGyg0=
+github.com/xxl6097/go-sqlite v0.0.5/go.mod h1:ubLhCZQu/Cxl5gifAv3pjqtxu7dumt7mFhS0waiVtWA=
 golang.org/x/crypto v0.25.0 h1:ypSNr+bnYL2YhwoMt2zPxHFmbAN1KZs/njMG3hxUp30=
 golang.org/x/crypto v0.25.0/go.mod h1:T+wALwcMOSE0kXgUAnPAHqTLW+XHgcELELW8VaDgm/M=
 golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
