@@ -1,7 +1,7 @@
 #!/bin/bash
 #修改为自己的应用名称
 appname=AuGoService
-DisplayName=AuGoService
+DisplayName=基于Golang后台服务管理程序
 Description="基于Go语言的服务程序，可安装和管理第三方应用程序，可运行于Windows、Linux、Macos、Openwrt等各类操作系统。"
 version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
@@ -46,7 +46,6 @@ function GetLDFLAGS() {
   os_name=$(uname -s)
   #echo "os type $os_name"
   APP_NAME=${appname}
-  APP_VERSION=${appversion}
   BUILD_VERSION=$(if [ "$(git describe --tags --abbrev=0 2>/dev/null)" != "" ]; then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
   BUILD_TIME=$(TZ=Asia/Shanghai date +%FT%T%z)
   GIT_REVISION=$(git rev-parse --short HEAD)
@@ -56,7 +55,7 @@ function GetLDFLAGS() {
  -X '${versionDir}.AppName=${APP_NAME}'\
  -X '${versionDir}.DisplayName=${DisplayName}'\
  -X '${versionDir}.Description=${Description}'\
- -X '${versionDir}.AppVersion=${APP_VERSION}'\
+ -X '${versionDir}.AppVersion=${BUILD_VERSION}'\
  -X '${versionDir}.BuildVersion=${BUILD_VERSION}'\
  -X '${versionDir}.BuildTime=${BUILD_TIME}'\
  -X '${versionDir}.GitRevision=${GIT_REVISION}'\
