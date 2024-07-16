@@ -7,7 +7,7 @@ require (
 	github.com/kardianos/service v1.2.2
 	github.com/xxl6097/go-glog v0.0.18
 	github.com/xxl6097/go-http v0.0.10
-	github.com/xxl6097/go-service v0.0.46
+	github.com/xxl6097/go-service v0.0.49
 	golang.org/x/crypto v0.25.0
 )
 
