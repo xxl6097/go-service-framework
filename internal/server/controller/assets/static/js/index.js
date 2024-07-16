@@ -188,7 +188,9 @@ function onMarketHandle() {
 function onAppStoreClick() {
     getAppList(response=>{
         onAppStoreHandle(response.data)
-    },error=>{})
+    },error=>{
+        layer.msg(error);
+    })
 }
 
 function onAppStoreHandle(json) {

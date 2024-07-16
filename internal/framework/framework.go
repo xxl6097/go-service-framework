@@ -25,6 +25,24 @@ type Framework struct {
 	passcode string
 }
 
+func (f *Framework) Unkown(arg string, installPath string) {
+	switch arg {
+	case "appstore":
+		if f.cache == nil {
+			f.cache = cache.NewCache(installPath)
+		}
+		config := f.cache.Get()
+		if config == nil {
+			config = &model.ConfigModel{}
+		}
+		if len(os.Args) > 2 {
+			config.AppStoreUrl = os.Args[2]
+			glog.Debug("appstore", config.AppStoreUrl)
+			f.cache.Set(config)
+		}
+	}
+}
+
 func (f *Framework) inputArgs() []string {
 	for {
 		var port int

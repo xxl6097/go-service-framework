@@ -8,6 +8,7 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
+	http2 "github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/jsonutil"
 	"github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
@@ -15,6 +16,7 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
+	"time"
 )
 
 type ProcController struct {
@@ -112,6 +114,45 @@ func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
 }
 
 func (this *ProcController) getAppList(w http.ResponseWriter, r *http.Request) {
+	if this.iframework == nil {
+		Respond(w, Errors(errors.New("framework is nil")))
+		return
+	}
+	config := this.iframework.GetConfig()
+	if config == nil {
+		Respond(w, Errors(errors.New("config is nil")))
+		return
+	}
+	if config.AppStoreUrl == "" {
+		Respond(w, Errors(errors.New("AppStoreUrl is nil")))
+		return
+	}
+	response, err := http2.Get(config.AppStoreUrl, nil, time.Second*5)
+	if err != nil || response == nil {
+		Respond(w, Errors(errors.New("http get failed")))
+		return
+	}
+	maps := jsonutil.JsonToMap(response)
+	if maps == nil {
+		Respond(w, Errors(errors.New("json parse failed")))
+		return
+	}
+	for k, v := range maps {
+		if strings.Compare(k, runtime.GOOS) == 0 {
+			if s, ok := v.(map[string]interface{}); ok {
+				fmt.Println("Interface value is a string:", s, s[runtime.GOARCH])
+				Respond(w, Sucess(s[runtime.GOARCH]))
+				return
+			} else {
+				fmt.Println("Interface value is not a string")
+			}
+
+		}
+	}
+	Respond(w, Errors(errors.New("no app")))
+}
+
+func (this *ProcController) getAppList1(w http.ResponseWriter, r *http.Request) {
 	//applist := "[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]"
 	//arrays, _ := jsonutil.JsonString2Any(applist)
 	//jsonstr := "[{\"windows\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"wechat\",\"args\":[\"-d\",\"conf.toml\"],\"description\":\"微信应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"QQ\",\"args\":[\"-d\",\"qq.toml\"],\"description\":\"QQ应用程序，用于测试\"}]}},{\"linux\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"dingtalk\",\"args\":[\"-d\",\"dingtalk.toml\"],\"description\":\"dingtalk应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]}},{\"darwin\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"dingtalk\",\"args\":[\"-d\",\"dingtalk.toml\"],\"description\":\"dingtalk应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]}}]"
@@ -142,7 +183,7 @@ func (this *ProcController) getAppList(w http.ResponseWriter, r *http.Request) {
 
 		}
 	}
-	Respond(w, Errors(errors.New("")))
+	Respond(w, Errors(errors.New("no app")))
 }
 
 func (this *ProcController) appMarket(w http.ResponseWriter, r *http.Request) {

@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+func (f *Framework) GetConfig() *model.ConfigModel {
+	if f.cache == nil {
+		return nil
+	}
+	return f.cache.Get()
+}
 func (f *Framework) GetAll() []model.ProcModel {
 	procs := make([]model.ProcModel, 0)
 	for _, v := range f.procs {

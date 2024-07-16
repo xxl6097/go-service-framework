@@ -6,6 +6,7 @@ type IFramework interface {
 	AddElement(*model.ProcModel)
 	TakeElement() *model.ProcModel
 	GetAll() []model.ProcModel
+	GetConfig() *model.ConfigModel
 	Delete(string) error
 	StartProcess(string) error
 	StopProcess(string) error

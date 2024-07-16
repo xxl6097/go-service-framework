@@ -9,13 +9,15 @@ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build-trimpath -ldflags "-linkmode in
 
 go get -u github.com/xxl6097/go-glog@v0.0.17
 
-go get -u github.com/xxl6097/go-service@v0.0.44
+go get -u github.com/xxl6097/go-service@v0.0.45
 
 go get -u github.com/xxl6097/go-sqlite@v0.0.6
 
 go get -u github.com/xxl6097/go-http@v0.0.10
 
 goversioninfo -manifest versioninfo.json
+
+http://uuxia.cn:8086/files/soft/json/appstore.json
 
 
 ```azure
