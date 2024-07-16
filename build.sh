@@ -113,8 +113,9 @@ function menu() {
   echo "7. 编译 Darwin amd64"
   echo "请输入编号:"
   read -r -a my_array "$@"
+  tag
   for index in "${my_array[@]}"; do
-      echo "-->$index"
+      #echo "-->$index"
       case "$index" in
         [1]) (build_win windows amd64) ;;
         [2]) (build_windows_arm64) ;;
@@ -126,7 +127,6 @@ function menu() {
         *) echo "exit" ;;
         esac
   done
-  tag
 }
 menu
 
