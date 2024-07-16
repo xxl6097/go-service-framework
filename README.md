@@ -11,7 +11,7 @@ go get -u github.com/xxl6097/go-glog@v0.0.17
 
 go get -u github.com/xxl6097/go-service@v0.0.44
 
-go get -u github.com/xxl6097/go-sqlite@v0.0.5
+go get -u github.com/xxl6097/go-sqlite@v0.0.6
 
 go get -u github.com/xxl6097/go-http@v0.0.10
 
