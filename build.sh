@@ -102,6 +102,7 @@ function build_windows_arm64() {
   bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
 }
 
+# shellcheck disable=SC2120
 function menu() {
   echo "1. 编译 Windows amd64"
   echo "2. 编译 Windows arm64"
@@ -111,18 +112,21 @@ function menu() {
   echo "6. 编译 Darwin arm64"
   echo "7. 编译 Darwin amd64"
   echo "请输入编号:"
-  read index
+  read -r -a my_array "$@"
+  for index in "${my_array[@]}"; do
+      echo "-->$index"
+      case "$index" in
+        [1]) (build_win windows amd64) ;;
+        [2]) (build_windows_arm64) ;;
+        [3]) (build linux amd64) ;;
+        [4]) (build linux arm64) ;;
+        [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
+        [6]) (build darwin arm64) ;;
+        [7]) (build darwin amd64) ;;
+        *) echo "exit" ;;
+        esac
+  done
   tag
-  case "$index" in
-  [1]) (build_win windows amd64) ;;
-  [2]) (build_windows_arm64) ;;
-  [3]) (build linux amd64) ;;
-  [4]) (build linux arm64) ;;
-  [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
-  [6]) (build darwin arm64) ;;
-  [7]) (build darwin amd64) ;;
-  *) echo "exit" ;;
-  esac
 }
 menu
 
