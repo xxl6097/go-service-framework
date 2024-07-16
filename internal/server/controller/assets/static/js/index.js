@@ -511,7 +511,7 @@ function getDeviceInfo() {
                 jsonObj = JSON.parse(xhr.response)
                 if (jsonObj) {
                     //layer.msg(`${JSON.stringify(jsonObj.data)}`, {icon: 0});
-                    showDialogInfo('420px', '430px',JSON.stringify(jsonObj.data))
+                    showDialogInfo('420px', '730px',JSON.stringify(jsonObj.data))
                 }
             }
         } else {
