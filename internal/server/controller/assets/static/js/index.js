@@ -219,7 +219,7 @@ function onAppStoreHandle(json) {
 
                         setTimeout(()=>{
                             refresh()
-                        },2000)
+                        },6000)
                         if (dialog){
                             dialog.style.display = "none";
                         }
@@ -298,7 +298,7 @@ function onNewAppclick() {
         layer.msg('新建成功', {icon: 1});
         setTimeout(()=>{
             refresh()
-        },2000)
+        },6000)
     }, err => {
         console.log('failed', err)
         layer.msg('新建失败', {icon: 0});
