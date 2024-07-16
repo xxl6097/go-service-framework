@@ -194,6 +194,7 @@ function onAppStoreClick() {
 }
 
 function onAppStoreHandle(json) {
+    let dialog;
     var table = creteTable(tbody=>{
         Object.entries(json).forEach(([key, value]) => {//arm64
 
@@ -215,12 +216,21 @@ function onAppStoreHandle(json) {
                         console.log('sucess', response)
                         newModel.style.display = 'none';
                         layer.msg('程序新建成功', {icon: 1});
+                        if (dialog){
+                            dialog.style.display = "none";
+                        }
                     }, err => {
                         console.log('failed', err)
                         layer.msg('程序新建失败', {icon: 0});
+                        if (dialog){
+                            dialog.style.display = "none";
+                        }
                     })
                 }, function () {
                     layer.msg('再会～', {icon: 1});
+                    if (dialog){
+                        dialog.style.display = "none";
+                    }
                 });
 
             });
@@ -234,7 +244,7 @@ function onAppStoreHandle(json) {
 
 
     })
-    showModelDialog('AppStore',table,()=>{
+    dialog = showModelDialog('AppStore',table,()=>{
         clearTable(table)
     })
 }
