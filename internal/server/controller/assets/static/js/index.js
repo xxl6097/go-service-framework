@@ -223,18 +223,21 @@ function onAppStoreHandle(json) {
                         if (dialog){
                             dialog.style.display = "none";
                         }
+                        clearTable(table)
                     }, err => {
                         console.log('failed', err)
                         layer.msg('程序新建失败', {icon: 0});
                         if (dialog){
                             dialog.style.display = "none";
                         }
+                        clearTable(table)
                     })
                 }, function () {
                     layer.msg('再会～', {icon: 1});
                     if (dialog){
                         dialog.style.display = "none";
                     }
+                    clearTable(table)
                 });
 
             });
@@ -248,7 +251,7 @@ function onAppStoreHandle(json) {
 
 
     })
-    dialog = showModelDialog('AppStore',table,()=>{
+    dialog = showModelDialog('应用市场',table,()=>{
         clearTable(table)
     })
 }
