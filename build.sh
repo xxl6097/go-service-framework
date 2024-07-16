@@ -68,8 +68,8 @@ function build_linux_mips_opwnert_REDMI_AC2100() {
   rm -rf bin
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
-  CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_linux_mipsle ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_linux_mipsle
+  CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_linux_mipsle ./cmd/app
+  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_linux_mipsle
 }
 
 function build() {
