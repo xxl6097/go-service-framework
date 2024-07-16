@@ -9,6 +9,18 @@ import (
 	"time"
 )
 
+func (f *Framework) SetAppStore(url string) {
+	if url == "" || f.cache == nil {
+		return
+	}
+	config := f.cache.Get()
+	if config == nil {
+		return
+	}
+	config.AppStoreUrl = url
+	glog.Debug("appstore", url)
+	f.cache.Set(config)
+}
 func (f *Framework) GetConfig() *model.ConfigModel {
 	if f.cache == nil {
 		return nil

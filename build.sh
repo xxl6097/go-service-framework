@@ -115,7 +115,6 @@ function menu() {
   read -r -a my_array "$@"
   tag
   for index in "${my_array[@]}"; do
-      #echo "-->$index"
       case "$index" in
         [1]) (build_win windows amd64) ;;
         [2]) (build_windows_arm64) ;;

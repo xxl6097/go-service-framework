@@ -7,6 +7,7 @@ type IFramework interface {
 	TakeElement() *model.ProcModel
 	GetAll() []model.ProcModel
 	GetConfig() *model.ConfigModel
+	SetAppStore(string)
 	Delete(string) error
 	StartProcess(string) error
 	StopProcess(string) error

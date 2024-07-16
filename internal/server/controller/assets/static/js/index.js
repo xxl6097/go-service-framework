@@ -190,7 +190,48 @@ function onAppStoreClick() {
         onAppStoreHandle(response.data)
     },error=>{
         layer.msg(error);
+        onSettingAppStoreUrl('dialog')
     })
+}
+
+function onSettingAppStoreUrl(msgid) {
+    if (msgid === 'dialog'){
+        let dialog;
+        var div = document.createElement('div');
+        var div0 = document.createElement('div');
+        div0.className = 'layui-form-item'
+        var input = document.createElement('input');
+        input.className = 'layui-input'
+        input.placeholder = '请输入AppStoree地址'
+        div0.appendChild(input)
+        var div1 = document.createElement('div');
+        div1.className = 'layui-form-item'
+        var button = document.createElement('button');
+        button.textContent = '确定'
+        button.className = 'layui-btn'
+        button.addEventListener('click', function () {
+            settingAppStore(input.value,()=>{
+                layer.msg('设置成功');
+            },(msg)=>{
+                layer.msg(msg, {icon: 0});
+            })
+            if(dialog){
+                dialog.style.display = 'none'
+            }
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+        })
+        div1.appendChild(button)
+        div.appendChild(div0)
+        div.appendChild(div1)
+        dialog = showModelDialog('设置AppStore地址',div,()=>{
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+        })
+    }else{
+    }
 }
 
 function onAppStoreHandle(json) {
@@ -681,6 +722,31 @@ function uninstall(sucess,failed) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             console.log('checkAuth====', xhr.readyState, xhr.status,xhr.response)
+            if (xhr.status === 200) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj && jsonObj.code === 0) {
+                    sucess()
+                } else {
+                    failed(jsonObj.msg)
+                }
+            } else {
+                failed(xhr.status)
+            }
+        }
+    };
+    xhr.send();
+}
+
+function settingAppStore(appsurl,sucess,failed) {
+    const url = `/setting/appstore?url=${appsurl}`;
+    console.log(url)
+    let password = localStorage.getItem('password');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('settingAppStore====', xhr.readyState, xhr.status,xhr.response)
             if (xhr.status === 200) {
                 jsonObj = JSON.parse(xhr.response)
                 if (jsonObj && jsonObj.code === 0) {

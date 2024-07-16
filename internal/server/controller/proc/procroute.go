@@ -39,6 +39,12 @@ func (this *ProcRoute) Setup(router *mux.Router) {
 	})
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodPost,
+		Path:   "/setting/appstore",
+		Fun:    this.controller.settingAppStore,
+		NoAuth: false,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodPost,
 		Path:   "/proc/new",
 		Fun:    this.controller.new,
 		NoAuth: false,

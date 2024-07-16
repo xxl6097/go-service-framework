@@ -75,6 +75,18 @@ func (this *ProcController) info(w http.ResponseWriter, r *http.Request) {
 	Respond(w, Sucess(arrays))
 }
 
+func (this *ProcController) settingAppStore(w http.ResponseWriter, r *http.Request) {
+	url := util.GetRequestParam(r, "url")
+	if url != "" {
+		glog.Warn("resp---->", url)
+		if this.iframework != nil {
+			this.iframework.SetAppStore(url)
+		}
+		Respond(w, Sucessfully())
+	} else {
+		Respond(w, Errors(errors.New("url is nil")))
+	}
+}
 func (this *ProcController) new(w http.ResponseWriter, r *http.Request) {
 	req := util.GetReqData[model.ProcModel](w, r)
 	if req != nil {
