@@ -141,6 +141,7 @@ func (f *Framework) Stop(s service.Service) error {
 func (f *Framework) Config() *service.Config {
 	if os2.IsMacOs() {
 		version.AppName = "AAFrameWork"
+		version.AppVersion = "0.0.1"
 		version.DisplayName = "AAFrameWork"
 		version.Description = "A Test AAFrameWork"
 	}

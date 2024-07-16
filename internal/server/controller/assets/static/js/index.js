@@ -2,21 +2,10 @@ var newModel = document.getElementById('newModel');
 
 
 function init() {
-    // Object.entries(testjson).forEach(([key, value]) => {
-    //     console.log('key:',key,'value:',value); // 打印键和对应的值
-    //     Object.entries(value).forEach(([key1, value1]) => {
-    //         console.log('key1:',key1,'value1:',value1); // 打印键和对应的值
-    //     });
-    // });
-
-    let wordsArray = ["你好", "世界", "JavaScript"];
-    let sentence = wordsArray.join(","); // 不使用分隔符
-    console.log(sentence);
-
     let password = localStorage.getItem('password');
     if (password) {
-        checkAuth(password, () => {
-            showMain()
+        checkAuth(password, (json) => {
+            showMain(json)
         }, (error) => {
             //layer.msg(`认证失败 ${error}`, {icon: 0});
             showAuth()
@@ -305,7 +294,7 @@ function Toast(content, timeout) {
 function initLogin(password) {
     Login(password, response => {
         //登录成功，现实主界面，存储password
-        showMain()
+        showMain(undefined)
         localStorage.setItem('password', response.data);
         console.log('认证成功', response)
         layer.msg(`认证成功`, {icon: 0});
@@ -323,9 +312,13 @@ function showAuth() {
     clear()
 }
 
-function showMain() {
+function showMain(json) {
     document.getElementById('content').style.display = 'block';
     document.getElementById('auth').style.display = 'none';
+    if (json && json !== undefined){
+        document.getElementById('app_name').innerText = json.appName + ' v' + json.appVersion
+        document.getElementById('app_desc').innerText = json.description
+    }
     getAll((code, response) => {
         if (code === 200) {
             if (response.code === 0) {
@@ -610,7 +603,7 @@ function checkAuth(password, sucess, failed) {
             if (xhr.status === 200) {
                 jsonObj = JSON.parse(xhr.response)
                 if (jsonObj && jsonObj.code === 0) {
-                    sucess()
+                    sucess(jsonObj.data)
                 } else {
                     failed(jsonObj.msg)
                 }

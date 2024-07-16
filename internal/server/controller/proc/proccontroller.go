@@ -10,6 +10,7 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	"github.com/xxl6097/go-service-framework/pkg/jsonutil"
 	"github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/version"
 	"github.com/xxl6097/go-service/gservice"
 	"net/http"
 	"runtime"
@@ -104,7 +105,7 @@ func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {
 	password := r.Header.Get("accessToken")
 	//glog.Debug(password)
 	if strings.EqualFold(this.iframework.GetPassCode(), password) { //crypt.IsHashOk([]byte(password))
-		Respond(w, Sucessfully())
+		Respond(w, Sucess(version.VersionJson()))
 	} else {
 		Respond(w, Errors(errors.New("密码错误")))
 	}

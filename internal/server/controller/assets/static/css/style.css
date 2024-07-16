@@ -84,7 +84,7 @@ body {
     }
 
 
-    #title_h2 {
+    .title_h2 {
         color: black;
         margin-bottom: 10px;
     }
@@ -190,7 +190,7 @@ body {
     }
 
 
-    #title_h2 {
+    .title_h2 {
         color: white;
         margin-bottom: 10px;
     }

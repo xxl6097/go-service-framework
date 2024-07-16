@@ -28,3 +28,16 @@ func Version() string {
 	fmt.Println(version)
 	return version
 }
+
+func VersionJson() map[string]interface{} {
+	return map[string]interface{}{
+		"appName":      AppName,
+		"description":  Description,
+		"appVersion":   AppVersion,
+		"buildVersion": BuildVersion,
+		"buildTime":    BuildTime,
+		"gitRevision":  GitRevision,
+		"gitBranch":    GitBranch,
+		"goVersion":    GoVersion,
+	}
+}
