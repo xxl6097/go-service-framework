@@ -353,6 +353,10 @@ function refresh() {
             if (response.code === 0) {
                 if (response.data) {
                     // 使用 for...of 循环倒序遍历数组
+                    var table = document.getElementById("myTable");
+                    if (table){
+                        clearTable(table)
+                    }
                     for (var element of response.data.reverse()) {
                         addItemByGet(element)
                     }
