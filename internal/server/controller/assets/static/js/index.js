@@ -219,7 +219,7 @@ function onAppStoreHandle(json) {
 
                         setTimeout(()=>{
                             refresh()
-                        },3000)
+                        },2000)
                         if (dialog){
                             dialog.style.display = "none";
                         }
@@ -295,7 +295,7 @@ function onNewAppclick() {
         layer.msg('新建成功', {icon: 1});
         setTimeout(()=>{
             refresh()
-        },3000)
+        },2000)
     }, err => {
         console.log('failed', err)
         layer.msg('新建失败', {icon: 0});
@@ -535,7 +535,7 @@ function onUninstallClick() {
             layer.msg('程序卸载成功～');
             setTimeout(()=>{
                 refresh()
-            },3000)
+            },2000)
         },()=>{
             layer.msg('程序卸载成功～');
         })
