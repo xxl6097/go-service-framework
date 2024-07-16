@@ -24,6 +24,8 @@ github.com/xxl6097/go-service v0.0.40 h1:0pHdbYeTNJNv2zjimWDvNp4gewTEtGExeqOXIFe
 github.com/xxl6097/go-service v0.0.40/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-service v0.0.41 h1:urzDEbHoRSA5DDLwpMVd2MUN3xc5UbQSctjo5JUHo+U=
 github.com/xxl6097/go-service v0.0.41/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
+github.com/xxl6097/go-service v0.0.42 h1:ngg3xs4Dkbzu+bkqyUFH91iD4w00JKV2DVP03mb2xoE=
+github.com/xxl6097/go-service v0.0.42/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-sqlite v0.0.2 h1:KTKbvH1ynUqC3i2JBBKTUpXdB+L0GSijPU4+2xnEbfw=
 github.com/xxl6097/go-sqlite v0.0.2/go.mod h1:ubLhCZQu/Cxl5gifAv3pjqtxu7dumt7mFhS0waiVtWA=
 github.com/xxl6097/go-sqlite v0.0.3 h1:+u+2jQw5rP6aCi3Oq6JhehXZg5CIaoeYMoRio3bbkEA=
