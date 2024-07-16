@@ -216,6 +216,10 @@ function onAppStoreHandle(json) {
                         console.log('sucess', response)
                         newModel.style.display = 'none';
                         layer.msg('程序新建成功', {icon: 1});
+
+                        setTimeout(()=>{
+                            refresh()
+                        },3000)
                         if (dialog){
                             dialog.style.display = "none";
                         }
@@ -289,6 +293,9 @@ function onNewAppclick() {
         console.log('sucess', response)
         newModel.style.display = 'none';
         layer.msg('新建成功', {icon: 1});
+        setTimeout(()=>{
+            refresh()
+        },3000)
     }, err => {
         console.log('failed', err)
         layer.msg('新建失败', {icon: 0});
@@ -337,14 +344,7 @@ function showAuth() {
     clear()
 }
 
-function showMain(json) {
-    document.getElementById('content').style.display = 'block';
-    document.getElementById('auth').style.display = 'none';
-    if (json && json !== undefined){
-        document.getElementById('app_name').innerText = `${json.displayName} ${json.appVersion}`;
-        document.getElementById('app_desc').innerText = json.description;
-        document.title = `${json.appName} ${json.appVersion}`;
-    }
+function refresh() {
     getAll((code, response) => {
         if (code === 200) {
             if (response.code === 0) {
@@ -358,6 +358,17 @@ function showMain(json) {
             }
         }
     })
+}
+
+function showMain(json) {
+    document.getElementById('content').style.display = 'block';
+    document.getElementById('auth').style.display = 'none';
+    if (json && json !== undefined){
+        document.getElementById('app_name').innerText = `${json.displayName} ${json.appVersion}`;
+        document.getElementById('app_desc').innerText = json.description;
+        document.title = `${json.appName} ${json.appVersion}`;
+    }
+    refresh()
 }
 
 function insertRow(tbody, newRow, newItem) {
@@ -376,6 +387,9 @@ function insertRow(tbody, newRow, newItem) {
             post('stop', newItem.name, (data) => {
                 //showToast('停止成功')
                 layer.msg('停止成功', {icon: 1});
+                setTimeout(()=>{
+                    refresh()
+                },1000)
             }, (err) => {
                 // showToast('停止失败')
                 layer.msg('停止失败', {icon: 0});
@@ -397,6 +411,9 @@ function insertRow(tbody, newRow, newItem) {
         layer.confirm(title, {icon: 0}, function () {
             post('restart', newItem.name, (data) => {
                 layer.msg('重启成功', {icon: 1});
+                setTimeout(()=>{
+                    refresh()
+                },1000)
             }, (err) => {
                 layer.msg('重启失败', {icon: 0});
             })
@@ -414,6 +431,9 @@ function insertRow(tbody, newRow, newItem) {
         layer.confirm(title, {icon: 0}, function () {
             post('del', newItem.name, (data) => {
                 layer.msg('删除成功', {icon: 1});
+                setTimeout(()=>{
+                    refresh()
+                },1000)
             }, (err) => {
                 layer.msg('删除失败', {icon: 0});
             })
@@ -513,6 +533,9 @@ function onUninstallClick() {
     layer.confirm(title, {icon: 0}, function () {
         uninstall(()=>{
             layer.msg('程序卸载成功～');
+            setTimeout(()=>{
+                refresh()
+            },3000)
         },()=>{
             layer.msg('程序卸载成功～');
         })
