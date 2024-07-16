@@ -389,7 +389,7 @@ function insertRow(tbody, newRow, newItem) {
                 layer.msg('停止成功', {icon: 1});
                 setTimeout(()=>{
                     refresh()
-                },1000)
+                },2000)
             }, (err) => {
                 // showToast('停止失败')
                 layer.msg('停止失败', {icon: 0});
@@ -413,7 +413,7 @@ function insertRow(tbody, newRow, newItem) {
                 layer.msg('重启成功', {icon: 1});
                 setTimeout(()=>{
                     refresh()
-                },1000)
+                },2000)
             }, (err) => {
                 layer.msg('重启失败', {icon: 0});
             })
@@ -433,7 +433,7 @@ function insertRow(tbody, newRow, newItem) {
                 layer.msg('删除成功', {icon: 1});
                 setTimeout(()=>{
                     refresh()
-                },1000)
+                },2000)
             }, (err) => {
                 layer.msg('删除失败', {icon: 0});
             })
