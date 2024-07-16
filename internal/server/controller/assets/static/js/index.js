@@ -208,7 +208,21 @@ function onAppStoreHandle(json) {
             installBtn.textContent = '安装';
             installBtn.style = 'margin-right: 5px; margin-left: 5px;'
             installBtn.addEventListener('click', function () {
-                layer.msg('感谢放过在下～' + value.name);
+                //layer.msg('感谢放过在下～' + value.name);
+                console.log(value);
+                layer.confirm(`确定按照${value.name}程序吗？`, {icon: 0}, function () {
+                    newApp(value, response => {
+                        console.log('sucess', response)
+                        newModel.style.display = 'none';
+                        layer.msg('程序新建成功', {icon: 1});
+                    }, err => {
+                        console.log('failed', err)
+                        layer.msg('程序新建失败', {icon: 0});
+                    })
+                }, function () {
+                    layer.msg('再会～', {icon: 1});
+                });
+
             });
 
             cell0.innerText = value.name
@@ -228,7 +242,6 @@ function onAppStoreHandle(json) {
 
 function testBtn() {
     //clear()
-
     Object.entries(marketJson).forEach(([key2, value2]) => {//arm64
         console.log(key2,value2)
     });
