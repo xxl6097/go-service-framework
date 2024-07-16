@@ -45,10 +45,7 @@ func (c *cache) HasCache() bool {
 	return false
 }
 
-func (c *cache) Get() *model.ConfigModel {
-	if c.config != nil {
-		return c.config
-	}
+func (c *cache) Read() *model.ConfigModel {
 	confPath := c.getConfigPath()
 	if _, err1 := os.Stat(confPath); os.IsNotExist(err1) {
 		//glog.Error(err1)
@@ -71,6 +68,13 @@ func (c *cache) Get() *model.ConfigModel {
 	}
 	c.config = &obj
 	return &obj
+}
+
+func (c *cache) Get() *model.ConfigModel {
+	if c.config != nil {
+		return c.config
+	}
+	return c.Read()
 }
 
 func (c *cache) Set(data *model.ConfigModel) error {

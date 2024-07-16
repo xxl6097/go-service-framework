@@ -13,7 +13,7 @@ func (f *Framework) GetConfig() *model.ConfigModel {
 	if f.cache == nil {
 		return nil
 	}
-	return f.cache.Get()
+	return f.cache.Read()
 }
 func (f *Framework) GetAll() []model.ProcModel {
 	procs := make([]model.ProcModel, 0)
