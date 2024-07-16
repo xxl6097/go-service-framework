@@ -316,7 +316,7 @@ function showMain(json) {
     document.getElementById('content').style.display = 'block';
     document.getElementById('auth').style.display = 'none';
     if (json && json !== undefined){
-        document.getElementById('app_name').innerText = json.appName + ' v' + json.appVersion
+        document.getElementById('app_name').innerText = `${json.displayName} ${json.appVersion}`
         document.getElementById('app_desc').innerText = json.description
     }
     getAll((code, response) => {

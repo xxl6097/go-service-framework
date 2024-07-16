@@ -32,6 +32,7 @@ func Version() string {
 func VersionJson() map[string]interface{} {
 	return map[string]interface{}{
 		"appName":      AppName,
+		"displayName":  DisplayName,
 		"description":  Description,
 		"appVersion":   AppVersion,
 		"buildVersion": BuildVersion,
