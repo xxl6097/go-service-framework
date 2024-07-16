@@ -4,17 +4,14 @@ import (
 	"fmt"
 	"github.com/kardianos/service"
 	"github.com/xxl6097/go-glog/glog"
+	"github.com/xxl6097/go-service-framework/internal/cache"
 	"github.com/xxl6097/go-service-framework/internal/iface"
 	"github.com/xxl6097/go-service-framework/internal/model"
-	"github.com/xxl6097/go-service-framework/internal/repository"
 	"github.com/xxl6097/go-service-framework/internal/server"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
-	"github.com/xxl6097/go-sqlite/sqlite"
-	"gorm.io/gorm"
 	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -24,9 +21,7 @@ type Framework struct {
 	queue    chan *model.ProcModel
 	procs    map[string]*model.ProcModel
 	running  bool
-	db       *gorm.DB
-	confRepo iface.ISqlite[model.ConfigModel]
-	procRepo iface.ISqlite[model.ProcModel]
+	cache    iface.ICache
 	passcode string
 }
 
@@ -43,20 +38,13 @@ func (f *Framework) inputArgs() []string {
 	}
 }
 
-func (f *Framework) getFirstConfigCache() *model.ConfigModel {
-	data, err := f.confRepo.First()
-	if err != nil || data == nil {
-		return nil
-	}
-	return data
-}
 func (f *Framework) inputAuthCode(installPath string) ([]byte, string) {
 	for {
 		var password string
 		fmt.Print("设置授权密码，请输入：")
 		fmt.Scan(&password)
 		password = strings.TrimSpace(password)
-		passcode, err := crypt.SavePassword(installPath, []byte(password))
+		passcode, err := crypt.CreatePassword([]byte(password))
 		if err != nil {
 			fmt.Println("授权码设置失败，请重新设置！")
 		} else {
@@ -68,30 +56,36 @@ func (f *Framework) inputAuthCode(installPath string) ([]byte, string) {
 }
 
 func (f *Framework) initData(args []string, pass string) {
-	err := f.confRepo.Add(&model.ConfigModel{
-		Password: pass,
-		Args:     strings.Join(args, ","),
-	})
-	glog.Error(err)
+	if f.cache == nil {
+		f.cache = cache.NewCache()
+	}
+	config := f.cache.Get()
+	if config == nil {
+		config = &model.ConfigModel{}
+	}
+	config.Password = pass
+	config.Args = args
+	err := f.cache.Set(config)
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
-func (f *Framework) hasConfig(installPath string) []string {
-	if f.db == nil {
-		f.db = sqlite.InitMysql(filepath.Join(installPath, "sqlite.db"))
-		f.confRepo = repository.NewConfRepository(f.db)
-		f.procRepo = repository.NewProcRepository(f.db)
+func (f *Framework) hasConfig() *model.ConfigModel {
+	if f.cache == nil {
+		f.cache = cache.NewCache()
 	}
-	data := f.getFirstConfigCache()
-	if data != nil {
-		return strings.Split(data.Args, ",")
+	config := f.cache.Get()
+	if config == nil {
+		return nil
 	}
-	return nil
+	return config
 }
 
 func (f *Framework) OnInstall(installPath string) []string {
-	data := f.hasConfig(installPath)
+	data := f.hasConfig()
 	if data != nil {
-		return data
+		return data.Args
 	}
 	args := f.inputArgs()
 	hashcode, _ := f.inputAuthCode(installPath)

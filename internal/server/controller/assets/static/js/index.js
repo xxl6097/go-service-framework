@@ -263,15 +263,11 @@ function onNewAppclick() {
         layer.msg('请正确输入', {icon: 0});
         return
     }
-    let argstring = args
-    if (args && args !== ""){
-        argstring = argsArray.join(","); // 不使用分隔符
-    }
     let jsonObj = {
         name: name,
         binUrl: binurl,
         confurl: confurl,
-        args: argstring,
+        args: argsArray,
         description:description
     }
     console.log(jsonObj);

@@ -4,39 +4,55 @@ import (
 	"errors"
 	"fmt"
 	"github.com/xxl6097/go-glog/glog"
+	"github.com/xxl6097/go-service-framework/internal/cache"
 	"github.com/xxl6097/go-service-framework/internal/model"
-	"github.com/xxl6097/go-service-framework/internal/repository"
 	"github.com/xxl6097/go-service-framework/pkg/file"
 	"github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/java"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
-	"github.com/xxl6097/go-sqlite/sqlite"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 )
 
 func (f *Framework) loadConfig() {
 	bindir, _ := os.Getwd()
 	if bindir != "" {
-		if f.db == nil {
-			f.db = sqlite.InitMysql(filepath.Join(bindir, "sqlite.db"))
-			f.confRepo = repository.NewConfRepository(f.db)
-			f.procRepo = repository.NewProcRepository(f.db)
-			conf, e := f.confRepo.First()
-			if e == nil {
-				f.passcode = conf.Password
-				glog.Debug(conf)
-			}
-			if os2.IsMacOs() {
-				f.OnInstall(bindir)
-			}
-			datas, e := f.procRepo.FindAll()
-			if e == nil && datas != nil && len(datas) > 0 {
-				for _, v := range datas {
-					go f.createProcess(&v)
-				}
+		//if f.db == nil {
+		//	f.db = sqlite.InitMysql(filepath.Join(bindir, "sqlite.db"))
+		//	f.confRepo = repository.NewConfRepository(f.db)
+		//	f.procRepo = repository.NewProcRepository(f.db)
+		//	conf, e := f.confRepo.First()
+		//	if e == nil {
+		//		f.passcode = conf.Password
+		//		glog.Debug(conf)
+		//	}
+		//	if os2.IsMacOs() {
+		//		f.OnInstall(bindir)
+		//	}
+		//	datas, e := f.procRepo.FindAll()
+		//	if e == nil && datas != nil && len(datas) > 0 {
+		//		for _, v := range datas {
+		//			go f.createProcess(&v)
+		//		}
+		//	}
+		//}
+		if f.cache == nil {
+			f.cache = cache.NewCache()
+		}
+		config := f.cache.Get()
+		if config == nil {
+			config = &model.ConfigModel{}
+		} else {
+			f.passcode = config.Password
+		}
+		if os2.IsMacOs() {
+			f.OnInstall(bindir)
+		}
+		datas := config.Procs
+		if datas != nil && len(datas) > 0 {
+			for _, v := range datas {
+				go f.createProcess(&v)
 			}
 		}
 	}
@@ -226,14 +242,6 @@ func (this *Framework) createProcess(proc *model.ProcModel) {
 }
 
 func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.ProcModel) {
-	//err := os.Chdir(binDir)
-	//if err != nil {
-	//	glog.Error("chdir", binDir, err)
-	//	glog.Errorf("【%s】程序运行失败 %v", proc.Name, err)
-	//	return
-	//}
-	//defer os.Chdir("../")
-
 	var args = []string{binPath}
 	if java.IsJar(binPath) {
 		javaPath, err2 := java.FindJavaPath()
@@ -246,13 +254,9 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		args = []string{binPath, "-jar", jar}
 	}
 
-	_args := strings.Split(proc.Args, ",")
-	if _args != nil && len(_args) > 0 {
-		args = append(args, _args...)
+	if proc.Args != nil && len(proc.Args) > 0 {
+		args = append(args, proc.Args...)
 	}
-	//if proc.Args != nil && len(proc.Args) > 0 {
-	//	args = append(args, proc.Args...)
-	//}
 	//glog.Debug("===>", binPath, args)
 	err1 := os.Chmod(binPath, 0755)
 	if err1 == nil {
@@ -294,7 +298,8 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		} else {
 			proc.Status = "运行中"
 			//config.Save(*proc)
-			this.procRepo.Save(proc)
+			//this.procRepo.Save(proc)
+			this.cache.Save(proc)
 		}
 		glog.Debugf("【%s】程序启动成功", proc.Name)
 		status, err4 := p.Wait()
@@ -323,7 +328,8 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 				glog.Debug("进程结束，程序删除成功", binDir)
 			}
 			//config.Delete(proc.Name)
-			this.procRepo.Delete(proc)
+			//this.procRepo.Delete(proc)
+			this.cache.Delete(proc.Name)
 			return
 		}
 		glog.Warnf("【%s】进程停止,10秒后重新启动", proc.Name)

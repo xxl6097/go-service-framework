@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func createPassword(password []byte) ([]byte, error) {
+func CreatePassword(password []byte) ([]byte, error) {
 	hash, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func save(fullexecpath string, password []byte) error {
 }
 
 func SavePassword(fullexecpath string, password []byte) ([]byte, error) {
-	hash, err := createPassword(password)
+	hash, err := CreatePassword(password)
 	if err != nil {
 		return hash, errors.New(fmt.Sprintf("password hash create failed %v", err))
 	}
