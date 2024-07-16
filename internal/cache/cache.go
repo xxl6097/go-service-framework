@@ -74,8 +74,6 @@ func (c *cache) Get() *model.ConfigModel {
 }
 
 func (c *cache) Set(data *model.ConfigModel) error {
-	mu.Lock()         // 进入临界区前获取锁
-	defer mu.Unlock() // 使用 defer 确保在函数退出前释放锁
 	if data == nil {
 		return errors.New("data is nil")
 	}
@@ -105,6 +103,8 @@ func (c *cache) Set(data *model.ConfigModel) error {
 }
 
 func (c *cache) Save(data *model.ProcModel) error {
+	mu.Lock()         // 进入临界区前获取锁
+	defer mu.Unlock() // 使用 defer 确保在函数退出前释放锁
 	if data == nil {
 		return errors.New("data is nil")
 	}
