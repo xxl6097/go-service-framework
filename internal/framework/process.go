@@ -38,7 +38,7 @@ func (f *Framework) loadConfig() {
 		//	}
 		//}
 		if f.cache == nil {
-			f.cache = cache.NewCache()
+			f.cache = cache.NewCache(bindir)
 		}
 		config := f.cache.Get()
 		if config == nil {

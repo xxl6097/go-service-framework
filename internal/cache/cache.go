@@ -17,28 +17,28 @@ var mu sync.Mutex
 
 type cache struct {
 	config *model.ConfigModel
+	binDir string
 }
 
-func NewCache() iface.ICache {
-	return &cache{}
-}
-
-func getConfigPath() (string, error) {
-	fullexecpath, err := os.Executable()
-	if err != nil {
-		return "", err
+func NewCache(bindir string) iface.ICache {
+	return &cache{
+		binDir: bindir,
 	}
-	dir, _ := filepath.Split(fullexecpath)
+}
+
+func (c *cache) getConfigPath() string {
+	//fullexecpath, err := os.Executable()
+	//if err != nil {
+	//	return "", err
+	//}
+	//dir, _ := filepath.Split(fullexecpath)
 	//ext := filepath.Ext(execname)
 	//name := execname[:len(execname)-len(ext)]
-	return filepath.Join(dir, "config.json"), nil
+	return filepath.Join(c.binDir, "config.json")
 }
 
 func (c *cache) HasCache() bool {
-	dir, err := getConfigPath()
-	if err != nil {
-		return false
-	}
+	dir := c.getConfigPath()
 	if _, err1 := os.Stat(dir); !os.IsNotExist(err1) {
 		return true
 	}
@@ -49,11 +49,7 @@ func (c *cache) Get() *model.ConfigModel {
 	if c.config != nil {
 		return c.config
 	}
-	confPath, err := getConfigPath()
-	if err != nil {
-		//glog.Error(err)
-		return nil
-	}
+	confPath := c.getConfigPath()
 	if _, err1 := os.Stat(confPath); os.IsNotExist(err1) {
 		//glog.Error(err1)
 		return nil
@@ -84,11 +80,7 @@ func (c *cache) Set(data *model.ConfigModel) error {
 		return errors.New("data is nil")
 	}
 	c.config = data
-	binpath, err := getConfigPath()
-	if err != nil {
-		glog.Error(err)
-		return err
-	}
+	binpath := c.getConfigPath()
 	// 打开文件，如果文件不存在则创建它
 	file, err := os.Create(binpath)
 	if err != nil {

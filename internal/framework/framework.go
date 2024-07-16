@@ -55,9 +55,9 @@ func (f *Framework) inputAuthCode(installPath string) ([]byte, string) {
 	}
 }
 
-func (f *Framework) initData(args []string, pass string) {
+func (f *Framework) initData(installPath string, args []string, pass string) {
 	if f.cache == nil {
-		f.cache = cache.NewCache()
+		f.cache = cache.NewCache(installPath)
 	}
 	config := f.cache.Get()
 	if config == nil {
@@ -71,9 +71,9 @@ func (f *Framework) initData(args []string, pass string) {
 	}
 }
 
-func (f *Framework) hasConfig() *model.ConfigModel {
+func (f *Framework) hasConfig(installPath string) *model.ConfigModel {
 	if f.cache == nil {
-		f.cache = cache.NewCache()
+		f.cache = cache.NewCache(installPath)
 	}
 	config := f.cache.Get()
 	if config == nil {
@@ -83,13 +83,13 @@ func (f *Framework) hasConfig() *model.ConfigModel {
 }
 
 func (f *Framework) OnInstall(installPath string) []string {
-	data := f.hasConfig()
+	data := f.hasConfig(installPath)
 	if data != nil {
 		return data.Args
 	}
 	args := f.inputArgs()
 	hashcode, _ := f.inputAuthCode(installPath)
-	f.initData(args, string(hashcode))
+	f.initData(installPath, args, string(hashcode))
 	return args
 }
 
