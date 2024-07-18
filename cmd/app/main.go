@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/base64"
+	"fmt"
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/framework"
 	"github.com/xxl6097/go-service/gservice"
@@ -27,4 +29,8 @@ func test() {
 	//	}
 	//}
 	//glog.Debug(maps)
+
+	//base64.StdEncoding.DecodeString(auth[len(basicScheme):])
+	str := base64.StdEncoding.EncodeToString([]byte("admin:admin"))
+	fmt.Println(str)
 }

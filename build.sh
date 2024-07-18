@@ -69,7 +69,7 @@ function build_linux_mips_opwnert_REDMI_AC2100() {
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_linux_mipsle ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_linux_mipsle
+  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_v${version}_linux_mipsle linux/mipsle/${appname}/${version}
 }
 
 function build() {
@@ -79,7 +79,7 @@ function build() {
   arch=$2
   GetLDFLAGS
   CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch} ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}
+  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_v${version}_${os}_${arch} $os/$arch/${appname}/${version}
 }
 
 function build_win() {
@@ -90,7 +90,7 @@ function build_win() {
   GetLDFLAGS
   go generate ./cmd/app
   CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_v${version}_${os}_${arch}.exe ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_v${version}_${os}_${arch}.exe
+  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_v${version}_${os}_${arch}.exe $os/$arch/${appname}/${version}
 }
 
 
@@ -99,7 +99,7 @@ function build_windows_arm64() {
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8086/up) ./bin/${appname}_${version}_windows_arm64.exe
+  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_${version}_windows_arm64.exe windows/arm64/${appname}
 }
 
 # shellcheck disable=SC2120
