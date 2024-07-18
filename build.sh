@@ -99,7 +99,7 @@ function build_windows_arm64() {
   rm -rf ./cmd/app/resource.syso
   GetLDFLAGS
   CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build -ldflags "$ldflags -s -w -linkmode internal" -o ./bin/${appname}_${version}_windows_arm64.exe ./cmd/app
-  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_${version}_windows_arm64.exe soft/windows/arm64/${version}/${appname}
+  bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_${version}_windows_arm64.exe soft/windows/arm64/${appname}/${version}
 }
 
 # shellcheck disable=SC2120
