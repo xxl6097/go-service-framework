@@ -25,7 +25,6 @@ func Version() string {
 	version += fmt.Sprintf("Git revision:\t%s\n", GitRevision)
 	version += fmt.Sprintf("Git branch:\t%s\n", GitBranch)
 	version += fmt.Sprintf("Golang Version: %s\n", GoVersion)
-	fmt.Println(version)
 	return version
 }
 
