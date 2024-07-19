@@ -16,7 +16,6 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
-	"time"
 )
 
 type ProcController struct {
@@ -139,7 +138,7 @@ func (this *ProcController) getAppList(w http.ResponseWriter, r *http.Request) {
 		Respond(w, Errors(errors.New("AppStoreUrl is nil")))
 		return
 	}
-	response, err := http2.Get(config.AppStoreUrl, nil, time.Second*5)
+	response, err := http2.GetUrl(config.AppStoreUrl)
 	if err != nil || response == nil {
 		Respond(w, Errors(errors.New("http get failed")))
 		return

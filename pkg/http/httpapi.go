@@ -18,6 +18,10 @@ func Get(apihost string, headers map[string]interface{}, timeout time.Duration) 
 	return request(apihost, "", http.MethodGet, headers, nil, timeout)
 }
 
+func GetUrl(apihost string) ([]byte, error) {
+	return Get(apihost, nil, time.Second*10)
+}
+
 func request(apihost, param, method string, headers map[string]interface{}, requestBody []byte, timeout time.Duration) ([]byte, error) {
 	client := http.Client{
 		Timeout: timeout,
