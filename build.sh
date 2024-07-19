@@ -102,6 +102,22 @@ function build_windows_arm64() {
   bash <(curl -s -S -L http://uuxia.cn:8087/up) ./bin/${appname}_${version}_windows_arm64.exe soft/windows/arm64/${appname}/${version}
 }
 
+function build_menu() {
+  my_array=$1
+  for index in "${my_array[@]}"; do
+        case "$index" in
+          [1]) (build_win windows amd64) ;;
+          [2]) (build_windows_arm64) ;;
+          [3]) (build linux amd64) ;;
+          [4]) (build linux arm64) ;;
+          [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
+          [6]) (build darwin arm64) ;;
+          [7]) (build darwin amd64) ;;
+          *) echo "exit" ;;
+          esac
+  done
+}
+
 # shellcheck disable=SC2120
 function menu() {
   echo "1. 编译 Windows amd64"
@@ -111,21 +127,20 @@ function menu() {
   echo "5. 编译 Linux mips"
   echo "6. 编译 Darwin arm64"
   echo "7. 编译 Darwin amd64"
+  echo "8. 编译全平台"
   echo "请输入编号:"
   read -r -a my_array "$@"
   tag
-  for index in "${my_array[@]}"; do
-      case "$index" in
-        [1]) (build_win windows amd64) ;;
-        [2]) (build_windows_arm64) ;;
-        [3]) (build linux amd64) ;;
-        [4]) (build linux arm64) ;;
-        [5]) (build_linux_mips_opwnert_REDMI_AC2100) ;;
-        [6]) (build darwin arm64) ;;
-        [7]) (build darwin amd64) ;;
-        *) echo "exit" ;;
-        esac
-  done
+  case my_array in
+  [8])
+    array=(1 2 3 4 5 6 7)
+    (build_menu array)
+    ;;
+  *)
+    (build_menu my_array)
+    ;;
+  esac
+
 }
 menu
 

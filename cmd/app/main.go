@@ -1,9 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
-	"fmt"
-	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/framework"
 	"github.com/xxl6097/go-service/gservice"
 )
@@ -11,7 +8,7 @@ import (
 //go:generate goversioninfo -icon=resource/icon.ico -manifest=resource/goversioninfo.exe.manifest
 func main() {
 	test()
-	glog.SetLogFile("./", "install.log")
+	//glog.SetLogFile("./", "install.log")
 	gservice.Run(&framework.Framework{})
 }
 
@@ -31,6 +28,13 @@ func test() {
 	//glog.Debug(maps)
 
 	//base64.StdEncoding.DecodeString(auth[len(basicScheme):])
-	str := base64.StdEncoding.EncodeToString([]byte("admin:admin"))
-	fmt.Println(str)
+	//str := base64.StdEncoding.EncodeToString([]byte("admin:admin"))
+	//fmt.Println(str)
+	//
+	//path := "path-admin:het002402-/data/z4"
+	//paths := strings.Split(path, "-")
+	//if paths != nil && len(paths) >= 3 {
+	//	fmt.Println(paths)
+	//}
+
 }
