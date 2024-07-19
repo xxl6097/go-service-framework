@@ -79,7 +79,7 @@ function build_menu() {
   done
 }
 
-function initBuildArgs() {
+function buildArgs() {
   os_name=$(uname -s)
   #echo "os type $os_name"
   APP_NAME=${appname}
@@ -104,9 +104,9 @@ function initBuildArgs() {
 function initArgs() {
   version=$(getversion)
   echo "version:${version}"
-  initBuildArgs
-  #echo "ldflags:${ldflags}"
   rm -rf dist
+  tagAndGitPush
+  buildArgs
 }
 
 function tagAndGitPush() {
@@ -130,7 +130,6 @@ function menu() {
   echo "请输入编号:"
   read -r -a inputData "$@"
   initArgs
-  tagAndGitPush
   if (( inputData[0] == 8 )); then
      array=(1 2 3 4 5 6 7)
      (build_menu "${array[@]}")
