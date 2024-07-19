@@ -131,7 +131,7 @@ function menu() {
   echo "请输入编号:"
   read -r -a my_array "$@"
   tag
-  case my_array in
+  case "$my_array" in
   [8])
     array=(1 2 3 4 5 6 7)
     (build_menu array)
