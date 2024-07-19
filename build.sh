@@ -130,13 +130,13 @@ function menu() {
   echo "请输入编号:"
   read -r -a inputData "$@"
   initArgs
-#  if (( inputData[0] == 8 )); then
-#     array=(1 2 3 4 5 6 7)
-#     (build_menu "${array[@]}")
-#  else
-#     (build_menu "${inputData[@]}")
-#  fi
   tagAndGitPush
+  if (( inputData[0] == 8 )); then
+     array=(1 2 3 4 5 6 7)
+     (build_menu "${array[@]}")
+  else
+     (build_menu "${inputData[@]}")
+  fi
 }
 menu
 
