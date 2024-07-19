@@ -191,8 +191,7 @@ function onAppStoreClick() {
         shade: 0.01
     });
     getAppList(response=>{
-        showAppStoreTable(response.data)
-        layer.close(loadIndex)
+        showAppStoreTable(loadIndex,response.data)
     },error=>{
         layer.close(loadIndex)
         layer.msg(error);
@@ -240,7 +239,7 @@ function onSettingAppStoreUrl(msgid) {
     }
 }
 
-function showAppStoreTable(json) {
+function showAppStoreTable(loadIndex,json) {
     let dialog;
     var table = creteTable(tbody=>{
         Object.entries(json).forEach(([key, value]) => {//arm64
@@ -301,6 +300,7 @@ function showAppStoreTable(json) {
     dialog = showModelDialog('应用市场',table,()=>{
         clearTable(table)
     })
+    layer.close(loadIndex)
 }
 
 
