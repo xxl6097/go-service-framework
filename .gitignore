@@ -1,5 +1,8 @@
 .gradle
 .DS_Store
+bin
+dist
+./dist
 node_modules
 /dist
 /local.properties
