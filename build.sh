@@ -40,28 +40,6 @@ function tagAndGitPush() {
 }
 
 
-function initBuildArgs() {
-  os_name=$(uname -s)
-  #echo "os type $os_name"
-  APP_NAME=${appname}
-  BUILD_VERSION=$(if [ "$(git describe --tags --abbrev=0 2>/dev/null)" != "" ]; then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
-  BUILD_TIME=$(TZ=Asia/Shanghai date +%FT%T%z)
-  GIT_REVISION=$(git rev-parse --short HEAD)
-  GIT_BRANCH=$(git name-rev --name-only HEAD)
-  GO_VERSION=$(go version)
-  ldflags="-s -w\
- -X '${versionDir}.AppName=${APP_NAME}'\
- -X '${versionDir}.DisplayName=${DisplayName}'\
- -X '${versionDir}.Description=${Description}'\
- -X '${versionDir}.AppVersion=${BUILD_VERSION}'\
- -X '${versionDir}.BuildVersion=${BUILD_VERSION}'\
- -X '${versionDir}.BuildTime=${BUILD_TIME}'\
- -X '${versionDir}.GitRevision=${GIT_REVISION}'\
- -X '${versionDir}.GitBranch=${GIT_BRANCH}'\
- -X '${versionDir}.GoVersion=${GO_VERSION}'"
-  #echo "$ldflags"
-}
-
 function build_linux_mips_opwnert_REDMI_AC2100() {
   echo "开始编译 linux mipsle ${appname}_v${version}"
   CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$ldflags -s -w -linkmode internal" -o ./dist/${appname}_v${version}_linux_mipsle ./cmd/app
@@ -109,10 +87,33 @@ function build_menu() {
   done
 }
 
+function initBuildArgs() {
+  os_name=$(uname -s)
+  #echo "os type $os_name"
+  APP_NAME=${appname}
+  BUILD_VERSION=$(if [ "$(git describe --tags --abbrev=0 2>/dev/null)" != "" ]; then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
+  BUILD_TIME=$(TZ=Asia/Shanghai date +%FT%T%z)
+  GIT_REVISION=$(git rev-parse --short HEAD)
+  GIT_BRANCH=$(git name-rev --name-only HEAD)
+  GO_VERSION=$(go version)
+  ldflags="-s -w\
+ -X '${versionDir}.AppName=${APP_NAME}'\
+ -X '${versionDir}.DisplayName=${DisplayName}'\
+ -X '${versionDir}.Description=${Description}'\
+ -X '${versionDir}.AppVersion=${BUILD_VERSION}'\
+ -X '${versionDir}.BuildVersion=${BUILD_VERSION}'\
+ -X '${versionDir}.BuildTime=${BUILD_TIME}'\
+ -X '${versionDir}.GitRevision=${GIT_REVISION}'\
+ -X '${versionDir}.GitBranch=${GIT_BRANCH}'\
+ -X '${versionDir}.GoVersion=${GO_VERSION}'"
+  #echo "$ldflags"
+}
+
 function initArgs() {
   version=$(getversion)
   echo "version:${version}"
-  initBuildArgs
+  echo "ldflags:${ldflags}"
+  initBuildArgsx
   rm -rf dist
 }
 
