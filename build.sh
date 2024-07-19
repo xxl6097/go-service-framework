@@ -31,14 +31,6 @@ function getversion() {
   fi
 }
 
-function tagAndGitPush() {
-    git add .
-    git commit -m "release v${version}"
-    git tag -a v$version -m "release v${version}"
-    git push origin v$version
-    echo $version >version.txt
-}
-
 
 function build_linux_mips_opwnert_REDMI_AC2100() {
   echo "开始编译 linux mipsle ${appname}_v${version}"
@@ -117,6 +109,14 @@ function initArgs() {
   rm -rf dist
 }
 
+function tagAndGitPush() {
+    git add .
+    git commit -m "release v${version}"
+    git tag -a v$version -m "release v${version}"
+    git push origin v$version
+    echo $version >version.txt
+}
+
 # shellcheck disable=SC2120
 function menu() {
   echo "1. 编译 Windows amd64"
@@ -130,12 +130,12 @@ function menu() {
   echo "请输入编号:"
   read -r -a inputData "$@"
   initArgs
-  if (( inputData[0] == 8 )); then
-     array=(1 2 3 4 5 6 7)
-     (build_menu "${array[@]}")
-  else
-     (build_menu "${inputData[@]}")
-  fi
+#  if (( inputData[0] == 8 )); then
+#     array=(1 2 3 4 5 6 7)
+#     (build_menu "${array[@]}")
+#  else
+#     (build_menu "${inputData[@]}")
+#  fi
   tagAndGitPush
 }
 menu
