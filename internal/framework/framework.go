@@ -131,6 +131,7 @@ func (f *Framework) Start(s service.Service) error {
 	glog.Println("Status", status, err)
 	glog.Println("Platform", s.Platform())
 	glog.Println("String", s.String())
+	version.Version()
 	f.running = true
 	go f.run()
 	return nil
