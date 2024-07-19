@@ -105,7 +105,7 @@ function initArgs() {
   version=$(getversion)
   echo "version:${version}"
   initBuildArgs
-  echo "ldflags:${ldflags}"
+  #echo "ldflags:${ldflags}"
   rm -rf dist
 }
 
