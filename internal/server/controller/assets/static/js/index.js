@@ -186,9 +186,15 @@ function onMarketHandle() {
 }
 
 function onAppStoreClick() {
+    var loadIndex = layer.msg('请求AppStore数据...', {
+        icon: 16,
+        shade: 0.01
+    });
     getAppList(response=>{
-        onAppStoreHandle(response.data)
+        showAppStoreTable(response.data)
+        layer.close(loadIndex)
     },error=>{
+        layer.close(loadIndex)
         layer.msg(error);
         onSettingAppStoreUrl('dialog')
     })
@@ -234,7 +240,7 @@ function onSettingAppStoreUrl(msgid) {
     }
 }
 
-function onAppStoreHandle(json) {
+function showAppStoreTable(json) {
     let dialog;
     var table = creteTable(tbody=>{
         Object.entries(json).forEach(([key, value]) => {//arm64
@@ -333,14 +339,20 @@ function onNewAppclick() {
         description:description
     }
     console.log(jsonObj);
+    var loadIndex = layer.msg('App创建中...', {
+        icon: 16,
+        shade: 0.01
+    });
     newApp(jsonObj, response => {
         console.log('sucess', response)
         newModel.style.display = 'none';
+        layer.close(loadIndex)
         layer.msg('新建成功', {icon: 1});
         setTimeout(()=>{
             refresh()
         },6000)
     }, err => {
+        layer.close(loadIndex)
         console.log('failed', err)
         layer.msg('新建失败', {icon: 0});
     })
