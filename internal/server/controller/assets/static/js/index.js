@@ -1,5 +1,8 @@
 var newModel = document.getElementById('newModel');
 
+//https://layui.dev/docs/2/layer/#demo-more
+// http://layui.xhcen.com/doc/layer.html
+
 
 function init() {
     let password = localStorage.getItem('password');
@@ -264,7 +267,7 @@ function showAppStoreTable(loadIndex,json) {
                         layer.msg('程序新建成功', {icon: 1});
 
                         setTimeout(()=>{
-                            refresh()
+                            getRunningApps()
                         },6000)
                         if (dialog){
                             dialog.style.display = "none";
@@ -288,8 +291,13 @@ function showAppStoreTable(loadIndex,json) {
 
             });
 
+            if (value.args){
+                let arrString = value.args.join(' '); // 指定自定义分隔符
+                cell1.innerText = arrString
+            }else{
+                cell1.innerText = '无参数'
+            }
             cell0.innerText = value.name
-            cell1.innerText = value.args
             cell2.innerText = value.description
             cell3.appendChild(installBtn)
 
@@ -349,7 +357,7 @@ function onNewAppclick() {
         layer.close(loadIndex)
         layer.msg('新建成功', {icon: 1});
         setTimeout(()=>{
-            refresh()
+            getRunningApps()
         },6000)
     }, err => {
         layer.close(loadIndex)
@@ -400,7 +408,7 @@ function showAuth() {
     clear()
 }
 
-function refresh() {
+function getRunningApps() {
     getAll((code, response) => {
         if (code === 200) {
             if (response.code === 0) {
@@ -428,7 +436,7 @@ function showMain(json) {
         document.getElementById('app_desc').innerText = json.description;
         document.title = `${json.appName} ${json.appVersion}`;
     }
-    refresh()
+    getRunningApps()
 }
 
 function insertRow(tbody, newRow, newItem) {
@@ -437,77 +445,98 @@ function insertRow(tbody, newRow, newItem) {
     var cell2 = newRow.insertCell(2);
     var cell3 = newRow.insertCell(3);
 
-    var stopBtn = document.createElement('button');
-    stopBtn.className = 'layui-btn layui-btn-xs'
-    stopBtn.style = 'margin-right: 5px; margin-left: 5px;'
-    stopBtn.textContent = '停止';
-    stopBtn.addEventListener('click', function () {
-        var title = `确定停止${newItem.name}程序吗？`
-        layer.confirm(title, {icon: 0}, function () {
-            post('stop', newItem.name, (data) => {
-                //showToast('停止成功')
-                layer.msg('停止成功', {icon: 1});
-                setTimeout(()=>{
-                    refresh()
-                },2000)
-            }, (err) => {
-                // showToast('停止失败')
-                layer.msg('停止失败', {icon: 0});
-            })
-        }, function () {
-            layer.msg('感谢放过在下～', {icon: 1});
-        });
-
-    });
+    // 创建按钮并设置事件处理程序
+    var stopButton = NewButton('停止',`确定停止${newItem.name}程序吗？`,()=>{
+        post('stop', newItem.name, (data) => {
+            //showToast('停止成功')
+            layer.msg('停止成功', {icon: 1});
+            setTimeout(()=>{
+                getRunningApps()
+            },2000)
+        }, (err) => {
+            // showToast('停止失败')
+            layer.msg('停止失败', {icon: 0});
+        })
+    })
 
 
     // 创建按钮并设置事件处理程序
-    var restartBtn = document.createElement('button');
-    restartBtn.className = 'layui-btn layui-btn-xs'
-    restartBtn.textContent = '重启';
-    restartBtn.style = 'margin-right: 5px; margin-left: 5px;'
-    restartBtn.addEventListener('click', function () {
-        var title = `确定重启${newItem.name}程序吗？`
-        layer.confirm(title, {icon: 0}, function () {
-            post('restart', newItem.name, (data) => {
-                layer.msg('重启成功', {icon: 1});
-                setTimeout(()=>{
-                    refresh()
-                },2000)
-            }, (err) => {
-                layer.msg('重启失败', {icon: 0});
-            })
-        }, function () {
-            layer.msg('感谢放过在下～', {icon: 1});
-        });
-    });
+    var restartButton = NewButton('重启',`确定重启${newItem.name}程序吗？`,()=>{
+        post('restart', newItem.name, (data) => {
+            layer.msg('重启成功', {icon: 1});
+            setTimeout(()=>{
+                getRunningApps()
+            },2000)
+        }, (err) => {
+            layer.msg('重启失败', {icon: 0});
+        })
+    },'layui-btn layui-btn-normal layui-btn-xs')
 
-    var deleteBtn = document.createElement('button');
-    deleteBtn.className = 'layui-btn layui-btn-xs'
-    deleteBtn.textContent = '卸载';
-    deleteBtn.style = 'margin-right: 5px; margin-left: 5px;'
-    deleteBtn.addEventListener('click', function () {
-        var title = `确定删除${newItem.name}程序吗，请慎重考虑！`
-        layer.confirm(title, {icon: 0}, function () {
-            post('del', newItem.name, (data) => {
-                layer.msg('删除成功', {icon: 1});
-                setTimeout(()=>{
-                    refresh()
-                },2000)
-            }, (err) => {
-                layer.msg('删除失败', {icon: 0});
+
+    var uninstallButton = NewButton('卸载',`确定删除${newItem.name}程序吗，请慎重考虑！`,()=>{
+        post('del', newItem.name, (data) => {
+            layer.msg('卸载成功', {icon: 1});
+            setTimeout(()=>{
+                getRunningApps()
+            },2000)
+        }, (err) => {
+            layer.msg('卸载失败', {icon: 0});
+        })
+    },'layui-btn layui-btn-warm layui-btn-xs')
+
+    var confBtn = NewButton('配置',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
+        postRaw('app/config', newItem.name, null,(data) => {
+            layer.msg('读取成功', {icon: 1});
+            console.log('读取成功',data)
+            showConfigContent(`${newItem.name}的配置文件内容`,data,(value, index, elem)=>{
+                console.log('修改内容',value)
+                postRaw('app/config/save', newItem.name, value,(data) => {
+                    layer.msg('保存成功', {icon: 1});
+                }, (err) => {
+                    layer.msg('读取失败', {icon: 0});
+                })
             })
-        }, function () {
-            layer.msg('感谢放过在下～', {icon: 1});
-        });
-    });
+        }, (err) => {
+            layer.msg('读取失败', {icon: 0});
+        })
+    },'layui-btn layui-btn-danger layui-btn-xs')
 
     cell0.innerText = newItem.name
     cell1.innerHTML = newItem.status;
-    cell2.appendChild(stopBtn);
-    cell2.appendChild(restartBtn);
-    cell2.appendChild(deleteBtn);
+    cell2.appendChild(stopButton);
+    cell2.appendChild(restartButton);
+    cell2.appendChild(uninstallButton);
+    cell2.appendChild(confBtn);
     cell3.innerHTML = newItem.description;
+}
+
+function showConfigContent(title,content,func) {
+    layer.prompt({
+        formType: 2,
+        value: content,
+        title: title,
+        maxlength: 9999999999, // 限制最多输入500字
+        area: ['500px', '300px'] // 自定义文本域宽高
+    }, function (value, index, elem) {
+        // alert(value);
+        layer.close(index);
+        func(value,index,elem)
+    });
+}
+
+function NewButton(name,title,click,clsname='layui-btn layui-btn-xs') {
+    var button = document.createElement('button');
+    button.className = clsname;
+    button.textContent = name;
+    button.style = 'margin-right: 5px; margin-left: 5px;'
+    button.addEventListener('click', function () {
+        layer.confirm(title, {icon: 0}, function () {
+            click()
+        }, function () {
+            layer.msg('感谢放过在下～', {icon: 1});
+        });
+    });
+    return button
 }
 
 function clearTable(table) {
@@ -579,6 +608,29 @@ function getAll(callback) {
     xhr.send();
 }
 
+function getAppConfig(callback) {
+    console.log('call getall')
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/proc/app/config', true);
+    //xhr.open('POST', '/proc/getall', true);
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        //console.log('====',xhr.readyState,xhr.status)
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj) {
+                    callback(xhr.status, jsonObj)
+                }
+            }
+        } else {
+            callback(xhr.status, xhr.responseText)
+        }
+    };
+    xhr.send();
+}
+
 function showDialogInfo(width,height,content) {
     // 页面层
     layer.open({
@@ -594,7 +646,7 @@ function onUninstallClick() {
         uninstall(()=>{
             layer.msg('程序卸载成功～');
             setTimeout(()=>{
-                refresh()
+                getRunningApps()
             },2000)
         },()=>{
             layer.msg('程序卸载成功～');
@@ -650,6 +702,33 @@ function post(path, name, sucess, failed) {
         }
     };
     xhr.send();
+}
+
+function postRaw(path, name,value, sucess, failed) {
+    const url = `/proc/${path}?name=${name}`;
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    // 设置请求头，这里假设我们发送的是纯文本
+    xhr.setRequestHeader('Content-Type', 'text/plain');
+    xhr.onreadystatechange = function () {
+        //console.log('====',xhr.readyState,xhr.status)
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                sucess(xhr.response)
+            }
+        } else {
+            failed(xhr.responseText)
+        }
+    };
+    if (value){
+        xhr.send(value);
+    }else{
+        xhr.send();
+    }
+
 }
 
 function getAppList(sucess,failed) {

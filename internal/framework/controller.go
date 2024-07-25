@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/model"
-	"github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/file"
+	os1 "github.com/xxl6097/go-service-framework/pkg/os"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -42,7 +45,7 @@ func (f *Framework) StopProcess(name string) error {
 	v, exist := f.procs[name]
 	if exist {
 		if v.Proc != nil {
-			err := os.Kill(v.Proc)
+			err := os1.Kill(v.Proc)
 			if err == nil {
 				return nil
 			}
@@ -79,7 +82,7 @@ func (f *Framework) RestartProcess(name string) error {
 	if exist {
 		v.Exit = model.STOP_EXIT
 		if v.Proc != nil {
-			err := os.Kill(v.Proc)
+			err := os1.Kill(v.Proc)
 			if err != nil {
 				glog.Errorf("%s proc kill error: %s", name, err.Error())
 			}
@@ -102,7 +105,7 @@ func (f *Framework) Delete(name string) error {
 	if exist {
 		v.Exit = model.STOP_DELETE
 		if v.Proc != nil {
-			err := os.Kill(v.Proc)
+			err := os1.Kill(v.Proc)
 			if err == nil {
 				delete(f.procs, name)
 				return nil
@@ -118,4 +121,46 @@ func (f *Framework) Delete(name string) error {
 
 func (f *Framework) GetPassCode() string {
 	return f.passcode
+}
+
+func (f *Framework) GetAppConfig(appName string) []byte {
+	if appName == "" {
+		return nil
+	}
+	p, exists := f.procs[appName]
+	if exists && p != nil && p.ConfUrl != "" {
+		//p.Args
+		exeDir, err := os.Getwd()
+		if err == nil && exeDir != "" {
+			_, confFileName := filepath.Split(p.ConfUrl)
+			if confFileName != "" {
+				confPath := filepath.Join(exeDir, appName, confFileName)
+				return file.ReadFile(confPath)
+			}
+			glog.Error(exeDir, confFileName, err)
+		}
+
+	}
+	return nil
+}
+
+func (f *Framework) SaveAppConfig(appName string, body []byte) error {
+	if body == nil {
+		return errors.New("body is nil")
+	}
+	p, exists := f.procs[appName]
+	if exists && p != nil && p.ConfUrl != "" {
+		//p.Args
+		exeDir, err := os.Getwd()
+		if err == nil && exeDir != "" {
+			_, confFileName := filepath.Split(p.ConfUrl)
+			if confFileName != "" {
+				confPath := filepath.Join(exeDir, appName, confFileName)
+				return file.SaveFile(confPath, body)
+			}
+			glog.Error(exeDir, confFileName, err)
+		}
+
+	}
+	return nil
 }

@@ -101,6 +101,15 @@ func GetOsInfo() string {
 	return info
 }
 
+var debug bool = false
+
+func IsDebug() bool {
+	return debug
+}
+func SetDebug(b bool) {
+	debug = b
+}
+
 func SomeFunction() {
 	var pc [1]uintptr
 	n := runtime.Callers(1, pc[:])

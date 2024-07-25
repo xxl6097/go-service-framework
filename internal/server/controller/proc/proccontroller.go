@@ -13,6 +13,7 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"github.com/xxl6097/go-service/gservice"
+	"io/ioutil"
 	"net/http"
 	"runtime"
 	"strings"
@@ -201,4 +202,29 @@ func (this *ProcController) appMarket(w http.ResponseWriter, r *http.Request) {
 	applist := "[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]"
 	arrays, _ := jsonutil.JsonString2Any(applist)
 	Respond(w, Sucess(arrays))
+}
+
+func (this *ProcController) appConfig(w http.ResponseWriter, r *http.Request) {
+	name := util.GetRequestParam(r, "name")
+	content := this.iframework.GetAppConfig(name)
+	if content != nil {
+		w.Write(content)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
+func (this *ProcController) appConfigSave(w http.ResponseWriter, r *http.Request) {
+	name := util.GetRequestParam(r, "name")
+	body, err1 := ioutil.ReadAll(r.Body)
+	if err1 != nil || body == nil {
+		http.Error(w, err1.Error(), http.StatusInternalServerError)
+		return
+	}
+	err := this.iframework.SaveAppConfig(name, body)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
 }

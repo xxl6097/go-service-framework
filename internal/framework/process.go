@@ -46,7 +46,7 @@ func (f *Framework) loadConfig() {
 		} else {
 			f.passcode = config.Password
 		}
-		if os2.IsMacOs() {
+		if os2.IsDebug() {
 			f.OnInstall(bindir)
 		}
 		datas := config.Procs

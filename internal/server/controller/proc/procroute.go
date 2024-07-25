@@ -57,6 +57,18 @@ func (this *ProcRoute) Setup(router *mux.Router) {
 	})
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodPost,
+		Path:   "/proc/app/config",
+		Fun:    this.controller.appConfig,
+		NoAuth: false,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodPost,
+		Path:   "/proc/app/config/save",
+		Fun:    this.controller.appConfigSave,
+		NoAuth: false,
+	})
+	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
+		Method: http.MethodPost,
 		Path:   "/proc/start",
 		Fun:    this.controller.start,
 		NoAuth: false,

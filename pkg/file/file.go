@@ -1,7 +1,9 @@
 package file
 
 import (
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -52,4 +54,52 @@ func IsValidURL(toTest string) bool {
 	}
 
 	return u.Scheme == "http" || u.Scheme == "https"
+}
+
+func IsDirOrFileExist(path string) bool {
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		// 文件夹/文件存在
+		return true
+	}
+	return false
+}
+
+// IsNotExist 判断文件不存在，返回true
+func IsNotExist(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return true
+	}
+	return false
+}
+
+func IsFile(path string) bool {
+	info, err := os.Stat(path)
+	return err == nil && info.Mode().IsRegular()
+}
+
+func IsDir(path string) bool {
+	info, err := os.Stat(path)
+	return err == nil && info.Mode().IsDir()
+}
+
+func ReadFile(rawPath string) []byte {
+	if IsNotExist(rawPath) {
+		return nil
+	}
+	fileContent, err := os.ReadFile(rawPath)
+	if err != nil {
+		return nil
+	}
+	return fileContent
+}
+
+func SaveFile(relPath string, body []byte) error {
+	if IsNotExist(relPath) {
+		return errors.New("file not exist" + relPath)
+	}
+	err := ioutil.WriteFile(relPath, body, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
 }
