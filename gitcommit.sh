@@ -59,6 +59,7 @@ function gitpush() {
   fi
 
   echo $commit
+  tag
   git add .
   git commit -m "$commit"
   #  git push -u origin main
