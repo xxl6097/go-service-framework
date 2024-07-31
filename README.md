@@ -7,9 +7,9 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
 
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build-trimpath -ldflags "-linkmode internal" -o AAServiceApp.exe main.go
 
-go get -u github.com/xxl6097/go-glog@v0.0.17
+go get -u github.com/xxl6097/go-glog@v0.0.19
 
-go get -u github.com/xxl6097/go-service@v0.0.52
+go get -u github.com/xxl6097/go-service@v0.0.54
 
 go get -u github.com/xxl6097/go-sqlite@v0.0.6
 

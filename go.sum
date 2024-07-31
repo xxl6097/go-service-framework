@@ -4,6 +4,8 @@ github.com/kardianos/service v1.2.2 h1:ZvePhAHfvo0A7Mftk/tEzqEZ7Q4lgnR8sGz4xu1YX
 github.com/kardianos/service v1.2.2/go.mod h1:CIMRFEJVL+0DS1a3Nx06NaMn4Dz63Ng6O7dl0qH0zVM=
 github.com/xxl6097/go-glog v0.0.18 h1:KKfl9UHF1YA9Zrc7WVB3IYaU4ux0qZATuYXOXi0M5YY=
 github.com/xxl6097/go-glog v0.0.18/go.mod h1:FI2GotVtTm6pXskaTa6g6+Z0tqSGS0iJP9sqcsCnGMY=
+github.com/xxl6097/go-glog v0.0.19 h1:KWypwDG2uzxFT1lCxRFmbDqSPHAEniz+6ZtsazNd1NY=
+github.com/xxl6097/go-glog v0.0.19/go.mod h1:FI2GotVtTm6pXskaTa6g6+Z0tqSGS0iJP9sqcsCnGMY=
 github.com/xxl6097/go-http v0.0.10 h1:CGTWLruSc3XyLQAkMMW9xI/i5cX9JJuBPsjc5K9EEZk=
 github.com/xxl6097/go-http v0.0.10/go.mod h1:jhEk4fLn5Wy5Oi940Z7AVYsKqaIYbykOoo7q0a8Xjr0=
 github.com/xxl6097/go-service v0.0.44 h1:LthbqszqHuZqgLh8Kg8I8kj+1LessnNzcN+BHqCvR/0=
@@ -18,6 +20,8 @@ github.com/xxl6097/go-service v0.0.50 h1:78wcPyORmzvNxYsHnoHEW+0JTNo6elFwRA1f4rd
 github.com/xxl6097/go-service v0.0.50/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-service v0.0.52 h1:9NrYArLLzaeyf/lDzwn8F62odIleJYyCB+m4nphEAOU=
 github.com/xxl6097/go-service v0.0.52/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
+github.com/xxl6097/go-service v0.0.54 h1:kG6GMWsyGbHel7dYckntCY+J0oNC1HiXB5SMy7KwdMc=
+github.com/xxl6097/go-service v0.0.54/go.mod h1:tRQy9z1P2Xd75pa3jFjfgLvWdHrR8M6QjQIjAt9lbk0=
 golang.org/x/crypto v0.25.0 h1:ypSNr+bnYL2YhwoMt2zPxHFmbAN1KZs/njMG3hxUp30=
 golang.org/x/crypto v0.25.0/go.mod h1:T+wALwcMOSE0kXgUAnPAHqTLW+XHgcELELW8VaDgm/M=
 golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
