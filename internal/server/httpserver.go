@@ -32,7 +32,7 @@ func Listen(port int, framework iface.IFramework) {
 }
 
 func TestServer(port int) {
-	api.GetApi().Add(static.NewRoute())
+	api.GetApi().Add(static.NewRoute("", ""))
 	token.TokenUtils.Callback(func(s string) (bool, map[string]interface{}) {
 		glog.Println("Callback", s)
 		return true, nil
