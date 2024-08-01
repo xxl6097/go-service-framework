@@ -12,6 +12,8 @@ github.com/xxl6097/go-http v0.0.11 h1:MF7woCgqC28tlLbzernQiUZMjt+itfGEKJSlMFqt3p
 github.com/xxl6097/go-http v0.0.11/go.mod h1:jhEk4fLn5Wy5Oi940Z7AVYsKqaIYbykOoo7q0a8Xjr0=
 github.com/xxl6097/go-http v0.0.12 h1:QNTxgh84GrP74OalgrBqEpFNbd1s6vib1/i7pSmKLzY=
 github.com/xxl6097/go-http v0.0.12/go.mod h1:jhEk4fLn5Wy5Oi940Z7AVYsKqaIYbykOoo7q0a8Xjr0=
+github.com/xxl6097/go-http v0.0.13 h1:oZ7voeZ8g6eU2NY4XEfcQz+XvNHI6/Dw1NcxMb1I8rs=
+github.com/xxl6097/go-http v0.0.13/go.mod h1:jhEk4fLn5Wy5Oi940Z7AVYsKqaIYbykOoo7q0a8Xjr0=
 github.com/xxl6097/go-service v0.0.44 h1:LthbqszqHuZqgLh8Kg8I8kj+1LessnNzcN+BHqCvR/0=
 github.com/xxl6097/go-service v0.0.44/go.mod h1:lSpP5rXbyIFpIhfgrFpK2rBV6cyMfDAjN88+rfbXKcQ=
 github.com/xxl6097/go-service v0.0.45 h1:8I8GiJnFsHTWbkWor/ceqCzGGxYbQbggmuwad8gELdg=

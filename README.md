@@ -13,7 +13,7 @@ go get -u github.com/xxl6097/go-service@v0.0.54
 
 go get -u github.com/xxl6097/go-sqlite@v0.0.6
 
-go get -u github.com/xxl6097/go-http@v0.0.12
+go get -u github.com/xxl6097/go-http@v0.0.13
 
 goversioninfo -manifest versioninfo.json
 
