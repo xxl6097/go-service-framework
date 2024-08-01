@@ -97,6 +97,7 @@ func (f *Framework) RestartProcess(name string) error {
 	return errors.New(fmt.Sprintf("%s proc is not exist", name))
 }
 
+// Delete 卸载程序
 func (f *Framework) Delete(name string) error {
 	if name == "" {
 		return errors.New("name is empty")
@@ -108,6 +109,7 @@ func (f *Framework) Delete(name string) error {
 			err := os1.Kill(v.Proc)
 			if err == nil {
 				delete(f.procs, name)
+				glog.Debug("delete proc success", f.procs)
 				return nil
 			}
 			glog.Error(err)

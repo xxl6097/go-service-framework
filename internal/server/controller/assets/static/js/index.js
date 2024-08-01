@@ -482,9 +482,9 @@ function insertRow(tbody, newRow, newItem) {
         }, (err) => {
             layer.msg('卸载失败', {icon: 0});
         })
-    },'layui-btn layui-btn-warm layui-btn-xs')
+    },'layui-btn layui-btn-primary layui-border-orange layui-btn-xs')
 
-    var confBtn = NewButton('配置',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
+    var confButton = NewButton('配置',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
         postRaw('app/config', newItem.name, null,(data) => {
             layer.msg('读取成功', {icon: 1});
             console.log('读取成功',data)
@@ -499,14 +499,31 @@ function insertRow(tbody, newRow, newItem) {
         }, (err) => {
             layer.msg('读取失败', {icon: 0});
         })
-    },'layui-btn layui-btn-danger layui-btn-xs')
+    },'layui-btn layui-btn-primary layui-border-red layui-btn-xs')
+    var logButton = NewButton('日志',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
+        postRaw('app/config', newItem.name, null,(data) => {
+            layer.msg('读取成功', {icon: 1});
+            console.log('读取成功',data)
+            showConfigContent(`${newItem.name}的配置文件内容`,data,(value, index, elem)=>{
+                console.log('修改内容',value)
+                postRaw('app/config/save', newItem.name, value,(data) => {
+                    layer.msg('保存成功', {icon: 1});
+                }, (err) => {
+                    layer.msg('读取失败', {icon: 0});
+                })
+            })
+        }, (err) => {
+            layer.msg('读取失败', {icon: 0});
+        })
+    },'layui-btn layui-btn-primary layui-border-green layui-btn-xs')
 
     cell0.innerText = newItem.name
     cell1.innerHTML = newItem.status;
     cell2.appendChild(stopButton);
     cell2.appendChild(restartButton);
     cell2.appendChild(uninstallButton);
-    cell2.appendChild(confBtn);
+    cell2.appendChild(confButton);
+    cell2.appendChild(logButton);
     cell3.innerHTML = newItem.description;
 }
 
