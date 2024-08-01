@@ -318,7 +318,9 @@ function testBtn() {
         console.log(key2,value2)
     });
 }
-
+function onOpenStaticFiles() {
+    window.open(window.origin + '/files/', '_blank');  // 在新标签页中打开
+}
 
 function openNewAppDialog() {
     newModel.style.display = 'block';
@@ -514,7 +516,7 @@ function insertRow(tbody, newRow, newItem) {
     cell2.appendChild(restartButton);
     cell2.appendChild(uninstallButton);
     cell2.appendChild(confButton);
-    cell2.appendChild(logButton);
+    // cell2.appendChild(logButton);
     cell3.innerHTML = newItem.description;
 }
 
