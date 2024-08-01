@@ -59,10 +59,12 @@ func (this *ProcController) start(w http.ResponseWriter, r *http.Request) {
 }
 func (this *ProcController) del(w http.ResponseWriter, r *http.Request) {
 	name := util.GetRequestParam(r, "name")
+	glog.Info("delete", name)
 	err := this.iframework.Delete(name)
 	if err == nil {
 		Respond(w, Sucessfully())
 	} else {
+		glog.Error("delete err", err)
 		Respond(w, Errors(err))
 	}
 }

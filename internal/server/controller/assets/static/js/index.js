@@ -718,6 +718,7 @@ function get(path, name, sucess, failed) {
                 sucess(xhr)
             }
         } else {
+            console.log(`${path} failed`,xhr)
             failed(xhr.responseText)
         }
     };
@@ -741,7 +742,8 @@ function post(path, name, sucess, failed) {
                 }
             }
         } else {
-            failed(xhr.responseText)
+            console.log(`${path} failed`,xhr)
+            failed(xhr)
         }
     };
     xhr.send();
@@ -763,6 +765,7 @@ function postRaw(path, name,value, sucess, failed) {
                 sucess(xhr.response)
             }
         } else {
+            console.log(`${path} failed`,xhr)
             failed(xhr.responseText)
         }
     };
@@ -792,6 +795,7 @@ function getAppList(sucess,failed) {
                     failed(jsonObj.msg)
                 }
             } else {
+                console.log(`failed`,xhr)
                 failed(xhr.status)
             }
         }
@@ -815,6 +819,7 @@ function Login(password, sucess, failed) {
                     failed(jsonObj.msg)
                 }
             } else {
+                console.log(`failed`,xhr)
                 failed(xhr.status)
             }
         }
@@ -839,6 +844,7 @@ function checkAuth(password, sucess, failed) {
                     failed(jsonObj.msg)
                 }
             } else {
+                console.log(`failed`,xhr)
                 failed(xhr.status)
             }
         }
@@ -864,6 +870,7 @@ function uninstall(sucess,failed) {
                     failed(jsonObj.msg)
                 }
             } else {
+                console.log(`failed`,xhr)
                 failed(xhr.status)
             }
         }
@@ -889,6 +896,7 @@ function settingAppStore(appsurl,sucess,failed) {
                     failed(jsonObj.msg)
                 }
             } else {
+                console.log(`failed`,xhr)
                 failed(xhr.status)
             }
         }
@@ -913,6 +921,7 @@ function newApp(jsonObject, sucess, failed) {
                 }
             }
         } else {
+            console.log(`failed`,xhr)
             failed(xhr.responseText)
         }
     };
