@@ -15,6 +15,7 @@ import (
 	"github.com/xxl6097/go-service/gservice"
 	"io/ioutil"
 	"net/http"
+	os2 "os"
 	"runtime"
 	"strings"
 )
@@ -232,6 +233,25 @@ func (this *ProcController) appConfigSave(w http.ResponseWriter, r *http.Request
 func (this *ProcController) readLog(w http.ResponseWriter, r *http.Request) {
 	name := util.GetRequestParam(r, "name")
 	logPath := this.iframework.GetLogPath(name)
+	logPath = "/Users/uuxia/Downloads/list.json"
 	glog.Debug("logPath:", logPath)
-	http.ServeFile(w, r, logPath)
+	//w.Header().Set("Content-Disposition", "attachment; filename="+strconv.Quote(filepath.Base(logPath)))
+	//http.ServeFile(w, r, logPath)
+
+	// 打开文件
+	file, err := os2.Open(logPath)
+	if err != nil {
+		// 如果文件不存在，返回404错误
+		http.Error(w, "File not found", http.StatusNotFound)
+		return
+	}
+	defer file.Close()
+	// 获取文件信息
+	fi, _ := file.Stat()
+	// 使用Content-Disposition头部来建议浏览器这是一个文件下载响应
+	w.Header().Set("Content-Disposition", "attachment; filename="+fi.Name())
+	// 设置Content-Type为文件的MIME类型
+	w.Header().Set("Content-Type", "application/octet-stream")
+	// 使用http.ServeContent来处理范围请求和缓存
+	http.ServeContent(w, r, fi.Name(), fi.ModTime(), file)
 }

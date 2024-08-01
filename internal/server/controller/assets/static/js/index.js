@@ -501,19 +501,10 @@ function insertRow(tbody, newRow, newItem) {
         })
     },'layui-btn layui-btn-primary layui-border-red layui-btn-xs')
     var logButton = NewButton('日志',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
-        postRaw('app/config', newItem.name, null,(data) => {
-            layer.msg('读取成功', {icon: 1});
-            console.log('读取成功',data)
-            showConfigContent(`${newItem.name}的配置文件内容`,data,(value, index, elem)=>{
-                console.log('修改内容',value)
-                postRaw('app/config/save', newItem.name, value,(data) => {
-                    layer.msg('保存成功', {icon: 1});
-                }, (err) => {
-                    layer.msg('读取失败', {icon: 0});
-                })
-            })
+        get('read/log', newItem.name, (data) => {
+            layer.msg('卸载成功', {icon: 1});
         }, (err) => {
-            layer.msg('读取失败', {icon: 0});
+            layer.msg('卸载失败', {icon: 0});
         })
     },'layui-btn layui-btn-primary layui-border-green layui-btn-xs')
 
@@ -693,6 +684,39 @@ function getDeviceInfo() {
                 }
             }
         } else {
+        }
+    };
+    xhr.send();
+}
+
+function get(path, name, sucess, failed) {
+    const url = `/proc/${path}?name=${name}`;
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob'; // 因为我们要处理二进制文件
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        //console.log('====',xhr.readyState,xhr.status)
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                // jsonObj = JSON.parse(xhr.response)
+                // if (jsonObj) {
+                //     sucess(jsonObj)
+                // }
+                // 请求成功，创建一个链接来下载文件
+                // var url = window.URL.createObjectURL(xhr.response);
+                // var a = document.createElement('a');
+                // a.href = url;
+                // a.download = 'file.txt'; // 下载时文件的名称
+                // document.body.appendChild(a);
+                // a.click();
+                // a.remove(); // 清理
+                sucess(xhr)
+            }
+        } else {
+            failed(xhr.responseText)
         }
     };
     xhr.send();
