@@ -344,6 +344,7 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			}
 			//config.Delete(proc.Name)
 			//this.procRepo.Delete(proc)
+			delete(this.procs, proc.Name)
 			this.cache.Delete(proc.Name)
 			return
 		}
