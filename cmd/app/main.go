@@ -21,28 +21,15 @@ func main() {
 }
 
 func test() {
-	//jsonstr := "{\"windows\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"wechat\",\"args\":[\"-d\",\"conf.toml\"],\"description\":\"微信应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"QQ\",\"args\":[\"-d\",\"qq.toml\"],\"description\":\"QQ应用程序，用于测试\"}]},\"linux\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"dingtalk\",\"args\":[\"-d\",\"dingtalk.toml\"],\"description\":\"dingtalk应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]},\"darwin\":{\"arm64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"dingtalk\",\"args\":[\"-d\",\"dingtalk.toml\"],\"description\":\"dingtalk应用程序，用于测试\"}],\"amd64\":[{\"name\":\"frpc\",\"args\":[\"-c\",\"frpc.toml\"],\"description\":\"frp测试描述信息\"},{\"name\":\"surge\",\"args\":[\"-d\",\"config.toml\"],\"description\":\"surge应用程序，用于测试\"}]}}"
-	//maps := jsonutil.JsonStrToMap(jsonstr)
-	//for k, v := range maps {
-	//	if strings.Compare(k, runtime.GOOS) == 0 {
-	//		if s, ok := v.(map[string]interface{}); ok {
-	//			fmt.Println("Interface value is a string:", s, s[runtime.GOARCH])
-	//		} else {
-	//			fmt.Println("Interface value is not a string")
-	//		}
-	//		return
-	//	}
-	//}
-	//glog.Debug(maps)
-
-	//base64.StdEncoding.DecodeString(auth[len(basicScheme):])
-	//str := base64.StdEncoding.EncodeToString([]byte("admin:admin"))
-	//fmt.Println(str)
-	//
-	//path := "path-admin:het002402-/data/z4"
-	//paths := strings.Split(path, "-")
-	//if paths != nil && len(paths) >= 3 {
-	//	fmt.Println(paths)
-	//}
+	//ctx, cancel := context.WithCancel(context.Background())
+	//go func() {
+	//	time.Sleep(5 * time.Second)
+	//	cancel()
+	//}()
+	//timer.Countdown(10, ctx, func() {
+	//	glog.Error("done")
+	//}, func(s string) {
+	//	glog.Debug(s)
+	//})
 
 }

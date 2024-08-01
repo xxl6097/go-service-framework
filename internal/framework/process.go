@@ -1,6 +1,7 @@
 package framework
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/xxl6097/go-glog/glog"
@@ -10,9 +11,9 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/java"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/timer"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 func (f *Framework) loadConfig() {
@@ -317,6 +318,20 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			glog.Error("进程结束", this.running)
 			return
 		}
+		glog.Warnf("【%s】进程停止,10秒后重新启动", proc.Name)
+		//for i := 10; i > 0; i-- {
+		//	proc.Status = fmt.Sprintf("【%s】%d秒后重新启动..", proc.Name, i)
+		//	fmt.Printf("\r%s", proc.Status)
+		//	time.Sleep(1 * time.Second)
+		//}
+		timer.Countdown(10, func(ctx context.Context, cancel context.CancelFunc) {
+			proc.Context = ctx
+			proc.Cancel = cancel
+		}, func(i int) {
+			proc.Status = fmt.Sprintf("【%s】%d秒后重新启动..", proc.Name, i)
+			fmt.Printf("\r%s", proc.Status)
+		})
+
 		if proc.Exit == model.STOP_EXIT {
 			glog.Error("进程结束", proc.Name)
 			return
@@ -331,12 +346,6 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			//this.procRepo.Delete(proc)
 			this.cache.Delete(proc.Name)
 			return
-		}
-		glog.Warnf("【%s】进程停止,10秒后重新启动", proc.Name)
-		for i := 10; i > 0; i-- {
-			proc.Status = fmt.Sprintf("【%s】%d秒后重新启动..", proc.Name, i)
-			fmt.Printf("\r%s", proc.Status)
-			time.Sleep(1 * time.Second)
 		}
 	}
 }

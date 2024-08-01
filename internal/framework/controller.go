@@ -112,6 +112,9 @@ func (f *Framework) Delete(name string) error {
 				glog.Debug("delete proc success", f.procs)
 				return nil
 			}
+			if v.Cancel != nil {
+				v.Cancel()
+			}
 			glog.Error(err)
 			return err
 		} else {
