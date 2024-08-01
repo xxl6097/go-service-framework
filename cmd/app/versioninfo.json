@@ -17,16 +17,16 @@
     "FileSubType": "00"
   },
   "StringFileInfo": {
-    "Comments": "AAFrameworkService",
+    "Comments": "AuGoService",
     "CompanyName": "uuxia tech Co., Ltd",
     "FileDescription": "基于Go语言的服务程序框架",
     "FileVersion": "v0.58.1",
-    "InternalName": "AAFrameworkService.exe",
+    "InternalName": "AuGoService.exe",
     "LegalCopyright": "© uuxia.cn 2024.06.20",
     "LegalTrademarks": "",
-    "OriginalFilename": "AAFrameworkService.exe",
+    "OriginalFilename": "AuGoService.exe",
     "PrivateBuild": "",
-    "ProductName": "GoFrameworkService",
+    "ProductName": "AuGoService",
     "ProductVersion": "v0.0.1",
     "SpecialBuild": "v0.0.1"
   },

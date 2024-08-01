@@ -5,7 +5,7 @@
     name="Github.com.JosephSpurrier.GoVersionInfo"
     version="1.0.0.0"
     processorArchitecture="*"/>
- <description>AAServiceTest exe</description>
+ <description>AuGoService Service Application</description>
  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
    <security>
      <requestedPrivileges>
