@@ -118,6 +118,8 @@ func (f *Framework) Delete(name string) error {
 			glog.Error(err)
 			return err
 		} else {
+			//TODO 也要删除源文件
+			f.deleteApplication(name)
 			return errors.New(fmt.Sprintf("%s proc is nil", name))
 		}
 	}

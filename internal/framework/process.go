@@ -339,17 +339,36 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			glog.Error("进程结束", proc.Name)
 			return
 		} else if proc.Exit == model.STOP_DELETE {
-			err5 := os.RemoveAll(binDir)
-			if err5 != nil {
-				glog.Error("进程结束，删除程序失败", binDir)
-			} else {
-				glog.Debug("进程结束，程序删除成功", binDir)
-			}
-			//config.Delete(proc.Name)
-			//this.procRepo.Delete(proc)
-			delete(this.procs, proc.Name)
-			this.cache.Delete(proc.Name)
+			//err5 := os.RemoveAll(binDir)
+			//if err5 != nil {
+			//	glog.Error("进程结束，删除程序失败", binDir)
+			//} else {
+			//	glog.Debug("进程结束，程序删除成功", binDir)
+			//}
+			////config.Delete(proc.Name)
+			////this.procRepo.Delete(proc)
+			//delete(this.procs, proc.Name)
+			//this.cache.Delete(proc.Name)
+			this.deleteApplication(proc.Name)
 			return
 		}
 	}
+}
+
+func (this *Framework) deleteApplication(name string) {
+	baseDir, err := os.Getwd()
+	if err != nil {
+		return
+	}
+	binDir := filepath.Join(baseDir, name)
+	err5 := os.RemoveAll(binDir)
+	if err5 != nil {
+		glog.Error("进程结束，删除程序失败", binDir)
+	} else {
+		glog.Debug("进程结束，程序删除成功", binDir)
+	}
+	//config.Delete(proc.Name)
+	//this.procRepo.Delete(proc)
+	delete(this.procs, name)
+	this.cache.Delete(name)
 }
