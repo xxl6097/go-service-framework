@@ -502,12 +502,12 @@ function insertRow(tbody, newRow, newItem) {
             layer.msg('读取失败', {icon: 0});
         })
     },'layui-btn layui-btn-primary layui-border-red layui-btn-xs')
-    var logButton = NewButton('日志',`确定修改${newItem.name}配置吗，请慎重考虑！`,()=>{
-        get('read/log', newItem.name, (data) => {
-            layer.msg('卸载成功', {icon: 1});
-        }, (err) => {
-            layer.msg('卸载失败', {icon: 0});
-        })
+    var openButton = NewButton1('后台',()=>{
+        var port = window.prompt("请输入后台端口", "")
+        if (port){
+            let address = 'http://' + window.location.hostname + ':' + port
+            window.open(address, '_blank');  // 在新标签页中打开
+        }
     },'layui-btn layui-btn-primary layui-border-green layui-btn-xs')
 
     cell0.innerText = newItem.name
@@ -516,7 +516,7 @@ function insertRow(tbody, newRow, newItem) {
     cell2.appendChild(restartButton);
     cell2.appendChild(uninstallButton);
     cell2.appendChild(confButton);
-    // cell2.appendChild(logButton);
+    cell2.appendChild(openButton);
     cell3.innerHTML = newItem.description;
 }
 
@@ -545,6 +545,17 @@ function NewButton(name,title,click,clsname='layui-btn layui-btn-xs') {
         }, function () {
             layer.msg('感谢放过在下～', {icon: 1});
         });
+
+    });
+    return button
+}
+function NewButton1(name,click,clsname='layui-btn layui-btn-xs') {
+    var button = document.createElement('button');
+    button.className = clsname;
+    button.textContent = name;
+    button.style = 'margin-right: 5px; margin-left: 5px;'
+    button.addEventListener('click', function () {
+        click()
     });
     return button
 }
