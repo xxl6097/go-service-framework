@@ -2,6 +2,8 @@
 .DS_Store
 bin
 dist
+./token
+.token
 ./dist
 node_modules
 /dist

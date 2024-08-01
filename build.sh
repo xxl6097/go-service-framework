@@ -39,7 +39,7 @@ function github_release() {
     TAG="${version}"  # 替换为你的标签
     RELEASE_NAME="${version}"  # 替换为你的发布名称
     DESCRIPTION="This is the release description."  # 替换为你的发布描述
-    TOKEN="111"  # 替换为你的GitHub Token
+    TOKEN=$(cat .token)  # 替换为你的GitHub Token
 #    FILE_PATH="./dist/AuGoService_0.2.23_windows_arm64.exe"  # 替换为你要附加的文件路径
     #FILES=("./dist/AuGoService_0.2.23_windows_arm64.exe" "./dist/AuGoService_v0.2.23_darwin_amd64")  # 替换为你要附加的文件路径
     # 定义要扫描的目录
