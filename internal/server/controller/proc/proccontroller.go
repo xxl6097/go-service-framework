@@ -228,3 +228,10 @@ func (this *ProcController) appConfigSave(w http.ResponseWriter, r *http.Request
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func (this *ProcController) readLog(w http.ResponseWriter, r *http.Request) {
+	name := util.GetRequestParam(r, "name")
+	logPath := this.iframework.GetLogPath(name)
+	glog.Debug("logPath:", logPath)
+	http.ServeFile(w, r, logPath)
+}

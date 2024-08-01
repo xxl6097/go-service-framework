@@ -169,3 +169,11 @@ func (f *Framework) SaveAppConfig(appName string, body []byte) error {
 	}
 	return nil
 }
+
+func (f *Framework) GetLogPath(name string) string {
+	dir, err := os.Getwd()
+	if err == nil && dir != "" {
+		return filepath.Join(dir, name, "logs", "dump.tmp.log")
+	}
+	return ""
+}

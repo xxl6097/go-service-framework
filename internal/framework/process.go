@@ -265,13 +265,13 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 	} else {
 		glog.Error(binPath, "赋予0755权限失败")
 	}
-	outFile := filepath.Join(logDir, "out.log")
-	out, err2 := os.Create(filepath.Join(outFile))
-	if err2 != nil {
-		glog.Errorf("【%s】程序运行失败 %v", proc.Name, err2)
-		return
-	}
-	defer out.Close()
+	//outFile := filepath.Join(logDir, "out.log")
+	//out, err2 := os.Create(filepath.Join(outFile))
+	//if err2 != nil {
+	//	glog.Errorf("【%s】程序运行失败 %v", proc.Name, err2)
+	//	return
+	//}
+	//defer out.Close()
 	for {
 		tmpDump := filepath.Join(logDir, "dump.tmp.log")
 		dumpFile := filepath.Join(logDir, "dump.log")
@@ -286,7 +286,8 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			Dir: binDir,
 			Env: append(os.Environ(), "GOTRACEBACK=crash"),
 			//Files: []*os.File{os.Stdin, os.Stdout, f},
-			Files: []*os.File{os.Stdin, out, stderr},
+			//Files: []*os.File{os.Stdin, out, stderr},
+			Files: []*os.File{os.Stdin, stderr, stderr},
 			//Sys: &syscall.SysProcAttr{
 			//	Chroot: binDir,
 			//},

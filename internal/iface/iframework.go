@@ -15,4 +15,5 @@ type IFramework interface {
 	GetPassCode() string
 	GetAppConfig(string) []byte
 	SaveAppConfig(string, []byte) error
+	GetLogPath(string) string
 }
