@@ -295,7 +295,9 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		p, err3 := os.StartProcess(binPath, args, execSpec)
 		proc.Proc = p
 		if err3 != nil {
-			glog.Printf("启动worker进程失败，错误信息：%s", err3)
+			errMsg := fmt.Sprintf("启动worker进程失败，错误信息：%s", err3)
+			glog.Printf(errMsg)
+			proc.Status = errMsg
 			return
 		} else {
 			proc.Status = "运行中"
