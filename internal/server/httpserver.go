@@ -17,7 +17,7 @@ var tokenstring string
 
 func Listen(port int, framework iface.IFramework) {
 	api.GetApi().Add(proc.NewRoute(framework))
-	api.GetApi().Add(static.NewRoute())
+	api.GetApi().Add(static.NewRoute("admin", "het002402"))
 	api.GetApi().Add(assets.NewRoute())
 	token.TokenUtils.Callback(func(s string) (bool, map[string]interface{}) {
 		glog.Println("Callback", s)
