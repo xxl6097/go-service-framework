@@ -139,7 +139,7 @@ function build_menu() {
   done
 
   bash <(curl -s -S -L http://uuxia.cn:8087/up) ./dist /soft/${appname}/${version}
-  github_release
+  #github_release
 }
 
 function buildArgs() {
