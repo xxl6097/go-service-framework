@@ -188,13 +188,16 @@ function menu() {
   echo "6. 编译 Darwin arm64"
   echo "7. 编译 Darwin amd64"
   echo "8. 编译全平台"
+  echo "9. github release"
   echo "请输入编号:"
   read -r -a inputData "$@"
   initArgs
   if (( inputData[0] == 8 )); then
      array=(1 2 3 4 5 6 7)
      (build_menu "${array[@]}")
-  else
+  elif (( inputData[0] == 9 )); then
+       github_release
+    else
      (build_menu "${inputData[@]}")
   fi
 }
