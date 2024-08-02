@@ -34,6 +34,7 @@ function getversion() {
 
 
 function github_release() {
+  echo "开发发布github release"
     # 配置变量
     REPO="xxl6097/go-service-framework"  # 替换为你的GitHub仓库
     TAG="${version}"  # 替换为你的标签
@@ -91,7 +92,7 @@ function github_release() {
     done
 
     echo "All files uploaded successfully."
-    echo $version >version.txt
+    #echo $version >version.txt
 }
 
 function build_linux_mips_opwnert_REDMI_AC2100() {
@@ -197,7 +198,7 @@ function menu() {
      (build_menu "${array[@]}")
   elif (( inputData[0] == 9 )); then
        github_release
-    else
+  else
      (build_menu "${inputData[@]}")
   fi
 }
