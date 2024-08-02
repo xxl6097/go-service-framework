@@ -45,6 +45,7 @@ function github_release() {
     #FILES=("./dist/AuGoService_0.2.23_windows_arm64.exe" "./dist/AuGoService_v0.2.23_darwin_amd64")  # 替换为你要附加的文件路径
     # 定义要扫描的目录
     DIRECTORY="./dist"
+    echo "token=>$TOKEN"
     # 初始化一个空数组
     FILES=()
     # 使用find命令扫描目录，并将结果添加到数组中
