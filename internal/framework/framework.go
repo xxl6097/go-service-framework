@@ -14,6 +14,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -23,6 +24,7 @@ type Framework struct {
 	running  bool
 	cache    iface.ICache
 	passcode string
+	wg       sync.WaitGroup
 }
 
 func (f *Framework) Unkown(arg string, installPath string) {
@@ -149,6 +151,8 @@ func (f *Framework) Stop(s service.Service) error {
 			glog.Debugf("kill %s %v", k, err)
 		}
 	}
+
+	f.wg.Wait()
 	time.Sleep(1 * time.Second)
 	if service.Interactive() {
 		glog.Println("停止deamon")

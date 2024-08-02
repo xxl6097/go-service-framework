@@ -272,6 +272,9 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 	//	return
 	//}
 	//defer out.Close()
+
+	this.wg.Add(1)
+	defer this.wg.Done()
 	for {
 		tmpDump := filepath.Join(logDir, "dump.tmp.log")
 		dumpFile := filepath.Join(logDir, "dump.log")

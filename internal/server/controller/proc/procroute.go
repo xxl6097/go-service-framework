@@ -112,7 +112,7 @@ func (this *ProcRoute) Setup(router *mux.Router) {
 	route.RouterUtil.AddHandleFunc(router, route.ApiModel{
 		Method: http.MethodPost,
 		Path:   "/reboot",
-		Fun:    this.controller.uninstall,
+		Fun:    this.controller.reboot,
 		NoAuth: false,
 	})
 }
