@@ -164,7 +164,7 @@ func (f *Framework) Stop(s service.Service) error {
 		glog.Println("停止deamon")
 		os.Exit(0)
 	}
-	os.Exit(0)
+	//os.Exit(0)
 	return nil
 }
 
