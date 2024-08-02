@@ -115,7 +115,30 @@ func (this *ProcController) login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (this *ProcController) uninstall(w http.ResponseWriter, r *http.Request) {
-	gservice.Uninstall()
+	installer := gservice.GetInstaller()
+	if installer != nil {
+		err := installer.Uninstall()
+		if err != nil {
+			Respond(w, Errors(err))
+		} else {
+			Respond(w, Sucess(version.VersionJson()))
+		}
+	} else {
+		Respond(w, Errors(errors.New("installer is nil")))
+	}
+}
+func (this *ProcController) reboot(w http.ResponseWriter, r *http.Request) {
+	installer := gservice.GetInstaller()
+	if installer != nil {
+		err := installer.Restart()
+		if err != nil {
+			Respond(w, Errors(err))
+		} else {
+			Respond(w, Sucess(version.VersionJson()))
+		}
+	} else {
+		Respond(w, Errors(errors.New("installer is nil")))
+	}
 }
 
 func (this *ProcController) auth(w http.ResponseWriter, r *http.Request) {

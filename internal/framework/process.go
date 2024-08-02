@@ -327,13 +327,6 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 		//	fmt.Printf("\r%s", proc.Status)
 		//	time.Sleep(1 * time.Second)
 		//}
-		timer.Countdown(10, func(ctx context.Context, cancel context.CancelFunc) {
-			proc.Context = ctx
-			proc.Cancel = cancel
-		}, func(i int) {
-			proc.Status = fmt.Sprintf("【%s】%d秒后重新启动..", proc.Name, i)
-			fmt.Printf("\r%s", proc.Status)
-		})
 
 		if proc.Exit == model.STOP_EXIT {
 			glog.Error("进程结束", proc.Name)
@@ -351,6 +344,14 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			//this.cache.Delete(proc.Name)
 			this.deleteApplication(proc.Name)
 			return
+		} else {
+			timer.Countdown(10, func(ctx context.Context, cancel context.CancelFunc) {
+				proc.Context = ctx
+				proc.Cancel = cancel
+			}, func(i int) {
+				proc.Status = fmt.Sprintf("【%s】%d秒后重新启动..", proc.Name, i)
+				fmt.Printf("\r%s", proc.Status)
+			})
 		}
 	}
 }

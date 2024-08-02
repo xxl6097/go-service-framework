@@ -3,11 +3,12 @@ var newModel = document.getElementById('newModel');
 //https://layui.dev/docs/2/layer/#demo-more
 // http://layui.xhcen.com/doc/layer.html
 
-
+var isLogin = false
 function init() {
     let password = localStorage.getItem('password');
     if (password) {
         checkAuth(password, (json) => {
+            isLogin = true
             showMain(json)
         }, (error) => {
             //layer.msg(`认证失败 ${error}`, {icon: 0});
@@ -396,8 +397,10 @@ function initLogin(password) {
         localStorage.setItem('password', response.data);
         console.log('认证成功', response)
         layer.msg(`认证成功`, {icon: 0});
+        isLogin = true
     }, error => {
         //showAuth()
+        isLogin = false
         clear()
         console.log('failed', error)
         layer.msg(`认证失败 ${error}`, {icon: 0});
@@ -439,6 +442,12 @@ function showMain(json) {
         document.title = `${json.appName} ${json.appVersion}`;
     }
     getRunningApps()
+    if (isLogin){
+        //定时任务
+        setInterval(()=>{
+            getRunningApps()
+        },5000)
+    }
 }
 
 function insertRow(tbody, newRow, newItem) {
@@ -661,6 +670,22 @@ function showDialogInfo(width,height,content) {
     });
 }
 
+function onReboot() {
+    var title = `确定重启服务吗？`
+    layer.confirm(title, {icon: 0}, function () {
+        postMethod('/reboot',()=>{
+            layer.msg('程序重启成功～');
+            setTimeout(()=>{
+                getRunningApps()
+            },2000)
+        },()=>{
+            layer.msg('程序重启成功～');
+        })
+    }, function () {
+        layer.msg('感谢放过在下～', {icon: 1});
+    });
+}
+
 function onUninstallClick() {
     var title = `确定卸载程序吗？`
     layer.confirm(title, {icon: 0}, function () {
@@ -675,8 +700,6 @@ function onUninstallClick() {
     }, function () {
         layer.msg('感谢放过在下～', {icon: 1});
     });
-
-
 }
 
 function getDeviceInfo() {
@@ -738,6 +761,30 @@ function get(path, name, sucess, failed) {
 
 function post(path, name, sucess, failed) {
     const url = `/proc/${path}?name=${name}`;
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        //console.log('====',xhr.readyState,xhr.status)
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj) {
+                    sucess(jsonObj)
+                }
+            }
+        } else {
+            console.log(`${path} failed`,xhr)
+            failed(xhr)
+        }
+    };
+    xhr.send();
+}
+
+
+function postMethod(url,sucess, failed) {
     console.log(url)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
