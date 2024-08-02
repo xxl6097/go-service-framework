@@ -201,6 +201,7 @@ function menu() {
   else
      (build_menu "${inputData[@]}")
   fi
+  echo $version >version.txt
 }
 menu
 
