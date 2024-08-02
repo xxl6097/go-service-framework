@@ -15,7 +15,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 type Framework struct {
@@ -159,13 +158,13 @@ func (f *Framework) Stop(s service.Service) error {
 
 	f.wg.Wait()
 	glog.Debug("wg.Wait")
-	time.Sleep(1 * time.Second)
 	isActive := service.Interactive()
 	glog.Debug("Interactivet", isActive)
 	if isActive {
 		glog.Println("停止deamon")
 		os.Exit(0)
 	}
+	os.Exit(0)
 	return nil
 }
 
