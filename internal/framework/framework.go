@@ -160,7 +160,9 @@ func (f *Framework) Stop(s service.Service) error {
 	f.wg.Wait()
 	glog.Debug("wg.Wait")
 	time.Sleep(1 * time.Second)
-	if service.Interactive() {
+	isActive := service.Interactive()
+	glog.Debug("Interactivet", isActive)
+	if isActive {
 		glog.Println("停止deamon")
 		os.Exit(0)
 	}
