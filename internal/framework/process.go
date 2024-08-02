@@ -308,10 +308,10 @@ func (this *Framework) startProcess(binDir, binPath, logDir string, proc *model.
 			//this.procRepo.Save(proc)
 			this.cache.Save(proc)
 		}
-		glog.Debugf("【%s】程序启动成功", proc.Name)
+		glog.Debugf("【程序启动成功】%s", proc.Name)
 		status, err4 := p.Wait()
 		if err4 == nil {
-			glog.Debugf("Wait正常停止 %s %v", binPath, status.String())
+			glog.Debugf("Wait正常停止 %s", binPath)
 		} else {
 			glog.Errorf("Wait异常停止 %v %s %v", err4, binPath, status.String())
 		}

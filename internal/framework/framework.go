@@ -116,6 +116,7 @@ func (f *Framework) OnInstall(installPath string) []string {
 // Shutdown 服务结束回调
 func (f *Framework) Shutdown(s service.Service) error {
 	defer glog.Flush()
+	glog.Println("Shutdown")
 	f.running = false
 	status, err := s.Status()
 	glog.Println("Shutdown")
@@ -148,11 +149,16 @@ func (f *Framework) Stop(s service.Service) error {
 		if v.Proc != nil {
 			glog.Debug("停止worker进程", k)
 			err := os2.Kill(v.Proc)
-			glog.Debugf("kill %s %v", k, err)
+			if err == nil {
+				glog.Debugf("kill %s Sucess", k)
+			} else {
+				glog.Debugf("kill %s %v", k, err)
+			}
 		}
 	}
 
 	f.wg.Wait()
+	glog.Debug("wg.Wait")
 	time.Sleep(1 * time.Second)
 	if service.Interactive() {
 		glog.Println("停止deamon")
