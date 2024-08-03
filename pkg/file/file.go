@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func GetFileAndExtensionFromURL(rawurl string) (string, string) {
@@ -102,4 +103,38 @@ func SaveFile(relPath string, body []byte) error {
 		return err
 	}
 	return nil
+}
+
+func GetFileNameNoExt(path string) string {
+	filenameWithExt := filepath.Base(path)
+	filename := strings.TrimSuffix(filenameWithExt, filepath.Ext(filenameWithExt))
+	return filename
+}
+
+func ScanDirectory(dirPath string) ([]string, error) {
+	var files []string
+	// 使用 os.ReadDir 读取目录中的一级文件和子目录
+	entries, err := os.ReadDir(dirPath)
+	if err != nil {
+		return nil, err
+	}
+	// 遍历目录项并添加到文件列表中
+	for _, entry := range entries {
+		files = append(files, filepath.Join(dirPath, entry.Name()))
+	}
+	return files, nil
+}
+
+func ScanDirectoryAndFunc(dirPath string, f func(string)) {
+	entries, err := os.ReadDir(dirPath)
+	if err != nil {
+		return
+	}
+	// 遍历目录项并添加到文件列表中
+	for _, entry := range entries {
+		if f != nil {
+			f(entry.Name())
+		}
+	}
+	return
 }

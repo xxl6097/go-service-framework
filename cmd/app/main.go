@@ -21,15 +21,4 @@ func main() {
 }
 
 func test() {
-	//ctx, cancel := context.WithCancel(context.Background())
-	//go func() {
-	//	time.Sleep(5 * time.Second)
-	//	cancel()
-	//}()
-	//timer.Countdown(10, ctx, func() {
-	//	glog.Error("done")
-	//}, func(s string) {
-	//	glog.Debug(s)
-	//})
-
 }

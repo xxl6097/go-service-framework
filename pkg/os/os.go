@@ -3,6 +3,7 @@ package os
 import (
 	"fmt"
 	"github.com/xxl6097/go-service-framework/pkg/version"
+	"io"
 	"os"
 	"os/exec"
 	"runtime"
@@ -211,3 +212,29 @@ func Kill(process *os.Process) error {
 //		return
 //	}
 //}
+
+func IsExecutable(filePath string) (bool, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return false, err
+	}
+	defer file.Close()
+
+	// 读取文件头信息
+	header := make([]byte, 4)
+	if _, err := io.ReadFull(file, header); err != nil {
+		return false, err
+	}
+
+	// 检查 ELF 文件头（Linux 和 macOS）
+	if header[0] == 0x7f && header[1] == 'E' && header[2] == 'L' && header[3] == 'F' {
+		return true, nil
+	}
+
+	// 检查 PE 文件头（Windows）
+	if header[0] == 'M' && header[1] == 'Z' {
+		return true, nil
+	}
+
+	return false, nil
+}
