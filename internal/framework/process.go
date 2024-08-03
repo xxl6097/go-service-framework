@@ -178,11 +178,33 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 						}
 					}
 				})
-
 			}
 		}
-		glog.Info("可执行文件下载成功", binPath)
+	} else {
+		isZip := zip.IsZip(binPath)
+		if isZip {
+			//确定解压成功
+			zipDir, err := zip.GetRootDir(binDir)
+			if err == nil && zipDir != "" {
+				//确定zip有一级目录
+				binDir = filepath.Join(binDir, zipDir)
+			}
+			fileName := proc.Name
+			if zipDir != "" {
+				fileName = zipDir
+			}
+			file.ScanDirectoryAndFunc(binDir, func(fName string) {
+				if strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName)) {
+					binFilePath := filepath.Join(binDir, fName)
+					executable, err := os2.IsExecutable(binFilePath)
+					if err == nil && executable {
+						binPath = binFilePath
+					}
+				}
+			})
+		}
 	}
+	glog.Info("可执行文件路径", binPath)
 	return binPath, nil
 }
 
