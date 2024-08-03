@@ -161,7 +161,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 			isZip, err := zip.UnPack(binPath, binDir)
 			if err == nil && isZip {
 				//确定解压成功
-				zipDir, err := zip.GetRootDir(binDir)
+				zipDir, err := zip.GetRootDir(binDir, proc.Name)
 				if err == nil && zipDir != "" {
 					//确定zip有一级目录
 					binDir = filepath.Join(binDir, zipDir)
@@ -186,7 +186,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 		glog.Debug("判断是否为压缩文件", isZip, binPath)
 		if isZip {
 			//确定解压成功
-			zipDir, err := zip.GetRootDir(binDir)
+			zipDir, err := zip.GetRootDir(binDir, proc.Name)
 			if err == nil && zipDir != "" {
 				//确定zip有一级目录
 				binDir = filepath.Join(binDir, zipDir)

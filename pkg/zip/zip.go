@@ -160,7 +160,7 @@ func UnzipFile(filename, dest string) error {
 }
 
 // GetRootDir 获取解压目录的根目录名称
-func GetRootDir(dirPath string) (string, error) {
+func GetRootDir(dirPath string, defaultName string) (string, error) {
 	files, err := ioutil.ReadDir(dirPath)
 	if err != nil {
 		return "", err
@@ -170,7 +170,7 @@ func GetRootDir(dirPath string) (string, error) {
 		if strings.HasSuffix(".", file.Name()) || strings.EqualFold(file.Name(), "__MACOSX") {
 			continue
 		}
-		if file.IsDir() {
+		if file.IsDir() && strings.Contains(file.Name(), defaultName) {
 			return file.Name(), nil
 		}
 	}
