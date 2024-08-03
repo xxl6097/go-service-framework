@@ -72,7 +72,7 @@ func (f *Framework) loadConfig() {
 func (this *Framework) checkConfigFile(binDir string, proc *model.ProcModel) (string, error) {
 	configUrl := proc.ConfUrl
 	if configUrl == "" {
-		glog.Debug("无配置文件.")
+		glog.Debug(proc.Name, "无配置文件.")
 		return "", nil
 	}
 	if !file.IsUrlOrLocalFile(configUrl) {
@@ -136,6 +136,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 		glog.Printf("%s 文件不存在", binPath)
 		binNotExist = true
 	} else {
+		glog.Printf("%s 文件存在", binPath)
 		if proc.Upgrade {
 			err1 := os.Remove(binPath)
 			if err1 != nil {
