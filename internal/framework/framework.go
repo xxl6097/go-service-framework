@@ -10,7 +10,7 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/server"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	http2 "github.com/xxl6097/go-service-framework/pkg/http"
-	os2 "github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/util"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"os"
 	"regexp"
@@ -128,7 +128,7 @@ func (f *Framework) OnUpgrade() string {
 	}
 	version = regexp.MustCompile(`[\s\n]+`).ReplaceAllString(version, "")
 	var ext string = runtime.GOARCH
-	if os2.IsWindows() {
+	if util.IsWindows() {
 		ext = runtime.GOARCH + ".exe"
 	}
 	return fmt.Sprintf("http://uuxia.cn:8087/soft/AuGoService/%s/AuGoService_%s_%s_%s", version, version, runtime.GOOS, ext)
@@ -169,7 +169,7 @@ func (f *Framework) Stop(s service.Service) error {
 	for k, v := range f.procs {
 		if v.Proc != nil {
 			glog.Debug("停止worker进程", k)
-			err := os2.Kill(v.Proc)
+			err := util.Kill(v.Proc)
 			if err == nil {
 				glog.Debugf("kill %s Sucess", k)
 			} else {
@@ -200,7 +200,7 @@ func test() {
 }
 
 func (f *Framework) Config() *service.Config {
-	if os2.IsDebug() {
+	if util.IsDebug() {
 		version.AppName = "AAFrameWork"
 		version.AppVersion = "0.0.1"
 		version.DisplayName = "AAFrameWork"
@@ -225,7 +225,7 @@ func (f *Framework) AddElement(v *model.ProcModel) {
 			p.Exit = model.STOP_EXIT
 			if p.Proc != nil {
 				glog.Debugf("%s 停止worker进程", p.Name)
-				err := os2.Kill(p.Proc)
+				err := util.Kill(p.Proc)
 				glog.Debugf("kill %s %v", p.Name, err)
 			}
 		} else {
