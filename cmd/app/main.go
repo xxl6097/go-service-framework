@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/xxl6097/go-service-framework/internal/framework"
-	os1 "github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/util"
 	"github.com/xxl6097/go-service/gservice"
 	"os"
 )
 
 func init() {
-	if os1.IsMacOs() {
+	if util.IsMacOs() {
 		//os1.SetDebug(true)
 	}
 	if os.Getenv("DEBUG") != "" {
-		os1.SetDebug(true)
+		util.SetDebug(true)
 	}
 	//os1.SetDebug(true)
 }
