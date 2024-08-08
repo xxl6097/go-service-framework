@@ -6,7 +6,7 @@ import (
 	"github.com/xxl6097/go-glog/glog"
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/pkg/file"
-	os1 "github.com/xxl6097/go-service-framework/pkg/os"
+	"github.com/xxl6097/go-service-framework/pkg/util"
 	"os"
 	"path/filepath"
 	"time"
@@ -56,7 +56,7 @@ func (f *Framework) StopProcess(name string) error {
 	v, exist := f.procs[name]
 	if exist {
 		if v.Proc != nil {
-			err := os1.Kill(v.Proc)
+			err := util.Kill(v.Proc)
 			if err == nil {
 				return nil
 			}
@@ -93,7 +93,7 @@ func (f *Framework) RestartProcess(name string) error {
 	if exist {
 		v.Exit = model.STOP_EXIT
 		if v.Proc != nil {
-			err := os1.Kill(v.Proc)
+			err := util.Kill(v.Proc)
 			if err != nil {
 				glog.Errorf("%s proc kill error: %s", name, err.Error())
 			}
@@ -117,7 +117,7 @@ func (f *Framework) Delete(name string) error {
 	if exist {
 		v.Exit = model.STOP_DELETE
 		if v.Proc != nil {
-			err := os1.Kill(v.Proc)
+			err := util.Kill(v.Proc)
 			if err == nil {
 				delete(f.procs, name)
 				glog.Debug("delete proc success", f.procs)
