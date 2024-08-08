@@ -175,12 +175,13 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				glog.Debugf("解压成功,zipDir:%s,binDir:%s,fileName:%s,err:%v", zipDir, binDir, fileName, err)
 				file.ScanDirectoryAndFunc(binDir, func(fName string) {
 					isZip = zip.IsZip(fName)
-					glog.Debugf("扫描目:%s,isZip:%v", fName, isZip)
-					if strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName)) && !isZip {
+					hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
+					glog.Debugf("扫描目:%s,isZip:%v,%v", fName, isZip, hasprefix)
+					if hasprefix && !isZip {
 						binFilePath := filepath.Join(binDir, fName)
 						executable, err := os2.IsExecutable(binFilePath)
+						glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", binFilePath)
 						if err == nil && executable {
-							glog.Debugf("可执行程序:%s", binFilePath)
 							binPath = binFilePath
 						}
 					}
@@ -204,12 +205,13 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 			glog.Debugf("解压成功,zipDir:%s,binDir:%s,fileName:%s,err:%v", zipDir, binDir, fileName, err)
 			file.ScanDirectoryAndFunc(binDir, func(fName string) {
 				isZip = zip.IsZip(fName)
-				glog.Debugf("扫描目:%s,isZip:%v", fName, isZip)
-				if strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName)) && !isZip {
+				hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
+				glog.Debugf("扫描目:%s,isZip:%v,%v", fName, isZip, hasprefix)
+				if hasprefix && !isZip {
 					binFilePath := filepath.Join(binDir, fName)
 					executable, err := os2.IsExecutable(binFilePath)
+					glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", binFilePath)
 					if err == nil && executable {
-						glog.Debugf("可执行程序:%s", binFilePath)
 						binPath = binFilePath
 					}
 				}
