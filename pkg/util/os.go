@@ -1,7 +1,4 @@
-//go:build linux && darwin
-// +build linux,darwin
-
-package os
+package util
 
 import (
 	"fmt"

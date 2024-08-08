@@ -10,12 +10,12 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
 	http2 "github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/jsonutil"
-	"github.com/xxl6097/go-service-framework/pkg/os"
+	util2 "github.com/xxl6097/go-service-framework/pkg/util"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"github.com/xxl6097/go-service/gservice"
 	"io/ioutil"
 	"net/http"
-	os2 "os"
+	"os"
 	"runtime"
 	"strings"
 )
@@ -74,7 +74,7 @@ func (this *ProcController) getall(w http.ResponseWriter, r *http.Request) {
 	Respond(w, Sucess(arrays))
 }
 func (this *ProcController) info(w http.ResponseWriter, r *http.Request) {
-	arrays := os.GetOsInfo()
+	arrays := util2.GetOsInfo()
 	Respond(w, Sucess(arrays))
 }
 func (this *ProcController) getConfig(w http.ResponseWriter, r *http.Request) {
@@ -301,7 +301,7 @@ func (this *ProcController) readLog(w http.ResponseWriter, r *http.Request) {
 	//http.ServeFile(w, r, logPath)
 
 	// 打开文件
-	file, err := os2.Open(logPath)
+	file, err := os.Open(logPath)
 	if err != nil {
 		// 如果文件不存在，返回404错误
 		http.Error(w, "File not found", http.StatusNotFound)

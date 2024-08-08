@@ -12,6 +12,7 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/java"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/timer"
+	"github.com/xxl6097/go-service-framework/pkg/util"
 	"github.com/xxl6097/go-service-framework/pkg/zip"
 	"os"
 	"path/filepath"
@@ -179,7 +180,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 					glog.Debugf("扫描:zip:%v,是否匹配[%s]:%v  %s", isZip, fileName, hasprefix, fName)
 					if hasprefix && !isZip {
 						binFilePath := filepath.Join(binDir, fName)
-						executable, err := os2.IsExecutable(binFilePath)
+						executable, err := util.IsExecutable(binFilePath)
 						glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", err, executable, binFilePath)
 						if err == nil && executable {
 							binPath = binFilePath
@@ -209,7 +210,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				glog.Debugf("扫描:zip:%v,是否匹配[%s]:%v  %s", isZip, fileName, hasprefix, fName)
 				if hasprefix && !isZip {
 					binFilePath := filepath.Join(binDir, fName)
-					executable, err := os2.IsExecutable(binFilePath)
+					executable, err := util.IsExecutable(binFilePath)
 					glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", err, executable, binFilePath)
 					if err == nil && executable {
 						binPath = binFilePath
