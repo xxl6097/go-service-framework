@@ -176,7 +176,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				file.ScanDirectoryAndFunc(binDir, func(fName string) {
 					isZip = zip.IsZip(fName)
 					hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
-					glog.Debugf("扫描目:%s,isZip:%v,%v", fName, isZip, hasprefix)
+					glog.Debugf("扫描目:%s,zip:%v,是否匹配[%s]:%v", fName, isZip, fileName, hasprefix)
 					if hasprefix && !isZip {
 						binFilePath := filepath.Join(binDir, fName)
 						executable, err := os2.IsExecutable(binFilePath)
@@ -206,7 +206,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 			file.ScanDirectoryAndFunc(binDir, func(fName string) {
 				isZip = zip.IsZip(fName)
 				hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
-				glog.Debugf("扫描目:%s,isZip:%v,%v", fName, isZip, hasprefix)
+				glog.Debugf("扫描目:%s,zip:%v,是否匹配[%s]:%v", fName, isZip, fileName, hasprefix)
 				if hasprefix && !isZip {
 					binFilePath := filepath.Join(binDir, fName)
 					executable, err := os2.IsExecutable(binFilePath)
