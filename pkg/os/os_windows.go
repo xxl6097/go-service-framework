@@ -1,5 +1,10 @@
 package os
 
+import (
+	"io"
+	"os"
+)
+
 func IsExecutable(filePath string) (bool, error) {
 	file, err := os.Open(filePath)
 	if err != nil {

@@ -1,5 +1,11 @@
 package os
 
+import (
+	"io"
+	"os"
+	"syscall"
+)
+
 func IsExecutable(filePath string) (bool, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
