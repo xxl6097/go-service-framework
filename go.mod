@@ -8,7 +8,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/xxl6097/go-glog v0.0.19
 	github.com/xxl6097/go-http v0.0.14
-	github.com/xxl6097/go-service v0.0.58
+	github.com/xxl6097/go-service v0.0.59
 	golang.org/x/crypto v0.25.0
 	golang.org/x/text v0.16.0
 )

@@ -9,12 +9,16 @@ import (
 	"github.com/xxl6097/go-service-framework/internal/model"
 	"github.com/xxl6097/go-service-framework/internal/server"
 	"github.com/xxl6097/go-service-framework/pkg/crypt"
+	http2 "github.com/xxl6097/go-service-framework/pkg/http"
 	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/version"
 	"os"
+	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 type Framework struct {
@@ -110,6 +114,23 @@ func (f *Framework) OnInstall(installPath string) []string {
 	hashcode, _ := f.inputAuthCode(installPath)
 	f.initData(installPath, args, string(hashcode))
 	return args
+}
+func (f *Framework) OnUpgrade() string {
+	upgradeUrl := "http://uuxia.cn:8087/soft/AuGoService/version.txt"
+	response, err := http2.Get(upgradeUrl, nil, time.Second*10)
+	if err != nil || response == nil {
+		return ""
+	}
+	version := string(response)
+	if version == "" {
+		return ""
+	}
+	version = regexp.MustCompile(`[\s\n]+`).ReplaceAllString(version, "")
+	var ext string
+	if os2.IsWindows() {
+		ext = runtime.GOARCH + ".exe"
+	}
+	return fmt.Sprintf("http://uuxia.cn:8087/soft/AuGoService/%s/AuGoService_%s_%s_%s", version, version, runtime.GOOS, ext)
 }
 
 // Shutdown 服务结束回调
