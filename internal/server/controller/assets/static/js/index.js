@@ -690,17 +690,24 @@ function showDialogInfo(width,height,content) {
 
 function onReboot() {
     var title = `确定重启服务吗？`
+    var loadIndex = layer.msg('重启中...', {
+        icon: 16,
+        shade: 0.01
+    });
     layer.confirm(title, {icon: 0}, function () {
         postMethod('/reboot',()=>{
             layer.msg('程序重启成功～');
+            layer.close(loadIndex)
             setTimeout(()=>{
                 getRunningApps()
             },2000)
         },()=>{
             layer.msg('程序重启成功～');
+            layer.close(loadIndex)
         })
     }, function () {
         layer.msg('感谢放过在下～', {icon: 1});
+        layer.close(loadIndex)
     });
 }
 
