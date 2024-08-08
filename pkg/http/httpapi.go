@@ -63,7 +63,7 @@ func request(apihost, param, method string, headers map[string]interface{}, requ
 			return nil, err2
 		}
 		// 输出响应体
-		glog.Info("Response:", string(body))
+		//glog.Info("Response:", string(body))
 		return body, nil
 	} else {
 		glog.Error("err StatusCode", resp.StatusCode, resp.Body)

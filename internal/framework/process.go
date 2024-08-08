@@ -180,7 +180,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 					if hasprefix && !isZip {
 						binFilePath := filepath.Join(binDir, fName)
 						executable, err := os2.IsExecutable(binFilePath)
-						glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", binFilePath)
+						glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", err, executable, binFilePath)
 						if err == nil && executable {
 							binPath = binFilePath
 						}
@@ -210,7 +210,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				if hasprefix && !isZip {
 					binFilePath := filepath.Join(binDir, fName)
 					executable, err := os2.IsExecutable(binFilePath)
-					glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", binFilePath)
+					glog.Debugf("检测可执行程序:err:%v executable:%v binFilePath:%s", err, executable, binFilePath)
 					if err == nil && executable {
 						binPath = binFilePath
 					}
