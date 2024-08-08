@@ -126,7 +126,7 @@ func (f *Framework) OnUpgrade() string {
 		return ""
 	}
 	version = regexp.MustCompile(`[\s\n]+`).ReplaceAllString(version, "")
-	var ext string
+	var ext string = runtime.GOARCH
 	if os2.IsWindows() {
 		ext = runtime.GOARCH + ".exe"
 	}
