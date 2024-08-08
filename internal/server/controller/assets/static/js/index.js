@@ -818,7 +818,7 @@ function postMethod(url,sucess, failed) {
                 }
             }
         } else {
-            console.log(`${path} failed`,xhr)
+            console.log(`${url} failed`,xhr)
             failed(xhr)
         }
     };
@@ -843,7 +843,7 @@ function postJson(url,json,sucess, failed) {
                 }
             }
         } else {
-            console.log(`${path} failed`,xhr)
+            console.log(`${url} failed`,xhr)
             failed(xhr)
         }
     };
