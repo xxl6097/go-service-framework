@@ -175,7 +175,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				glog.Debugf("解压成功,zipDir:%s,binDir:%s,fileName:%s,err:%v", zipDir, binDir, fileName, err)
 				file.ScanDirectoryAndFunc(binDir, func(fName string) {
 					isZip = zip.IsZip(fName)
-					hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
+					hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fileName))
 					glog.Debugf("扫描目:%s,zip:%v,是否匹配[%s]:%v", fName, isZip, fileName, hasprefix)
 					if hasprefix && !isZip {
 						binFilePath := filepath.Join(binDir, fName)
@@ -205,7 +205,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 			glog.Debugf("解压成功,zipDir:%s,binDir:%s,fileName:%s,err:%v", zipDir, binDir, fileName, err)
 			file.ScanDirectoryAndFunc(binDir, func(fName string) {
 				isZip = zip.IsZip(fName)
-				hasprefix := strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName))
+				hasprefix := strings.HasPrefix(strings.ToLower(fName), strings.ToLower(fileName))
 				glog.Debugf("扫描目:%s,zip:%v,是否匹配[%s]:%v", fName, isZip, fileName, hasprefix)
 				if hasprefix && !isZip {
 					binFilePath := filepath.Join(binDir, fName)
