@@ -248,14 +248,16 @@ func IsExecutable(filePath string) (bool, error) {
 		return true, nil
 	}
 
-	// 如果当前用户是文件的所有者，检查所有者执行权限
-	if fileInfo.Sys().(*syscall.Stat_t).Uid == uint32(os.Getuid()) {
-		return (fileInfo.Mode().Perm() & 0100) == 0100, nil
-	}
+	if !IsWindows() {
+		// 如果当前用户是文件的所有者，检查所有者执行权限
+		if fileInfo.Sys().(*syscall.Stat_t).Uid == uint32(os.Getuid()) {
+			return (fileInfo.Mode().Perm() & 0100) == 0100, nil
+		}
 
-	// 检查组执行权限
-	if fileInfo.Sys().(*syscall.Stat_t).Gid == uint32(os.Getgid()) {
-		return (fileInfo.Mode().Perm() & 0010) == 0010, nil
+		// 检查组执行权限
+		if fileInfo.Sys().(*syscall.Stat_t).Gid == uint32(os.Getgid()) {
+			return (fileInfo.Mode().Perm() & 0010) == 0010, nil
+		}
 	}
 
 	// 检查其他用户的执行权限
