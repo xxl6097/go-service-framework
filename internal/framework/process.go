@@ -10,7 +10,6 @@ import (
 	"github.com/xxl6097/go-service-framework/pkg/file"
 	"github.com/xxl6097/go-service-framework/pkg/http"
 	"github.com/xxl6097/go-service-framework/pkg/java"
-	os2 "github.com/xxl6097/go-service-framework/pkg/os"
 	"github.com/xxl6097/go-service-framework/pkg/timer"
 	"github.com/xxl6097/go-service-framework/pkg/util"
 	"github.com/xxl6097/go-service-framework/pkg/zip"
@@ -50,7 +49,7 @@ func (f *Framework) loadConfig() {
 		} else {
 			f.passcode = config.Password
 		}
-		if os2.IsDebug() {
+		if util.IsDebug() {
 			f.OnInstall(bindir)
 		}
 		datas := config.Procs
