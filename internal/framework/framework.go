@@ -87,6 +87,7 @@ func (f *Framework) initData(installPath string, args []string, pass string) {
 		config = &model.ConfigModel{}
 	}
 	config.Password = pass
+	config.AppStoreUrl = "http://uuxia.cn:8087/soft/AuGoService/appstore.json"
 	config.Args = args
 	err := f.cache.Set(config)
 	if err != nil {
