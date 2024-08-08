@@ -133,10 +133,10 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 	binPath := filepath.Join(binDir, binName)
 	//判断bin文件是否存在
 	if _, err := os.Stat(binPath); os.IsNotExist(err) {
-		glog.Printf("%s 文件不存在", binPath)
+		glog.Printf("程序未安装 %s", binPath)
 		binNotExist = true
 	} else {
-		glog.Printf("%s 文件存在", binPath)
+		glog.Printf("程序安装过 %s", binPath)
 		if proc.Upgrade {
 			err1 := os.Remove(binPath)
 			if err1 != nil {
@@ -150,6 +150,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 
 	if binNotExist {
 		proc.Status = "下载中"
+		glog.Debug("下载中", binUrl)
 		err := http.Download(binUrl, binPath)
 		if err != nil {
 			proc.Status = "可执行文件下载失败"
@@ -157,7 +158,7 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 			glog.Error(eMsg)
 			return "", errors.New(eMsg)
 		} else {
-			//TODO 处理zip包解压后的的文件名
+			glog.Debug("下载完成，解压", binDir)
 			isZip, err := zip.UnPack(binPath, binDir)
 			if err == nil && isZip {
 				//确定解压成功
@@ -170,11 +171,14 @@ func (this *Framework) checkBinFile(binDir string, proc *model.ProcModel) (strin
 				if zipDir != "" {
 					fileName = zipDir
 				}
+				glog.Debugf("解压成功,zipDir:%s,binDir:%s,fileName:%s,err:%v", zipDir, binDir, fileName, err)
 				file.ScanDirectoryAndFunc(binDir, func(fName string) {
+					glog.Debugf("扫描目录,fName:%s", fName)
 					if strings.HasPrefix(strings.ToLower(fileName), strings.ToLower(fName)) {
 						binFilePath := filepath.Join(binDir, fName)
 						executable, err := os2.IsExecutable(binFilePath)
 						if err == nil && executable {
+							glog.Debugf("可执行程序:%s", binFilePath)
 							binPath = binFilePath
 						}
 					}
