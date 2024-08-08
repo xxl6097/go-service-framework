@@ -77,7 +77,44 @@ func (this *ProcController) info(w http.ResponseWriter, r *http.Request) {
 	arrays := os.GetOsInfo()
 	Respond(w, Sucess(arrays))
 }
+func (this *ProcController) getConfig(w http.ResponseWriter, r *http.Request) {
+	if this.iframework != nil {
+		data := this.iframework.GetConfig()
+		Respond(w, Sucess(data))
+	} else {
+		Respond(w, Errors(errors.New("url is nil")))
+	}
+}
+func (this *ProcController) SetConfig(w http.ResponseWriter, r *http.Request) {
+	// 读取请求体
+	//body, err := ioutil.ReadAll(r.Body)
+	//if err != nil {
+	//	http.Error(w, "Error reading request body", http.StatusBadRequest)
+	//	return
+	//}
+	//
+	//// 打印原始 JSON 数据（可选）
+	//fmt.Println(string(body))
 
+	req := util.GetReqData[model.ConfigModel](w, r)
+	if req != nil {
+		glog.Warn("resp---->", req)
+		if this.iframework != nil {
+			err := this.iframework.SetConfig(req)
+			if err != nil {
+				glog.Error("set config err", err)
+				Respond(w, Errors(err))
+			} else {
+				Respond(w, Sucessfully())
+			}
+		} else {
+			Respond(w, Errors(errors.New("url is nil")))
+		}
+	} else {
+		Respond(w, Errors(errors.New("request is nil")))
+	}
+
+}
 func (this *ProcController) settingAppStore(w http.ResponseWriter, r *http.Request) {
 	url := util.GetRequestParam(r, "url")
 	if url != "" {

@@ -319,6 +319,24 @@ function testBtn() {
         console.log(key2,value2)
     });
 }
+function onConfigClick() {
+    postMethod('/proc/config',(data)=>{
+        layer.msg('获取配置成功～');
+        console.log('onConfigClick',data)
+        let content =  JSON.stringify(data.data, null, 2)
+        showConfigContent(`配置文件内容`,content,(value, index, elem)=>{
+            console.log('修改内容',value)
+            console.log('修改内容json',JSON.parse(value))
+            postJson('/proc/config/save',value,(data)=>{
+                layer.msg('配置保存成功～');
+            },()=>{
+                layer.msg('配置保存失败～');
+            })
+        })
+    },()=>{
+        layer.msg('获取配置失败～');
+    })
+}
 function onOpenStaticFiles() {
     window.open(window.origin + '/files/', '_blank');  // 在新标签页中打开
 }
@@ -805,6 +823,31 @@ function postMethod(url,sucess, failed) {
         }
     };
     xhr.send();
+}
+
+function postJson(url,json,sucess, failed) {
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    // 设置请求头信息，告诉服务器我们发送的是 JSON 数据
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    let password = localStorage.getItem('password');
+    xhr.setRequestHeader("accessToken", password)
+    xhr.onreadystatechange = function () {
+        //console.log('====',xhr.readyState,xhr.status)
+        if (xhr.status === 200) {
+            if (xhr.readyState === 4) {
+                jsonObj = JSON.parse(xhr.response)
+                if (jsonObj) {
+                    sucess(jsonObj)
+                }
+            }
+        } else {
+            console.log(`${path} failed`,xhr)
+            failed(xhr)
+        }
+    };
+    xhr.send(json);
 }
 
 function postRaw(path, name,value, sucess, failed) {

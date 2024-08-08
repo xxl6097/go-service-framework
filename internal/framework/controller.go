@@ -30,6 +30,17 @@ func (f *Framework) GetConfig() *model.ConfigModel {
 	}
 	return f.cache.Read()
 }
+
+func (f *Framework) SetConfig(config *model.ConfigModel) error {
+	if f.cache == nil {
+		return fmt.Errorf("cache is nil")
+	}
+	if config == nil {
+		return fmt.Errorf("config is nil")
+	}
+	return f.cache.Set(config)
+}
+
 func (f *Framework) GetAll() []model.ProcModel {
 	procs := make([]model.ProcModel, 0)
 	for _, v := range f.procs {
