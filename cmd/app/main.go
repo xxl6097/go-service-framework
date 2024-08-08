@@ -8,7 +8,7 @@ import (
 
 func init() {
 	if os1.IsMacOs() {
-		os1.SetDebug(true)
+		//os1.SetDebug(true)
 	}
 	//os1.SetDebug(true)
 }
