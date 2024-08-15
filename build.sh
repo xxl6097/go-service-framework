@@ -1,7 +1,7 @@
 #!/bin/bash
 #修改为自己的应用名称
 appname=AuGoService
-DisplayName=基于Golang后台服务管理程序
+DisplayName=AuGoService基于Golang后台服务管理程序
 Description="基于Go语言的服务程序，可安装和管理第三方应用程序，可运行于Windows、Linux、Macos、Openwrt等各类操作系统。"
 version=0.0.0
 versionDir="github.com/xxl6097/go-service-framework/pkg/version"
